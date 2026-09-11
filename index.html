@@ -200,7 +200,7 @@
                 </div>
                 <p class="text-xs text-slate-500 mb-3">現場資深應對顧問：分析爭議狀況、評估風險等級並提供第一線脫口話術。</p>
 
-                <!-- 對話記錄區 (自由選取與複製文字) -->
+                <!-- 對話記錄區 -->
                 <div id="chat-box" class="h-80 overflow-y-auto bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-3 mb-3 text-sm select-text">
                     <div class="flex items-start gap-2">
                         <div class="w-7 h-7 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs flex-shrink-0">AI</div>
@@ -217,7 +217,7 @@
                     <button onclick="quickAsk('現在已經超過18:30了，場內還有車子沒走，大門可以鎖嗎？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">18:30閉園滯留車輛</button>
                 </div>
 
-                <!-- 輸入框 (支援中文輸入法防誤觸、Enter 發送、停止回覆) -->
+                <!-- 輸入框 -->
                 <div class="flex gap-2">
                     <input type="text" id="ai-input" placeholder="輸入現場遇到的狀況（選字完成後按 Enter 發送）..." class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <button onclick="handleAiBtnClick()" id="ai-action-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1 transition-colors">
@@ -367,7 +367,7 @@
                     </div>
                 </div>
 
-                <p class="text-xs text-slate-500 mb-2">點擊任一項目卡片可直接檢視詳細內容或列印存證。</p>
+                <p class="text-xs text-slate-500 mb-2">點擊任一項目卡片可檢視、編輯修改內容或列印存證。</p>
 
                 <!-- 歷史清單列表 -->
                 <div id="records-list" class="divide-y divide-slate-100 text-sm">
@@ -377,11 +377,11 @@
         </section>
     </main>
 
-    <!-- 檢視詳情彈窗 (Modal) -->
+    <!-- 檢視與編輯詳情彈窗 (Modal) -->
     <div id="detail-modal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
             <div class="p-4 bg-slate-800 text-white flex justify-between items-center">
-                <h3 class="font-bold flex items-center gap-2 text-sm sm:text-base">
+                <h3 id="modal-title" class="font-bold flex items-center gap-2 text-sm sm:text-base">
                     <i class="fa-solid fa-file-lines text-rose-400"></i> 事件紀錄詳情
                 </h3>
                 <button onclick="closeDetailModal()" class="text-slate-300 hover:text-white text-lg">
@@ -391,18 +391,8 @@
             <div id="modal-content" class="p-4 overflow-y-auto flex-1 text-sm space-y-3 select-text">
                 <!-- 內容由 JS 動態注入 -->
             </div>
-            <div class="p-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center gap-2">
-                <button id="modal-delete-btn" class="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
-                    <i class="fa-solid fa-trash-can"></i> 刪除此筆
-                </button>
-                <div class="flex gap-2">
-                    <button id="modal-print-btn" class="text-xs bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
-                        <i class="fa-solid fa-print"></i> 列印單據 / PDF
-                    </button>
-                    <button onclick="closeDetailModal()" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-3 py-2 rounded-lg font-medium">
-                        關閉
-                    </button>
-                </div>
+            <div id="modal-footer" class="p-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center gap-2">
+                <!-- 底部控制按鈕區由 JS 動態切換（檢視狀態 vs 編輯狀態） -->
             </div>
         </div>
     </div>
@@ -476,7 +466,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 var swCode = `
-                    var CACHE_NAME = 'parking-app-v4';
+                    var CACHE_NAME = 'parking-app-v5';
                     var ASSETS = [
                         './',
                         './index.html',
@@ -577,7 +567,7 @@
             if (sub === 'form') switchTab('incident');
         }
 
-        // --- 2. 事件紀錄表：儲存、即時同步、彈窗檢視與刪除 ---
+        // --- 2. 事件紀錄表：儲存、即時同步、彈窗檢視、修改與刪除 ---
         function initSyncRecords() {
             if (realtimeDb && navigator.onLine) {
                 realtimeDb.ref("incidents").on("value", function(snapshot) {
@@ -669,7 +659,7 @@
                     '</div>' +
                     '<div class="flex gap-1.5 text-xs w-full sm:w-auto justify-end pt-1 sm:pt-0">' +
                         '<button onclick="openDetailModal(' + i + ')" class="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded flex items-center gap-1 font-medium">' +
-                            '<i class="fa-solid fa-eye"></i> 查看' +
+                            '<i class="fa-solid fa-eye"></i> 查看/修改' +
                         '</button>' +
                         '<button onclick="deleteRecord(' + i + ', event)" class="bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 px-2.5 py-1.5 rounded flex items-center gap-1 font-medium">' +
                             '<i class="fa-solid fa-trash-can"></i> 刪除' +
@@ -679,10 +669,13 @@
             }).join('');
         }
 
+        // --- 彈窗詳情檢視模式 ---
         function openDetailModal(index) {
             var records = JSON.parse(localStorage.getItem('parking_incidents') || '[]');
             var r = records[index];
             if (!r) return;
+
+            document.getElementById('modal-title').innerHTML = '<i class="fa-solid fa-file-lines text-rose-400"></i> 事件紀錄詳情';
 
             var html = `
                 <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2 select-text">
@@ -736,12 +729,182 @@
             `;
 
             document.getElementById('modal-content').innerHTML = html;
-            document.getElementById('modal-print-btn').onclick = function() { printSingleRecord(index); };
-            document.getElementById('modal-delete-btn').onclick = function() { 
-                closeDetailModal();
-                deleteRecord(index); 
-            };
+
+            // 檢視模式的底部按鈕
+            var footerHtml = `
+                <button onclick="deleteRecord(${index})" class="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
+                    <i class="fa-solid fa-trash-can"></i> 刪除此筆
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="openEditModal(${index})" class="text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-300 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
+                        <i class="fa-solid fa-pen-to-square"></i> 修改
+                    </button>
+                    <button onclick="printSingleRecord(${index})" class="text-xs bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
+                        <i class="fa-solid fa-print"></i> 列印單據
+                    </button>
+                    <button onclick="closeDetailModal()" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-3 py-2 rounded-lg font-medium">
+                        關閉
+                    </button>
+                </div>
+            `;
+            document.getElementById('modal-footer').innerHTML = footerHtml;
             document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        // --- 彈窗進入「修改編輯模式」 ---
+        function openEditModal(index) {
+            var records = JSON.parse(localStorage.getItem('parking_incidents') || '[]');
+            var r = records[index];
+            if (!r) return;
+
+            document.getElementById('modal-title').innerHTML = '<i class="fa-solid fa-pen-to-square text-amber-400"></i> 修改事件紀錄內容';
+
+            var isPhotoChecked = r.photoChecked && r.photoChecked.includes('已拍攝') ? 'checked' : '';
+            var isCctvChecked = r.cctvChecked && r.cctvChecked.includes('已鎖定') ? 'checked' : '';
+            var isBossNotified = r.notifiedBoss && r.notifiedBoss.includes('已通報') ? 'checked' : '';
+
+            var editHtml = `
+                <form id="edit-record-form" class="space-y-3 text-xs sm:text-sm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">事發時間</label>
+                            <input type="datetime-local" id="edit-datetime" value="${r.datetime}" required class="w-full border border-slate-300 rounded p-1.5">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">車牌號碼</label>
+                            <input type="text" id="edit-carplate" value="${r.carPlate}" class="w-full border border-slate-300 rounded p-1.5 uppercase font-mono">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">執勤員工姓名</label>
+                            <input type="text" id="edit-staff" value="${r.staff}" required class="w-full border border-slate-300 rounded p-1.5">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">發生位置</label>
+                            <input type="text" id="edit-location" value="${r.location}" class="w-full border border-slate-300 rounded p-1.5">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">到場警員編號/單位</label>
+                        <input type="text" id="edit-police" value="${r.police}" class="w-full border border-slate-300 rounded p-1.5">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">違規事由摘要</label>
+                        <input type="text" id="edit-violations" value="${r.violations}" class="w-full border border-slate-300 rounded p-1.5">
+                    </div>
+
+                    <div class="bg-slate-50 p-2 rounded border border-slate-200 space-y-1 text-xs">
+                        <span class="block font-semibold text-slate-600 mb-1">存證確認</span>
+                        <label class="flex items-center gap-1.5">
+                            <input type="checkbox" id="edit-check-photo" ${isPhotoChecked} class="rounded text-indigo-600">
+                            <span>移置前4角度照片已完成拍攝（正前、後、左、右）</span>
+                        </label>
+                        <label class="flex items-center gap-1.5">
+                            <input type="checkbox" id="edit-check-cctv" ${isCctvChecked} class="rounded text-indigo-600">
+                            <span>監視器畫面已鎖定存證</span>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                            <label class="block text-slate-500 mb-1">Level 1 勸導反饋</label>
+                            <select id="edit-lvl1-res" class="w-full border rounded p-1">
+                                <option value="配合離場/停止" ${r.lvl1Res === '配合離場/停止' ? 'selected' : ''}>配合停止行為</option>
+                                <option value="爭辯持續" ${r.lvl1Res === '爭辯持續' ? 'selected' : ''}>爭辯不理會</option>
+                                <option value="無此狀況" ${r.lvl1Res === '無此狀況' ? 'selected' : ''}>未執行此階段</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-slate-500 mb-1">Level 2 警告反饋</label>
+                            <select id="edit-lvl2-res" class="w-full border rounded p-1">
+                                <option value="無" ${r.lvl2Res === '無' ? 'selected' : ''}>未達此階段</option>
+                                <option value="配合離場" ${r.lvl2Res === '配合離場' ? 'selected' : ''}>正式警告後配合離開</option>
+                                <option value="拒絕離場" ${r.lvl2Res === '拒絕離場' ? 'selected' : ''}>拒絕配合並留滯</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">事發經過詳述</label>
+                        <textarea id="edit-desc" rows="3" required class="w-full border border-slate-300 rounded p-1.5 leading-relaxed">${r.description}</textarea>
+                    </div>
+
+                    <div class="bg-rose-50 p-2.5 rounded border border-rose-200 text-xs flex flex-wrap justify-between items-center gap-2">
+                        <label class="flex items-center gap-1.5">
+                            <input type="checkbox" id="edit-boss" ${isBossNotified} class="rounded text-rose-600">
+                            <span class="font-semibold text-rose-900">已通報謝先生 (0919-823-602)</span>
+                        </label>
+                        <div class="flex items-center gap-1">
+                            <span class="text-rose-900 font-semibold">求償金額：NT$</span>
+                            <input type="number" id="edit-claim-amount" value="${r.claimAmount}" class="w-20 border border-rose-300 rounded p-1 bg-white text-right">
+                            <span>元</span>
+                        </div>
+                    </div>
+                </form>
+            `;
+
+            document.getElementById('modal-content').innerHTML = editHtml;
+
+            // 編輯狀態的底部按鈕
+            var footerHtml = `
+                <button onclick="openDetailModal(${index})" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-3 py-2 rounded-lg font-medium">
+                    取消修改
+                </button>
+                <button onclick="saveRecordChanges(${index})" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-1">
+                    <i class="fa-solid fa-check"></i> 儲存修改
+                </button>
+            `;
+            document.getElementById('modal-footer').innerHTML = footerHtml;
+        }
+
+        // --- 儲存修改並同步 Firebase 與 LocalStorage ---
+        function saveRecordChanges(index) {
+            var records = JSON.parse(localStorage.getItem('parking_incidents') || '[]');
+            var target = records[index];
+            if (!target) return;
+
+            // 更新目標物件欄位
+            target.datetime = document.getElementById('edit-datetime').value;
+            target.carPlate = document.getElementById('edit-carplate').value || '未提供';
+            target.staff = document.getElementById('edit-staff').value;
+            target.location = document.getElementById('edit-location').value || '場內';
+            target.police = document.getElementById('edit-police').value || '無';
+            target.violations = document.getElementById('edit-violations').value || '無特定勾選';
+            target.photoChecked = document.getElementById('edit-check-photo').checked ? '已拍攝4角度存證' : '未完整存證';
+            target.cctvChecked = document.getElementById('edit-check-cctv').checked ? '監視器畫面已鎖定' : '未鎖定';
+            target.lvl1Res = document.getElementById('edit-lvl1-res').value;
+            target.lvl2Res = document.getElementById('edit-lvl2-res').value;
+            target.description = document.getElementById('edit-desc').value;
+            target.notifiedBoss = document.getElementById('edit-boss').checked ? '已通報謝先生' : '未通報';
+            target.claimAmount = document.getElementById('edit-claim-amount').value || 0;
+
+            // 1. 儲存至本地 LocalStorage
+            records[index] = target;
+            localStorage.setItem('parking_incidents', JSON.stringify(records));
+
+            // 2. 同步更新 Firebase Realtime Database
+            if (realtimeDb && navigator.onLine) {
+                if (target.firebaseKey) {
+                    realtimeDb.ref("incidents").child(target.firebaseKey).update(target).catch(function(err) {
+                        console.warn("Firebase 更新失敗:", err);
+                    });
+                } else {
+                    realtimeDb.ref("incidents").orderByChild("id").equalTo(target.id).once("value", function(snapshot) {
+                        snapshot.forEach(function(child) {
+                            child.ref.update(target);
+                        });
+                    });
+                }
+            }
+
+            renderRecords();
+            alert('紀錄內容已成功更新！');
+            // 返回檢視模式
+            openDetailModal(index);
         }
 
         function closeDetailModal() {
@@ -776,6 +939,7 @@
             records.splice(index, 1);
             localStorage.setItem('parking_incidents', JSON.stringify(records));
             renderRecords();
+            closeDetailModal();
             alert('該筆紀錄已刪除。');
         }
 
@@ -826,30 +990,26 @@
         // --- 4. AI 模組：中文輸入防誤觸、停止回覆、內容還原與無 Markdown 處理 ---
         const EMBEDDED_GEMINI_KEY = "AQ.Ab8RN6K8J2J4YXVA3oJNgtG3drKlKcrkRbPFth9OwT0HZlJQ-Q";
         
-        var isComposing = false;       // 標記注音/拼音是否正在選字
-        var isAiGenerating = false;    // 標記 AI 是否正在生成回覆
-        var currentAbortController = null; // 用於停止網路請求
-        var lastUserQuery = "";        // 記錄使用者發送的問題，中止時可復原
+        var isComposing = false;
+        var isAiGenerating = false;
+        var currentAbortController = null;
+        var lastUserQuery = "";
         var currentLoadingId = null;
 
         function setupAiInputListeners() {
             var inputEl = document.getElementById('ai-input');
             if (!inputEl) return;
 
-            // 中文輸入法開始組字（打注音）
             inputEl.addEventListener('compositionstart', function() {
                 isComposing = true;
             });
 
-            // 中文輸入法組字結束（選字完成）
             inputEl.addEventListener('compositionend', function() {
                 isComposing = false;
             });
 
-            // 監聽鍵盤 Enter：只有在非選字狀態下才送出
             inputEl.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
-                    // 若仍在注音選字，直接忽略
                     if (isComposing || event.isComposing) {
                         return;
                     }
@@ -869,7 +1029,6 @@
             askAI();
         }
 
-        // 統籌按鈕行為：生成中為「停止回覆」，閒置時為「發送」
         function handleAiBtnClick() {
             if (isAiGenerating) {
                 stopAiReply();
@@ -878,7 +1037,6 @@
             }
         }
 
-        // 停止回覆並還原問題文字到輸入框
         function stopAiReply() {
             if (currentAbortController) {
                 currentAbortController.abort();
@@ -891,7 +1049,6 @@
                 currentLoadingId = null;
             }
 
-            // 將剛才的問題復原放回輸入框
             var inputEl = document.getElementById('ai-input');
             if (inputEl && lastUserQuery) {
                 inputEl.value = lastUserQuery;
@@ -919,18 +1076,17 @@
             }
         }
 
-        // 徹底去除 Markdown 標記、引用註記，回傳純文字
         function sanitizeText(raw) {
             if (!raw) return "";
             return raw
-                .replace(/\+\]/gi, '') // 去除引用標記
-                .replace(/```[\s\S]*?```/g, '')        // 去除代碼塊
-                .replace(/`([^`]+)`/g, '$1')           // 行內代碼
-                .replace(/\*\*([^*]+)\*\*/g, '$1')     // 粗體 **
-                .replace(/\*([^*]+)\*/g, '$1')         // 斜體 *
-                .replace(/^#+\s+/gm, '')               // 標題 #
-                .replace(/^[-*+]\s+/gm, '• ')          // 無序清單符號轉為清晰圓點
-                .replace(/\n{3,}/g, '\n\n')            // 消除過多空白行
+                .replace(/\+\]/gi, '')
+                .replace(/```[\s\S]*?```/g, '')
+                .replace(/`([^`]+)`/g, '$1')
+                .replace(/\*\*([^*]+)\*\*/g, '$1')
+                .replace(/\*([^*]+)\*/g, '$1')
+                .replace(/^#+\s+/gm, '')
+                .replace(/^[-*+]\s+/gm, '• ')
+                .replace(/\n{3,}/g, '\n\n')
                 .trim();
         }
 
@@ -939,7 +1095,6 @@
             var q = inputEl.value.trim();
             if (!q || isAiGenerating) return;
 
-            // 記錄本次提問內容
             lastUserQuery = q;
 
             var chatBox = document.getElementById('chat-box');
@@ -1001,7 +1156,6 @@
                     }
                 } catch (err) {
                     if (err.name === 'AbortError') {
-                        // 使用者主動停止，不做額外報錯處理
                         return;
                     }
                     if (currentLoadingId) {
@@ -1027,7 +1181,6 @@
             }
         }
 
-        // 渲染 AI 回應，支援完全自由選取複製文字
         function renderAiReply(cleanText) {
             var chatBox = document.getElementById('chat-box');
             chatBox.innerHTML += 
@@ -1040,7 +1193,6 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        // 離線模式：純淨文字回應
         function fallbackLocalQA(q) {
             var reply = "";
             if (q.indexOf("付錢") !== -1 || q.indexOf("泡茶") !== -1 || q.indexOf("坐") !== -1 || q.indexOf("野餐") !== -1 || q.indexOf("桌椅") !== -1) {
