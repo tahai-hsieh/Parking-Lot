@@ -2,8 +2,44 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 鎖定畫面視角，禁止手勢與雙擊縮放 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>寶山二集團櫻花公園私人停車場 - 工作人員行動手冊</title>
+    
+    <!-- PWA 與加入主畫面相關設定 (維持原圖) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="停車場手冊">
+    <link rel="apple-touch-icon" href="icon_Parking.png">
+    
+    <!-- 動態產生圓形 Favicon 的佔位標籤 -->
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="icon_Parking.png">
+
+    <!-- Web App Manifest (以 Blob URL 動態注入，確保單一檔案即可運作) -->
+    <script>
+        const manifestJson = {
+            "name": "寶山二集團櫻花公園私人停車場行動手冊",
+            "short_name": "停車場手冊",
+            "start_url": "./index.html",
+            "display": "standalone",
+            "background_color": "#1e293b",
+            "theme_color": "#1e293b",
+            "icons": [
+                {
+                    "src": "icon_Parking.png",
+                    "sizes": "192x192 512x512",
+                    "type": "image/png"
+                }
+            ]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestJson)], { type: 'application/json' });
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        const linkTag = document.createElement('link');
+        linkTag.rel = 'manifest';
+        linkTag.href = manifestURL;
+        document.head.appendChild(linkTag);
+    </script>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome 圖示 -->
@@ -11,7 +47,23 @@
     <!-- Firebase SDK (Compat 模式，適用於 Realtime Database) -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
     <style>
+        /* 鎖定雙擊縮放行為與使用者選取 */
+        html, body {
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* 輸入框與文字區塊允許正常選取與輸入 */
+        input, textarea, select {
+            -webkit-user-select: auto;
+            user-select: auto;
+            touch-action: manipulation;
+        }
+
         @media print {
             body * { visibility: hidden; }
             #printable-record, #printable-record * { visibility: visible; }
@@ -26,11 +78,11 @@
     <header class="bg-slate-800 text-white p-4 shadow-md sticky top-0 z-50">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <h1 class="text-base sm:text-lg font-bold flex items-center gap-2">
-                <i class="fa-solid fa-square-parking text-rose-400"></i>
+                <img src="icon_Parking.png" alt="Logo" class="w-6 h-6 object-contain">
                 櫻花公園私人停車場 行動手冊
             </h1>
             <div class="text-xs text-slate-300">
-                緊急窗口：謝先生 <a href="tel:0919823602" class="underline text-rose-300">0919-823-602</a>
+                緊急窗口：謝先生 <a href="tel:0919823602" class="underline text-rose-300">0919-823-602</a>[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)
             </div>
         </div>
     </header>
@@ -49,19 +101,19 @@
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">營業時段</span>
-                    <strong class="text-sm text-slate-800">09:00 - 17:00</strong>
+                    <strong class="text-sm text-slate-800">09:00 - 17:00</strong>[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">停車費</span>
-                    <strong class="text-sm text-slate-800">每次 100 元</strong>
+                    <strong class="text-sm text-slate-800">每次 100 元</strong>[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">離場緩衝</span>
-                    <strong class="text-sm text-amber-600">17:00 - 18:30</strong>
+                    <strong class="text-sm text-amber-600">17:00 - 18:30</strong>[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">鎖門紅線</span>
-                    <strong class="text-sm text-rose-600">18:30 (報警查核)</strong>
+                    <strong class="text-sm text-rose-600">18:30 (報警查核)</strong>[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)
                 </div>
             </div>
 
@@ -74,10 +126,10 @@
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p><strong>執勤原則：</strong>一律貫徹「去情緒化、不爭辯、不擅自宣告定罪、僅陳述事實與規則」。第一線人員代表經營者謝佳杰行使管理權限。</p>
-                        <p><strong>民法第153條：</strong>車輛進場即視為默示同意契約。付費僅取得停車位使用權，絕不包含將車位作為休憩、野餐用途。</p>
-                        <p><strong>民法第765/767條：</strong>全場車道、車位、斜坡及周邊空地均屬私有土地，管理員得依法排除不當干涉並要求退去。</p>
-                        <p><strong>刑法第306條合規嚴格警告：</strong>嚴禁員工直接對顧客宣告定罪（例如稱「你已觸犯刑法第306條」），員工義務僅為下達退去要求並拍照錄影存證。</p>
+                        <p><strong>執勤原則：</strong>一律貫徹「去情緒化、不爭辯、不擅自宣告定罪、僅陳述事實與規則」[span_10](start_span)[span_10](end_span)。第一線人員代表經營者謝佳杰行使管理權限[span_11](start_span)[span_11](end_span)。</p>
+                        <p><strong>民法第153條：</strong>車輛進場即視為默示同意契約[span_12](start_span)[span_12](end_span)。付費僅取得停車位使用權，絕不包含將車位作為休憩、野餐用途[span_13](start_span)[span_13](end_span)。</p>
+                        <p><strong>民法第765/767條：</strong>全場車道、車位、斜坡及周邊空地均屬私有土地，管理員得依法排除不當干涉並要求退去[span_14](start_span)[span_14](end_span)。</p>
+                        <p><strong>刑法第306條合規嚴格警告：</strong>嚴禁員工直接對顧客宣告定罪（例如稱「你已觸犯刑法第306條」），員工義務僅為下達退去要求並拍照錄影存證[span_15](start_span)[span_15](end_span)。</p>
                     </div>
                 </details>
 
@@ -88,13 +140,13 @@
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p><strong>違規三大分類：</strong></p>
+                        <p><strong>違規三大分類：</strong>[span_16](start_span)[span_16](end_span)</p>
                         <ul class="list-disc pl-5 space-y-1">
-                            <li><strong class="text-rose-600">A類（非停車用途）：</strong>停車格內野餐、泡茶、擺設桌椅、聚餐。</li>
-                            <li><strong class="text-amber-600">B類（侵入非開放區）：</strong>進入私人斜坡、未開放草皮或空地逗留。</li>
-                            <li><strong class="text-blue-600">C類（違規停放）：</strong>任意停放妨礙動線、未依格停放、占用出入口。</li>
+                            <li><strong class="text-rose-600">A類（非停車用途）：</strong>停車格內野餐、泡茶、擺設桌椅、聚餐[span_17](start_span)[span_17](end_span)。</li>
+                            <li><strong class="text-amber-600">B類（侵入非開放區）：</strong>進入私人斜坡、未開放草皮或空地逗留[span_18](start_span)[span_18](end_span)。</li>
+                            <li><strong class="text-blue-600">C類（違規停放）：</strong>任意停放妨礙動線、未依格停放、占用出入口[span_19](start_span)[span_19](end_span)。</li>
                         </ul>
-                        <p class="pt-2"><strong>管理規則第7條8大禁令：</strong>吸菸或丟棄垃圾、妨礙他車、占用車道、危險行為、攜帶危險易燃物、從事聚會露營烤肉生火、停車未熄火長時間逗留、非行人動線進出取車。</p>
+                        <p class="pt-2"><strong>管理規則第7條8大禁令：</strong>吸菸或丟棄垃圾、妨礙他車、占用車道、危險行為、攜帶危險易燃物、從事聚會露營烤肉生火、停車未熄火長時間逗留、非行人動線進出取車[span_20](start_span)[span_20](end_span)[span_21](start_span)[span_21](end_span)。</p>
                     </div>
                 </details>
 
@@ -106,16 +158,16 @@
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-3 border-t pt-3">
                         <div class="bg-slate-50 p-2.5 rounded border">
-                            <span class="font-bold text-slate-700">Level 1 口頭勸導（平和堅定）</span>
-                            <p class="mt-1 text-slate-600">「您好，我是管理員。此處為私人停車場，僅供停車使用，不開放野餐/泡茶/擺設桌椅。根據管理規則第7條，請您立即停止相關行為，謝謝配合。」</p>
+                            <span class="font-bold text-slate-700">Level 1 口頭勸導（平和堅定）</span>[span_22](start_span)[span_22](end_span)
+                            <p class="mt-1 text-slate-600">「您好，我是管理員。此處為私人停車場，僅供停車使用，不開放野餐/泡茶/擺設桌椅。根據管理規則第7條，請您立即停止相關行為，謝謝配合。」[span_23](start_span)[span_23](end_span)</p>
                         </div>
                         <div class="bg-amber-50 p-2.5 rounded border border-amber-200">
-                            <span class="font-bold text-amber-800">Level 2 正式警告（嚴肅明確）</span>
-                            <p class="mt-1 text-amber-900">「您好，我剛才已向您說明規範，您目前的行為已違反管理規定及土地管理權限。我現在再次正式要求您立即停止並離開該區域。若仍不配合，我將請警方到場協助處置。」</p>
+                            <span class="font-bold text-amber-800">Level 2 正式警告（嚴肅明確）</span>[span_24](start_span)[span_24](end_span)
+                            <p class="mt-1 text-amber-900">「您好，我剛才已向您說明規範，您目前的行為已違反管理規定及土地管理權限。我現在再次正式要求您立即停止並離開該區域。若仍不配合，我將請警方到場協助處置。」[span_25](start_span)[span_25](end_span)</p>
                         </div>
                         <div class="bg-rose-50 p-2.5 rounded border border-rose-200">
-                            <span class="font-bold text-rose-800">Level 3 通報報警與主管（二次警告不配合）</span>
-                            <p class="mt-1 text-rose-900"><strong>110報案話術：</strong>「報警台您好，我是櫻花公園私人停車場員工。現場有民眾（車號:_____）在停車格/私人土地違規，經兩次明確勸導並下達退去要求後仍留滯不歸並起爭執，請求派員協助維持秩序。」同步通報謝先生（0919-823-602）。</p>
+                            <span class="font-bold text-rose-800">Level 3 通報報警與主管（二次警告不配合）</span>[span_26](start_span)[span_26](end_span)
+                            <p class="mt-1 text-rose-900"><strong>110報案話術：</strong>「報警台您好，我是櫻花公園私人停車場員工。現場有民眾（車號:_____）在停車格/私人土地違規，經兩次明確勸導並下達退去要求後仍留滯不歸並起爭執，請求派員協助維持秩序。」[span_27](start_span)[span_27](end_span)同步通報謝先生（0919-823-602）[span_28](start_span)[span_28](end_span)。</p>
                         </div>
                     </div>
                 </details>
@@ -127,13 +179,13 @@
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p><strong>C類違規移置流程：</strong></p>
+                        <p><strong>C類違規移置流程：</strong>[span_29](start_span)[span_29](end_span)</p>
                         <ol class="list-decimal pl-5 space-y-1">
-                            <li><strong>拍照存證（必拍4角度）：</strong>正前、正後、左側、右側。拍下車牌、現場標線妨礙事實及車身既有傷痕。</li>
-                            <li><strong>安全移置：</strong>移置至場內適當處所。</li>
-                            <li><strong>費用追償：</strong>移置費由車主全額負擔；造成草皮或設施受損依規定求償。</li>
+                            <li><strong>拍照存證（必拍4角度）：</strong>正前、正後、左側、右側[span_30](start_span)[span_30](end_span)。拍下車牌、現場標線妨礙事實及車身既有傷痕[span_31](start_span)[span_31](end_span)。</li>
+                            <li><strong>安全移置：</strong>移置至場內適當處所[span_32](start_span)[span_32](end_span)[span_33](start_span)[span_33](end_span)。</li>
+                            <li><strong>費用追償：</strong>移置費由車主全額負擔[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span)；造成草皮或設施受損依規定求償[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span)。</li>
                         </ol>
-                        <p class="pt-2"><strong>逾時停放至 18:30 以後：</strong>鎖閉大門，記錄車號通知警方查證聯繫車主。閉園期間業者完全免除車輛保管責任。</p>
+                        <p class="pt-2"><strong>逾時停放至 18:30 以後：</strong>鎖閉大門，記錄車號通知警方查證聯繫車主[span_38](start_span)[span_38](end_span)[span_39](start_span)[span_39](end_span)。閉園期間業者完全免除車輛保管責任[span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span)。</p>
                     </div>
                 </details>
             </div>
@@ -150,7 +202,7 @@
                         <i class="fa-solid fa-gear"></i> 設定 API Key
                     </button>
                 </div>
-                <p class="text-xs text-slate-500 mb-3">依據《管理規則》與《工作手冊》回答處置 SOP 與話術（已載入完整場內規範）。</p>
+                <p class="text-xs text-slate-500 mb-3">依據《管理規則》與《工作手冊》回答處置 SOP 與話術（已載入完整場內規範）[span_42](start_span)[span_42](end_span)[span_43](start_span)[span_43](end_span)。</p>
 
                 <!-- 對話記錄區 -->
                 <div id="chat-box" class="h-80 overflow-y-auto bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-3 mb-3 text-sm">
@@ -291,7 +343,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-rose-50 p-3 rounded-lg border border-rose-200 text-xs">
                         <label class="flex items-center gap-2">
                             <input type="checkbox" id="check-notified-boss" class="rounded text-rose-600">
-                            <span class="font-semibold text-rose-900">已通報行政窗口謝先生 (0919-823-602)</span>
+                            <span class="font-semibold text-rose-900">已通報行政窗口謝先生 (0919-823-602)</span>[span_44](start_span)[span_44](end_span)
                         </label>
                         <div class="flex items-center gap-2">
                             <span class="font-semibold text-rose-900">求償核定金額：</span>
@@ -363,6 +415,98 @@
     </nav>
 
     <script>
+        // --- 0. 自動動態將 icon_Parking.png 轉成圓形 Favicon ---
+        (function generateCircleFavicon() {
+            var img = new Image();
+            img.src = 'icon_Parking.png';
+            img.onload = function() {
+                var canvas = document.createElement('canvas');
+                var size = 128;
+                canvas.width = size;
+                canvas.height = size;
+                var ctx = canvas.getContext('2d');
+
+                // 畫圓形遮罩
+                ctx.beginPath();
+                ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2, true);
+                ctx.closePath();
+                ctx.clip();
+
+                // 繪製原圖
+                ctx.drawImage(img, 0, 0, size, size);
+
+                var favLink = document.getElementById('dynamic-favicon');
+                if (favLink) {
+                    favLink.href = canvas.toDataURL('image/png');
+                }
+            };
+        })();
+
+        // --- 0.1 阻擋移動端雙擊放大 ---
+        var lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // --- 0.2 離線可用性 Service Worker 註冊 ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                var swCode = `
+                    var CACHE_NAME = 'parking-app-v1';
+                    var ASSETS = [
+                        './',
+                        './index.html',
+                        './icon_Parking.png',
+                        'https://cdn.tailwindcss.com',
+                        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+                        'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js',
+                        'https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js'
+                    ];
+
+                    self.addEventListener('install', function(e) {
+                        e.waitUntil(
+                            caches.open(CACHE_NAME).then(function(cache) {
+                                return cache.addAll(ASSETS);
+                            })
+                        );
+                        self.skipWaiting();
+                    });
+
+                    self.addEventListener('activate', function(e) {
+                        e.waitUntil(
+                            caches.keys().then(function(keys) {
+                                return Promise.all(
+                                    keys.map(function(k) {
+                                        if (k !== CACHE_NAME) return caches.delete(k);
+                                    })
+                                );
+                            })
+                        );
+                        self.clients.claim();
+                    });
+
+                    self.addEventListener('fetch', function(e) {
+                        e.respondWith(
+                            caches.match(e.request).then(function(cached) {
+                                return cached || fetch(e.request).catch(function() {
+                                    return cached;
+                                });
+                            })
+                        );
+                    });
+                `;
+                var blob = new Blob([swCode], { type: 'application/javascript' });
+                var swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl).catch(function(err) {
+                    console.log('SW 註冊提示:', err);
+                });
+            });
+        }
+
         // --- 1. Firebase Realtime Database 初始化 ---
         const firebaseConfig = {
             databaseURL: "https://parking-lot-80eec-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -414,7 +558,7 @@
 
         // --- 2. 事件紀錄表：儲存、即時同步與歷史讀取 ---
         function initSyncRecords() {
-            if (realtimeDb) {
+            if (realtimeDb && navigator.onLine) {
                 realtimeDb.ref("incidents").on("value", function(snapshot) {
                     var data = snapshot.val();
                     if (data) {
@@ -461,21 +605,21 @@
                 claimAmount: document.getElementById('field-claim-amount').value || 0
             };
 
-            // 本地儲存備援
+            // 本地儲存保證離線可用
             var localRecords = JSON.parse(localStorage.getItem('parking_incidents') || '[]');
             localRecords.unshift(record);
             localStorage.setItem('parking_incidents', JSON.stringify(localRecords));
 
-            // 同步寫入 Realtime Database
-            if (realtimeDb) {
+            // 有網路連線時同步寫入 Realtime Database
+            if (realtimeDb && navigator.onLine) {
                 realtimeDb.ref("incidents").push(record).then(function() {
                     alert('紀錄表已成功儲存並同步至 Firebase 雲端！');
                 }).catch(function(err) {
                     console.error("Firebase 寫入錯誤:", err);
-                    alert('已儲存至手機本地紀錄（雲端寫入權限尚未開放或異常）。');
+                    alert('已儲存至手機本地紀錄（雲端寫入未開放或離線模式）。');
                 });
             } else {
-                alert('紀錄表已成功儲存並自動歸檔！');
+                alert('已儲存至手機離線資料庫，恢復連線後可檢視！');
             }
 
             document.getElementById('incident-form').reset();
@@ -519,15 +663,15 @@
             var printContent = 
                 '<table class="w-full border-collapse border border-slate-300 text-left">' +
                     '<tr><th class="border p-2 bg-slate-100 w-1/4">事發時間</th><td class="border p-2">' + r.datetime + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">車牌號碼</th><td class="border p-2">${r.carPlate}</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">執勤人員</th><td class="border p-2">${r.staff}</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">發生地點</th><td class="border p-2">${r.location}</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">違規類別</th><td class="border p-2">${r.violations}</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">存證狀況</th><td class="border p-2">${r.photoChecked} / ${r.cctvChecked}</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">處置歷程</th><td class="border p-2">L1反饋: ${r.lvl1Res} | L2反饋: ${r.lvl2Res}</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">警方到場</th><td class="border p-2">${r.police}</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">經過詳述</th><td class="border p-2 whitespace-pre-line">${r.description}</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">行政與求償</th><td class="border p-2">${r.notifiedBoss} | 求償金額: NT$ ${r.claimAmount} 元</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">車牌號碼</th><td class="border p-2">' + r.carPlate + '</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">執勤人員</th><td class="border p-2">' + r.staff + '</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">發生地點</th><td class="border p-2">' + r.location + '</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">違規類別</th><td class="border p-2">' + r.violations + '</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">存證狀況</th><td class="border p-2">' + r.photoChecked + ' / ' + r.cctvChecked + '</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">處置歷程</th><td class="border p-2">L1反饋: ' + r.lvl1Res + ' | L2反饋: ' + r.lvl2Res + '</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">警方到場</th><td class="border p-2">' + r.police + '</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">經過詳述</th><td class="border p-2 whitespace-pre-line">' + r.description + '</td></tr>' +
+                    '<tr><th class="border p-2 bg-slate-100">行政與求償</th><td class="border p-2">' + r.notifiedBoss + ' | 求償金額: NT$ ' + r.claimAmount + ' 元</td></tr>' +
                 '</table>';
 
             document.getElementById('print-content').innerHTML = printContent;
@@ -591,7 +735,8 @@
                 '</div>';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            if (apiKey) {
+            // 若離線或無 API Key，直接使用離線手冊知識庫
+            if (apiKey && navigator.onLine) {
                 try {
                     var promptText = "你現在是寶山二集團櫻花公園私人停車場工作手冊的智能顧問。經營者是謝佳杰，緊急窗口謝先生電話0919-823-602。營業時間09:00-17:00，緩衝至18:30閉園。停車費每次100元。嚴禁野餐泡茶擺桌椅。請根據工作手冊與管理規則回答工作人員問題，說明應對原則、SOP話術或法律依據：\n\n問題：" + q;
                     var res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey, {
@@ -607,7 +752,7 @@
                 } catch (err) {
                     var loader2 = document.getElementById(loadingId);
                     if (loader2) loader2.remove();
-                    renderAiReply("連線 API 異常，切換至手冊離線比對模式。");
+                    renderAiReply("網路連線不穩或 API 異常，切換至手冊離線比對模式。");
                     fallbackLocalQA(q);
                 }
             } else {
