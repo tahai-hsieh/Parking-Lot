@@ -2,54 +2,21 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <!-- 鎖定畫面視角，禁止手勢與雙擊縮放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>寶山二集團櫻花公園私人停車場 - 工作人員行動手冊</title>
     
-    <!-- PWA 與加入主畫面相關設定 (維持原圖) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="停車場手冊">
-    <link rel="apple-touch-icon" href="./icon_Parking.png">
-    
-    <!-- 動態產生圓形 Favicon 的佔位標籤 -->
-    <link id="dynamic-favicon" rel="icon" type="image/png" href="./icon_Parking.png">
+    <link rel="apple-touch-icon" href="icon_Parking.png">
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="icon_Parking.png">
 
-    <!-- Web App Manifest (動態注入) -->
-    <script>
-        const manifestJson = {
-            "name": "寶山二集團櫻花公園私人停車場行動手冊",
-            "short_name": "停車場手冊",
-            "start_url": "./index.html",
-            "display": "standalone",
-            "background_color": "#1e293b",
-            "theme_color": "#1e293b",
-            "icons": [
-                {
-                    "src": "./icon_Parking.png",
-                    "sizes": "192x192 512x512",
-                    "type": "image/png"
-                }
-            ]
-        };
-        const manifestBlob = new Blob([JSON.stringify(manifestJson)], { type: 'application/json' });
-        const manifestURL = URL.createObjectURL(manifestBlob);
-        const linkTag = document.createElement('link');
-        linkTag.rel = 'manifest';
-        linkTag.href = manifestURL;
-        document.head.appendChild(linkTag);
-    </script>
-
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome 圖示 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Firebase SDK (Compat 模式，適用於 Realtime Database) -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <style>
-        /* 鎖定雙擊縮放行為，但允許文字自由選取與複製 */
         html, body {
             touch-action: manipulation;
             -webkit-user-select: text;
@@ -65,90 +32,88 @@
         @media print {
             body * { visibility: hidden; }
             #printable-record, #printable-record * { visibility: visible; }
-            #printable-record { position: absolute; left: 0; top: 0; width: 100%; }
+            #printable-record { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                display: block !important;
+            }
             .no-print { display: none !important; }
         }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col pb-20 sm:pb-0">
 
-    <!-- 頂部標題列 -->
     <header class="bg-slate-800 text-white p-4 shadow-md sticky top-0 z-40">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <h1 class="text-base sm:text-lg font-bold flex items-center gap-2">
-                <img id="header-logo" src="./icon_Parking.png" alt="Logo" class="w-6 h-6 object-contain rounded" onerror="this.outerHTML='<i class=\'fa-solid fa-square-parking text-rose-400 text-xl\'></i>'">
+                <img id="header-logo" src="icon_Parking.png" alt="P" class="w-7 h-7 object-contain rounded bg-white p-0.5" onerror="this.outerHTML='<i class=\'fa-solid fa-square-parking text-rose-400 text-2xl\'></i>'">
                 櫻花公園私人停車場 行動手冊
             </h1>
             <div class="text-xs text-slate-300">
-                緊急窗口：謝先生 <a href="tel:0919823602" class="underline text-rose-300">0919-823-602</a>[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)
+                緊急窗口：謝先生 <a href="tel:0919823602" class="underline text-rose-300">0919-823-602</a>
             </div>
         </div>
     </header>
 
-    <!-- 主內容區塊 -->
     <main class="max-w-4xl mx-auto w-full p-4 flex-1">
         
-        <!-- Tab 1: 規程與手冊閱讀 -->
         <section id="tab-handbook" class="space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-bold text-slate-700"><i class="fa-solid fa-book-open mr-2"></i>營運標準與管理規程</h2>
                 <span class="text-xs bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full font-medium">116年標準版</span>
             </div>
 
-            <!-- 快速重點卡片 -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">營業時段</span>
-                    <strong class="text-sm text-slate-800">09:00 - 17:00</strong>[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)
+                    <strong class="text-sm text-slate-800">09:00 - 17:00</strong>
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">停車費</span>
-                    <strong class="text-sm text-slate-800">每次 100 元</strong>[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)
+                    <strong class="text-sm text-slate-800">每次 100 元</strong>
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">離場緩衝</span>
-                    <strong class="text-sm text-amber-600">17:00 - 18:30</strong>[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)
+                    <strong class="text-sm text-amber-600">17:00 - 18:30</strong>
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">鎖門紅線</span>
-                    <strong class="text-sm text-rose-600">18:30 (報警查核)</strong>[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)
+                    <strong class="text-sm text-rose-600">18:30 (報警查核)</strong>
                 </div>
             </div>
 
-            <!-- 手風琴手冊選單 -->
             <div class="bg-white rounded-lg shadow-sm border border-slate-200 divide-y divide-slate-100 select-text">
-                <!-- 第一章 -->
                 <details class="group p-4">
                     <summary class="flex justify-between items-center font-semibold cursor-pointer text-slate-800 list-none">
                         <span><i class="fa-solid fa-scale-balanced text-indigo-500 mr-2"></i>第1章：法律基礎與空間界定</span>
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p><strong>執勤原則：</strong>一律貫徹「去情緒化、不爭辯、不擅自宣告定罪、僅陳述事實與規則」[span_10](start_span)[span_10](end_span)。第一線人員代表經營者謝佳杰行使管理權限[span_11](start_span)[span_11](end_span)。</p>
-                        <p><strong>民法第153條：</strong>車輛進場即視為默示同意契約[span_12](start_span)[span_12](end_span)。付費僅取得停車位使用權，絕不包含將車位作為休憩、野餐用途[span_13](start_span)[span_13](end_span)。</p>
-                        <p><strong>民法第765/767條：</strong>全場車道、車位、斜坡及周邊空地均屬私有土地，管理員得依法排除不當干涉並要求退去[span_14](start_span)[span_14](end_span)。</p>
-                        <p><strong>刑法第306條合規嚴格警告：</strong>嚴禁員工直接對顧客宣告定罪（例如稱「你已觸犯刑法第306條」），員工義務僅為下達退去要求並拍照錄影存證[span_15](start_span)[span_15](end_span)。</p>
+                        <p>執勤原則：一律貫徹「去情緒化、不爭辯、不擅自宣告定罪、僅陳述事實與規則」。第一線人員代表經營者謝佳杰行使管理權限。</p>
+                        <p>民法第153條：車輛進場即視為默示同意契約。付費僅取得停車位使用權，絕不包含將車位作為休憩、野餐用途。</p>
+                        <p>民法第765/767條：全場車道、車位、斜坡及周邊空地均屬私有土地，管理員得依法排除不當干涉並要求退去。</p>
+                        <p>刑法第306條合規嚴格警告：嚴禁員工直接對顧客宣告定罪（例如稱「你已觸犯刑法第306條」），員工義務僅為下達退去要求並拍照錄影存證。</p>
                     </div>
                 </details>
 
-                <!-- 第二章 -->
                 <details class="group p-4">
                     <summary class="flex justify-between items-center font-semibold cursor-pointer text-slate-800 list-none">
                         <span><i class="fa-solid fa-triangle-exclamation text-amber-500 mr-2"></i>第2章：違規行為分類與禁止清單</span>
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p><strong>違規三大分類：</strong>[span_16](start_span)[span_16](end_span)</p>
+                        <p>違規三大分類：</p>
                         <ul class="list-disc pl-5 space-y-1">
-                            <li><strong class="text-rose-600">A類（非停車用途）：</strong>停車格內野餐、泡茶、擺設桌椅、聚餐[span_17](start_span)[span_17](end_span)。</li>
-                            <li><strong class="text-amber-600">B類（侵入非開放區）：</strong>進入私人斜坡、未開放草皮或空地逗留[span_18](start_span)[span_18](end_span)。</li>
-                            <li><strong class="text-blue-600">C類（違規停放）：</strong>任意停放妨礙動線、未依格停放、占用出入口[span_19](start_span)[span_19](end_span)。</li>
+                            <li><span class="font-bold text-rose-600">A類（非停車用途）：</span>停車格內野餐、泡茶、擺設桌椅、聚餐。</li>
+                            <li><span class="font-bold text-amber-600">B類（侵入非開放區）：</span>進入私人斜坡、未開放草皮或空地逗留。</li>
+                            <li><span class="font-bold text-blue-600">C類（違規停放）：</span>任意停放妨礙動線、未依格停放、占用出入口。</li>
                         </ul>
-                        <p class="pt-2"><strong>管理規則第7條8大禁令：</strong>吸菸或丟棄垃圾、妨礙他車、占用車道、危險行為、攜帶危險易燃物、從事聚會露營烤肉生火、停車未熄火長時間逗留、非行人動線進出取車[span_20](start_span)[span_20](end_span)[span_21](start_span)[span_21](end_span)。</p>
+                        <p class="pt-2">管理規則第7條8大禁令：吸菸或丟棄垃圾、妨礙他車、占用車道、危險行為、攜帶危險易燃物、從事聚會露營烤肉生火、停車未熄火長時間逗留、非行人動線進出取車。</p>
                     </div>
                 </details>
 
-                <!-- 第三章 -->
                 <details class="group p-4">
                     <summary class="flex justify-between items-center font-semibold cursor-pointer text-slate-800 list-none">
                         <span><i class="fa-solid fa-bullhorn text-rose-500 mr-2"></i>第3章：三級處置SOP與話術應對</span>
@@ -156,40 +121,38 @@
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-3 border-t pt-3">
                         <div class="bg-slate-50 p-2.5 rounded border">
-                            <span class="font-bold text-slate-700">Level 1 口頭勸導（平和堅定）</span>[span_22](start_span)[span_22](end_span)
-                            <p class="mt-1 text-slate-600">「您好，我是管理員。此處為私人停車場，僅供停車使用，不開放野餐/泡茶/擺設桌椅。根據管理規則第7條，請您立即停止相關行為，謝謝配合。」[span_23](start_span)[span_23](end_span)</p>
+                            <span class="font-bold text-slate-700">Level 1 口頭勸導（平和堅定）</span>
+                            <p class="mt-1 text-slate-600">「您好，我是管理員。此處為私人停車場，僅供停車使用，不開放野餐/泡茶/擺設桌椅。根據管理規則第7條，請您立即停止相關行為，謝謝配合。」</p>
                         </div>
                         <div class="bg-amber-50 p-2.5 rounded border border-amber-200">
-                            <span class="font-bold text-amber-800">Level 2 正式警告（嚴肅明確）</span>[span_24](start_span)[span_24](end_span)
-                            <p class="mt-1 text-amber-900">「您好，我剛才已向您說明規範，您目前的行為已違反管理規定及土地管理權限。我現在再次正式要求您立即停止並離開該區域。若仍不配合，我將請警方到場協助處置。」[span_25](start_span)[span_25](end_span)</p>
+                            <span class="font-bold text-amber-800">Level 2 正式警告（嚴肅明確）</span>
+                            <p class="mt-1 text-amber-900">「您好，我剛才已向您說明規範，您目前的行為已違反管理規定及土地管理權限。我現在再次正式要求您立即停止並離開該區域。若仍不配合，我將請警方到場協助處置。」</p>
                         </div>
                         <div class="bg-rose-50 p-2.5 rounded border border-rose-200">
-                            <span class="font-bold text-rose-800">Level 3 通報報警與主管（二次警告不配合）</span>[span_26](start_span)[span_26](end_span)
-                            <p class="mt-1 text-rose-900"><strong>110報案話術：</strong>「報警台您好，我是櫻花公園私人停車場員工。現場有民眾（車號:_____）在停車格/私人土地違規，經兩次明確勸導並下達退去要求後仍留滯不歸並起爭執，請求派員協助維持秩序。」[span_27](start_span)[span_27](end_span)同步通報謝先生（0919-823-602）[span_28](start_span)[span_28](end_span)。</p>
+                            <span class="font-bold text-rose-800">Level 3 通報報警與主管（二次警告不配合）</span>
+                            <p class="mt-1 text-rose-900">110報案話術：「報警台您好，我是櫻花公園私人停車場員工。現場有民眾（車號:_____）在停車格/私人土地違規，經兩次明確勸導並下達退去要求後仍留滯不歸並起爭執，請求派員協助維持秩序。」同步通報謝先生（0919-823-602）。</p>
                         </div>
                     </div>
                 </details>
 
-                <!-- 第四與第五章 -->
                 <details class="group p-4">
                     <summary class="flex justify-between items-center font-semibold cursor-pointer text-slate-800 list-none">
                         <span><i class="fa-solid fa-truck-pickup text-emerald-600 mr-2"></i>第4-5章：移置作業與逾時車輛處置</span>
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p><strong>C類違規移置流程：</strong>[span_29](start_span)[span_29](end_span)</p>
+                        <p>C類違規移置流程：</p>
                         <ol class="list-decimal pl-5 space-y-1">
-                            <li><strong>拍照存證（必拍4角度）：</strong>正前、正後、左側、右側[span_30](start_span)[span_30](end_span)。拍下車牌、現場標線妨礙事實及車身既有傷痕[span_31](start_span)[span_31](end_span)。</li>
-                            <li><strong>安全移置：</strong>移置至場內適當處所[span_32](start_span)[span_32](end_span)[span_33](start_span)[span_33](end_span)。</li>
-                            <li><strong>費用追償：</strong>移置費由車主全額負擔[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span)；造成草皮或設施受損依規定求償[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span)。</li>
+                            <li>拍照存證（必拍4角度）：正前、正後、左側、右側。拍下車牌、現場標線妨礙事實及車身既有傷痕。</li>
+                            <li>安全移置：移置至場內適當處所。</li>
+                            <li>費用追償：移置費由車主全額負擔；造成草皮或設施受損依規定求償。</li>
                         </ol>
-                        <p class="pt-2"><strong>逾時停放至 18:30 以後：</strong>鎖閉大門，記錄車號通知警方查證聯繫車主[span_38](start_span)[span_38](end_span)[span_39](start_span)[span_39](end_span)。閉園期間業者完全免除車輛保管責任[span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span)。</p>
+                        <p class="pt-2">逾時停放至 18:30 以後：鎖閉大門，記錄車號通知警方查證聯繫車主。閉園期間業者完全免除車輛保管責任。</p>
                     </div>
                 </details>
             </div>
         </section>
 
-        <!-- Tab 2: AI 規程助理 -->
         <section id="tab-ai" class="hidden space-y-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-2">
@@ -200,7 +163,6 @@
                 </div>
                 <p class="text-xs text-slate-500 mb-3">現場資深應對顧問：分析爭議狀況、評估風險等級並提供第一線脫口話術。</p>
 
-                <!-- 對話記錄區 -->
                 <div id="chat-box" class="h-80 overflow-y-auto bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-3 mb-3 text-sm select-text">
                     <div class="flex items-start gap-2">
                         <div class="w-7 h-7 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs flex-shrink-0">AI</div>
@@ -210,14 +172,12 @@
                     </div>
                 </div>
 
-                <!-- 快速提問按鈕 -->
                 <div class="flex flex-wrap gap-1.5 mb-3">
                     <button onclick="quickAsk('客人說他有付100元停車費，憑什麼不能在車位擺桌椅泡茶？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">付錢為何不能泡茶？</button>
                     <button onclick="quickAsk('車輛擋住出入口，我要移車前該做什麼準備？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">違規移車SOP與存證</button>
                     <button onclick="quickAsk('現在已經超過18:30了，場內還有車子沒走，大門可以鎖嗎？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">18:30閉園滯留車輛</button>
                 </div>
 
-                <!-- 輸入框 -->
                 <div class="flex gap-2">
                     <input type="text" id="ai-input" placeholder="輸入現場遇到的狀況（選字完成後按 Enter 發送）..." class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <button onclick="handleAiBtnClick()" id="ai-action-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1 transition-colors">
@@ -228,7 +188,6 @@
             </div>
         </section>
 
-        <!-- Tab 3: 事件記錄表 (填寫與歸檔) -->
         <section id="tab-incident" class="hidden space-y-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-3">
@@ -240,7 +199,6 @@
                     </button>
                 </div>
 
-                <!-- 記錄單表單 -->
                 <form id="incident-form" onsubmit="handleFormSubmit(event)" class="space-y-4 text-sm">
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
@@ -334,7 +292,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-rose-50 p-3 rounded-lg border border-rose-200 text-xs">
                         <label class="flex items-center gap-2">
                             <input type="checkbox" id="check-notified-boss" class="rounded text-rose-600">
-                            <span class="font-semibold text-rose-900">已通報行政窗口謝先生 (0919-823-602)</span>[span_42](start_span)[span_42](end_span)
+                            <span class="font-semibold text-rose-900">已通報行政窗口謝先生 (0919-823-602)</span>
                         </label>
                         <div class="flex items-center gap-2">
                             <span class="font-semibold text-rose-900">求償核定金額：</span>
@@ -350,7 +308,6 @@
             </div>
         </section>
 
-        <!-- Tab 4: 歷史歸檔清單區 -->
         <section id="tab-history" class="hidden space-y-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-3">
@@ -369,7 +326,6 @@
 
                 <p class="text-xs text-slate-500 mb-2">點擊任一項目卡片可檢視、編輯修改內容或列印存證。</p>
 
-                <!-- 歷史清單列表 -->
                 <div id="records-list" class="divide-y divide-slate-100 text-sm">
                     <div class="p-6 text-center text-slate-400">目前尚無歸檔事件記錄</div>
                 </div>
@@ -377,7 +333,6 @@
         </section>
     </main>
 
-    <!-- 檢視與編輯詳情彈窗 (Modal) -->
     <div id="detail-modal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
             <div class="p-4 bg-slate-800 text-white flex justify-between items-center">
@@ -389,15 +344,12 @@
                 </button>
             </div>
             <div id="modal-content" class="p-4 overflow-y-auto flex-1 text-sm space-y-3 select-text">
-                <!-- 內容由 JS 動態注入 -->
             </div>
             <div id="modal-footer" class="p-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center gap-2">
-                <!-- 底部控制按鈕區由 JS 動態切換（檢視狀態 vs 編輯狀態） -->
             </div>
         </div>
     </div>
 
-    <!-- 列印專用隱藏區域 -->
     <div id="printable-record" class="p-8 hidden bg-white max-w-2xl mx-auto border border-black">
         <h2 class="text-xl font-bold text-center border-b pb-2 mb-4">寶山二集團櫻花公園私人停車場 - 現場事件紀錄表</h2>
         <div id="print-content" class="space-y-3 text-sm"></div>
@@ -407,7 +359,6 @@
         </div>
     </div>
 
-    <!-- 底部行動導覽列 (Mobile Friendly) -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-2 text-xs text-slate-600 shadow-lg sm:static sm:mt-8 sm:border-t-0 sm:bg-transparent sm:shadow-none no-print">
         <button onclick="switchTab('handbook')" id="nav-handbook" class="nav-item flex flex-col items-center gap-1 text-rose-600 font-bold">
             <i class="fa-solid fa-book-open text-base"></i>
@@ -428,31 +379,28 @@
     </nav>
 
     <script>
-        // --- 0. 自動動態將 icon_Parking.png 轉成圓形 Favicon ---
-        (function generateCircleFavicon() {
+        (function generateFaviconFromImage() {
             var img = new Image();
-            img.src = './icon_Parking.png';
+            img.crossOrigin = "anonymous";
+            img.src = "icon_Parking.png";
             img.onload = function() {
                 var canvas = document.createElement('canvas');
                 var size = 128;
                 canvas.width = size;
                 canvas.height = size;
                 var ctx = canvas.getContext('2d');
-
                 ctx.beginPath();
                 ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.clip();
                 ctx.drawImage(img, 0, 0, size, size);
-
-                var favLink = document.getElementById('dynamic-favicon');
-                if (favLink) {
-                    favLink.href = canvas.toDataURL('image/png');
+                var link = document.getElementById('dynamic-favicon');
+                if (link) {
+                    link.href = canvas.toDataURL('image/png');
                 }
             };
         })();
 
-        // --- 0.1 阻擋移動端雙擊放大 ---
         var lastTouchEnd = 0;
         document.addEventListener('touchend', function(event) {
             var now = (new Date()).getTime();
@@ -462,62 +410,6 @@
             lastTouchEnd = now;
         }, false);
 
-        // --- 0.2 離線可用性 Service Worker 註冊 ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                var swCode = `
-                    var CACHE_NAME = 'parking-app-v5';
-                    var ASSETS = [
-                        './',
-                        './index.html',
-                        './icon_Parking.png',
-                        'https://cdn.tailwindcss.com',
-                        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-                        'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js',
-                        'https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js'
-                    ];
-
-                    self.addEventListener('install', function(e) {
-                        e.waitUntil(
-                            caches.open(CACHE_NAME).then(function(cache) {
-                                return cache.addAll(ASSETS);
-                            })
-                        );
-                        self.skipWaiting();
-                    });
-
-                    self.addEventListener('activate', function(e) {
-                        e.waitUntil(
-                            caches.keys().then(function(keys) {
-                                return Promise.all(
-                                    keys.map(function(k) {
-                                        if (k !== CACHE_NAME) return caches.delete(k);
-                                    })
-                                );
-                            })
-                        );
-                        self.clients.claim();
-                    });
-
-                    self.addEventListener('fetch', function(e) {
-                        e.respondWith(
-                            caches.match(e.request).then(function(cached) {
-                                return cached || fetch(e.request).catch(function() {
-                                    return cached;
-                                });
-                            })
-                        );
-                    });
-                `;
-                var blob = new Blob([swCode], { type: 'application/javascript' });
-                var swUrl = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swUrl).catch(function(err) {
-                    console.log('SW 註冊提示:', err);
-                });
-            });
-        }
-
-        // --- 1. Firebase Realtime Database 初始化 ---
         const firebaseConfig = {
             databaseURL: "https://parking-lot-80eec-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
@@ -532,7 +424,6 @@
             console.warn("Firebase 初始化提示:", err);
         }
 
-        // 初始化預設時間為當前，並載入歷史紀錄
         window.addEventListener('DOMContentLoaded', function() {
             var now = new Date();
             now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -544,7 +435,6 @@
             setupAiInputListeners();
         });
 
-        // 頁面 Tab 切換
         function switchTab(tabName) {
             ['handbook', 'ai', 'incident', 'history'].forEach(function(tab) {
                 var el = document.getElementById('tab-' + tab);
@@ -567,7 +457,6 @@
             if (sub === 'form') switchTab('incident');
         }
 
-        // --- 2. 事件紀錄表：儲存、即時同步、彈窗檢視、修改與刪除 ---
         function initSyncRecords() {
             if (realtimeDb && navigator.onLine) {
                 realtimeDb.ref("incidents").on("value", function(snapshot) {
@@ -669,7 +558,6 @@
             }).join('');
         }
 
-        // --- 彈窗詳情檢視模式 ---
         function openDetailModal(index) {
             var records = JSON.parse(localStorage.getItem('parking_incidents') || '[]');
             var r = records[index];
@@ -677,81 +565,52 @@
 
             document.getElementById('modal-title').innerHTML = '<i class="fa-solid fa-file-lines text-rose-400"></i> 事件紀錄詳情';
 
-            var html = `
-                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2 select-text">
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="text-slate-500">事發時間</span>
-                        <strong class="text-slate-800">${r.datetime}</strong>
-                    </div>
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="text-slate-500">車牌號碼</span>
-                        <strong class="text-rose-600 font-mono text-base">${r.carPlate}</strong>
-                    </div>
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="text-slate-500">執勤員工</span>
-                        <strong class="text-slate-800">${r.staff}</strong>
-                    </div>
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="text-slate-500">發生位置</span>
-                        <strong class="text-slate-800">${r.location}</strong>
-                    </div>
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="text-slate-500">到場警員</span>
-                        <strong class="text-slate-800">${r.police}</strong>
-                    </div>
-                </div>
-
-                <div class="select-text">
-                    <span class="block text-xs font-semibold text-slate-500 mb-1">違規事由</span>
-                    <div class="bg-rose-50 border border-rose-200 p-2.5 rounded-lg text-rose-800 font-medium">${r.violations}</div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2 text-xs select-text">
-                    <div class="bg-slate-50 p-2 rounded border">
-                        <span class="text-slate-500 block">拍照與監視器存證</span>
-                        <span class="font-medium">${r.photoChecked} / ${r.cctvChecked}</span>
-                    </div>
-                    <div class="bg-slate-50 p-2 rounded border">
-                        <span class="text-slate-500 block">勸導與警告反應</span>
-                        <span class="font-medium">L1: ${r.lvl1Res} | L2: ${r.lvl2Res}</span>
-                    </div>
-                </div>
-
-                <div class="select-text">
-                    <span class="block text-xs font-semibold text-slate-500 mb-1">事發經過詳述</span>
-                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-slate-700 whitespace-pre-line text-xs sm:text-sm leading-relaxed">${r.description}</div>
-                </div>
-
-                <div class="flex justify-between items-center bg-slate-100 p-2.5 rounded-lg text-xs select-text">
-                    <span>${r.notifiedBoss}</span>
-                    <span class="font-bold text-rose-700 text-sm">求償核定金額：NT$ ${r.claimAmount} 元</span>
-                </div>
-            `;
+            var html = 
+                '<div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2 select-text">' +
+                    '<div class="flex justify-between border-b pb-2"><span class="text-slate-500">事發時間</span><strong class="text-slate-800">' + r.datetime + '</strong></div>' +
+                    '<div class="flex justify-between border-b pb-2"><span class="text-slate-500">車牌號碼</span><strong class="text-rose-600 font-mono text-base">' + r.carPlate + '</strong></div>' +
+                    '<div class="flex justify-between border-b pb-2"><span class="text-slate-500">執勤員工</span><strong class="text-slate-800">' + r.staff + '</strong></div>' +
+                    '<div class="flex justify-between border-b pb-2"><span class="text-slate-500">發生位置</span><strong class="text-slate-800">' + r.location + '</strong></div>' +
+                    '<div class="flex justify-between border-b pb-2"><span class="text-slate-500">到場警員</span><strong class="text-slate-800">' + r.police + '</strong></div>' +
+                '</div>' +
+                '<div class="select-text">' +
+                    '<span class="block text-xs font-semibold text-slate-500 mb-1">違規事由</span>' +
+                    '<div class="bg-rose-50 border border-rose-200 p-2.5 rounded-lg text-rose-800 font-medium">' + r.violations + '</div>' +
+                '</div>' +
+                '<div class="grid grid-cols-2 gap-2 text-xs select-text">' +
+                    '<div class="bg-slate-50 p-2 rounded border"><span class="text-slate-500 block">拍照與監視器存證</span><span class="font-medium">' + r.photoChecked + ' / ' + r.cctvChecked + '</span></div>' +
+                    '<div class="bg-slate-50 p-2 rounded border"><span class="text-slate-500 block">勸導與警告反應</span><span class="font-medium">L1: ' + r.lvl1Res + ' | L2: ' + r.lvl2Res + '</span></div>' +
+                '</div>' +
+                '<div class="select-text">' +
+                    '<span class="block text-xs font-semibold text-slate-500 mb-1">事發經過詳述</span>' +
+                    '<div class="bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-slate-700 whitespace-pre-line text-xs sm:text-sm leading-relaxed">' + r.description + '</div>' +
+                '</div>' +
+                '<div class="flex justify-between items-center bg-slate-100 p-2.5 rounded-lg text-xs select-text">' +
+                    '<span>' + r.notifiedBoss + '</span>' +
+                    '<span class="font-bold text-rose-700 text-sm">求償核定金額：NT$ ' + r.claimAmount + ' 元</span>' +
+                '</div>';
 
             document.getElementById('modal-content').innerHTML = html;
 
-            // 檢視模式的底部按鈕
-            var footerHtml = `
-                <button onclick="deleteRecord(${index})" class="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
-                    <i class="fa-solid fa-trash-can"></i> 刪除此筆
-                </button>
-                <div class="flex gap-2">
-                    <button onclick="openEditModal(${index})" class="text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-300 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
-                        <i class="fa-solid fa-pen-to-square"></i> 修改
-                    </button>
-                    <button onclick="printSingleRecord(${index})" class="text-xs bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-lg font-medium flex items-center gap-1">
-                        <i class="fa-solid fa-print"></i> 列印單據
-                    </button>
-                    <button onclick="closeDetailModal()" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-3 py-2 rounded-lg font-medium">
-                        關閉
-                    </button>
-                </div>
-            `;
+            var footerHtml = 
+                '<button onclick="deleteRecord(' + index + ')" class="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 px-3 py-2 rounded-lg font-medium flex items-center gap-1">' +
+                    '<i class="fa-solid fa-trash-can"></i> 刪除此筆' +
+                '</button>' +
+                '<div class="flex gap-2">' +
+                    '<button onclick="openEditModal(' + index + ')" class="text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-300 px-3 py-2 rounded-lg font-medium flex items-center gap-1">' +
+                        '<i class="fa-solid fa-pen-to-square"></i> 修改' +
+                    '</button>' +
+                    '<button onclick="printSingleRecord(' + index + ')" class="text-xs bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-lg font-medium flex items-center gap-1">' +
+                        '<i class="fa-solid fa-print"></i> 列印單據' +
+                    '</button>' +
+                    '<button onclick="closeDetailModal()" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-3 py-2 rounded-lg font-medium">' +
+                        '關閉' +
+                    '</button>' +
+                '</div>';
             document.getElementById('modal-footer').innerHTML = footerHtml;
             document.getElementById('detail-modal').classList.remove('hidden');
         }
 
-        // --- 彈窗進入「修改編輯模式」 ---
         function openEditModal(index) {
             var records = JSON.parse(localStorage.getItem('parking_incidents') || '[]');
             var r = records[index];
@@ -759,121 +618,137 @@
 
             document.getElementById('modal-title').innerHTML = '<i class="fa-solid fa-pen-to-square text-amber-400"></i> 修改事件紀錄內容';
 
-            var isPhotoChecked = r.photoChecked && r.photoChecked.includes('已拍攝') ? 'checked' : '';
-            var isCctvChecked = r.cctvChecked && r.cctvChecked.includes('已鎖定') ? 'checked' : '';
-            var isBossNotified = r.notifiedBoss && r.notifiedBoss.includes('已通報') ? 'checked' : '';
+            var isPhotoChecked = r.photoChecked && r.photoChecked.indexOf('已拍攝') !== -1 ? 'checked' : '';
+            var isCctvChecked = r.cctvChecked && r.cctvChecked.indexOf('已鎖定') !== -1 ? 'checked' : '';
+            var isBossNotified = r.notifiedBoss && r.notifiedBoss.indexOf('已通報') !== -1 ? 'checked' : '';
 
-            var editHtml = `
-                <form id="edit-record-form" class="space-y-3 text-xs sm:text-sm">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">事發時間</label>
-                            <input type="datetime-local" id="edit-datetime" value="${r.datetime}" required class="w-full border border-slate-300 rounded p-1.5">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">車牌號碼</label>
-                            <input type="text" id="edit-carplate" value="${r.carPlate}" class="w-full border border-slate-300 rounded p-1.5 uppercase font-mono">
-                        </div>
-                    </div>
+            var vStr = r.violations || '';
+            var chkA = (vStr.indexOf('A類') !== -1 || vStr.indexOf('野餐') !== -1) ? 'checked' : '';
+            var chkB = (vStr.indexOf('B類') !== -1 || vStr.indexOf('斜坡') !== -1) ? 'checked' : '';
+            var chkC = (vStr.indexOf('C類') !== -1 || vStr.indexOf('違規停放') !== -1) ? 'checked' : '';
+            var chkD = (vStr.indexOf('第7條') !== -1 || vStr.indexOf('吸菸') !== -1 || vStr.indexOf('垃圾') !== -1) ? 'checked' : '';
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">執勤員工姓名</label>
-                            <input type="text" id="edit-staff" value="${r.staff}" required class="w-full border border-slate-300 rounded p-1.5">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">發生位置</label>
-                            <input type="text" id="edit-location" value="${r.location}" class="w-full border border-slate-300 rounded p-1.5">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">到場警員編號/單位</label>
-                        <input type="text" id="edit-police" value="${r.police}" class="w-full border border-slate-300 rounded p-1.5">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">違規事由摘要</label>
-                        <input type="text" id="edit-violations" value="${r.violations}" class="w-full border border-slate-300 rounded p-1.5">
-                    </div>
-
-                    <div class="bg-slate-50 p-2 rounded border border-slate-200 space-y-1 text-xs">
-                        <span class="block font-semibold text-slate-600 mb-1">存證確認</span>
-                        <label class="flex items-center gap-1.5">
-                            <input type="checkbox" id="edit-check-photo" ${isPhotoChecked} class="rounded text-indigo-600">
-                            <span>移置前4角度照片已完成拍攝（正前、後、左、右）</span>
-                        </label>
-                        <label class="flex items-center gap-1.5">
-                            <input type="checkbox" id="edit-check-cctv" ${isCctvChecked} class="rounded text-indigo-600">
-                            <span>監視器畫面已鎖定存證</span>
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div>
-                            <label class="block text-slate-500 mb-1">Level 1 勸導反饋</label>
-                            <select id="edit-lvl1-res" class="w-full border rounded p-1">
-                                <option value="配合離場/停止" ${r.lvl1Res === '配合離場/停止' ? 'selected' : ''}>配合停止行為</option>
-                                <option value="爭辯持續" ${r.lvl1Res === '爭辯持續' ? 'selected' : ''}>爭辯不理會</option>
-                                <option value="無此狀況" ${r.lvl1Res === '無此狀況' ? 'selected' : ''}>未執行此階段</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-slate-500 mb-1">Level 2 警告反饋</label>
-                            <select id="edit-lvl2-res" class="w-full border rounded p-1">
-                                <option value="無" ${r.lvl2Res === '無' ? 'selected' : ''}>未達此階段</option>
-                                <option value="配合離場" ${r.lvl2Res === '配合離場' ? 'selected' : ''}>正式警告後配合離開</option>
-                                <option value="拒絕離場" ${r.lvl2Res === '拒絕離場' ? 'selected' : ''}>拒絕配合並留滯</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">事發經過詳述</label>
-                        <textarea id="edit-desc" rows="3" required class="w-full border border-slate-300 rounded p-1.5 leading-relaxed">${r.description}</textarea>
-                    </div>
-
-                    <div class="bg-rose-50 p-2.5 rounded border border-rose-200 text-xs flex flex-wrap justify-between items-center gap-2">
-                        <label class="flex items-center gap-1.5">
-                            <input type="checkbox" id="edit-boss" ${isBossNotified} class="rounded text-rose-600">
-                            <span class="font-semibold text-rose-900">已通報謝先生 (0919-823-602)</span>
-                        </label>
-                        <div class="flex items-center gap-1">
-                            <span class="text-rose-900 font-semibold">求償金額：NT$</span>
-                            <input type="number" id="edit-claim-amount" value="${r.claimAmount}" class="w-20 border border-rose-300 rounded p-1 bg-white text-right">
-                            <span>元</span>
-                        </div>
-                    </div>
-                </form>
-            `;
+            var editHtml = 
+                '<form id="edit-record-form" class="space-y-3 text-xs sm:text-sm">' +
+                    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">' +
+                        '<div>' +
+                            '<label class="block text-xs font-semibold text-slate-500 mb-1">事發時間</label>' +
+                            '<input type="datetime-local" id="edit-datetime" value="' + r.datetime + '" required class="w-full border border-slate-300 rounded p-1.5">' +
+                        '</div>' +
+                        '<div>' +
+                            '<label class="block text-xs font-semibold text-slate-500 mb-1">車牌號碼</label>' +
+                            '<input type="text" id="edit-carplate" value="' + r.carPlate + '" class="w-full border border-slate-300 rounded p-1.5 uppercase font-mono">' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">' +
+                        '<div>' +
+                            '<label class="block text-xs font-semibold text-slate-500 mb-1">執勤員工姓名</label>' +
+                            '<input type="text" id="edit-staff" value="' + r.staff + '" required class="w-full border border-slate-300 rounded p-1.5">' +
+                        '</div>' +
+                        '<div>' +
+                            '<label class="block text-xs font-semibold text-slate-500 mb-1">發生位置</label>' +
+                            '<input type="text" id="edit-location" value="' + r.location + '" class="w-full border border-slate-300 rounded p-1.5">' +
+                        '</div>' +
+                    '</div>' +
+                    '<div>' +
+                        '<label class="block text-xs font-semibold text-slate-500 mb-1">到場警員編號/單位</label>' +
+                        '<input type="text" id="edit-police" value="' + r.police + '" class="w-full border border-slate-300 rounded p-1.5">' +
+                    '</div>' +
+                    '<div>' +
+                        '<label class="block text-xs font-semibold text-slate-500 mb-1">違規事由勾選 (可複選)</label>' +
+                        '<div class="grid grid-cols-1 gap-1.5 bg-slate-50 p-2.5 rounded border text-xs">' +
+                            '<label class="flex items-center gap-2">' +
+                                '<input type="checkbox" name="edit-violation-opt" value="A類:野餐/泡茶/擺桌椅/長時間未熄火" ' + chkA + ' class="rounded text-rose-600">' +
+                                '<span>A類：野餐、泡茶、擺設桌椅、搭棚</span>' +
+                            '</label>' +
+                            '<label class="flex items-center gap-2">' +
+                                '<input type="checkbox" name="edit-violation-opt" value="B類:擅入私人斜坡/未開放草皮空地" ' + chkB + ' class="rounded text-rose-600">' +
+                                '<span>B類：擅入私人斜坡、未開放草皮空地</span>' +
+                            '</label>' +
+                            '<label class="flex items-center gap-2">' +
+                                '<input type="checkbox" name="edit-violation-opt" value="C類:違規停放/妨礙通行/占用車道" ' + chkC + ' class="rounded text-rose-600">' +
+                                '<span>C類：任意停放、未依格、占用通道</span>' +
+                            '</label>' +
+                            '<label class="flex items-center gap-2">' +
+                                '<input type="checkbox" name="edit-violation-opt" value="違反第7條:吸菸/垃圾/明火烤肉/非動線進出" ' + chkD + ' class="rounded text-rose-600">' +
+                                '<span>其他：吸菸、亂丟垃圾、引燃明火</span>' +
+                            '</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="bg-slate-50 p-2 rounded border border-slate-200 space-y-1 text-xs">' +
+                        '<span class="block font-semibold text-slate-600 mb-1">存證確認</span>' +
+                        '<label class="flex items-center gap-1.5">' +
+                            '<input type="checkbox" id="edit-check-photo" ' + isPhotoChecked + ' class="rounded text-indigo-600">' +
+                            '<span>移置前4角度照片已完成拍攝（正前、後、左、右）</span>' +
+                        '</label>' +
+                        '<label class="flex items-center gap-1.5">' +
+                            '<input type="checkbox" id="edit-check-cctv" ' + isCctvChecked + ' class="rounded text-indigo-600">' +
+                            '<span>監視器畫面已鎖定存證</span>' +
+                        '</label>' +
+                    '</div>' +
+                    '<div class="grid grid-cols-2 gap-2 text-xs">' +
+                        '<div>' +
+                            '<label class="block text-slate-500 mb-1">Level 1 勸導反饋</label>' +
+                            '<select id="edit-lvl1-res" class="w-full border rounded p-1">' +
+                                '<option value="配合離場/停止" ' + (r.lvl1Res === '配合離場/停止' ? 'selected' : '') + '>配合停止行為</option>' +
+                                '<option value="爭辯持續" ' + (r.lvl1Res === '爭辯持續' ? 'selected' : '') + '>爭辯不理會</option>' +
+                                '<option value="無此狀況" ' + (r.lvl1Res === '無此狀況' ? 'selected' : '') + '>未執行此階段</option>' +
+                            '</select>' +
+                        '</div>' +
+                        '<div>' +
+                            '<label class="block text-slate-500 mb-1">Level 2 警告反饋</label>' +
+                            '<select id="edit-lvl2-res" class="w-full border rounded p-1">' +
+                                '<option value="無" ' + (r.lvl2Res === '無' ? 'selected' : '') + '>未達此階段</option>' +
+                                '<option value="配合離場" ' + (r.lvl2Res === '配合離場' ? 'selected' : '') + '>正式警告後配合離開</option>' +
+                                '<option value="拒絕離場" ' + (r.lvl2Res === '拒絕離場' ? 'selected' : '') + '>拒絕配合並留滯</option>' +
+                            '</select>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div>' +
+                        '<label class="block text-xs font-semibold text-slate-500 mb-1">事發經過詳述</label>' +
+                        '<textarea id="edit-desc" rows="3" required class="w-full border border-slate-300 rounded p-1.5 leading-relaxed">' + r.description + '</textarea>' +
+                    '</div>' +
+                    '<div class="bg-rose-50 p-2.5 rounded border border-rose-200 text-xs flex flex-wrap justify-between items-center gap-2">' +
+                        '<label class="flex items-center gap-1.5">' +
+                            '<input type="checkbox" id="edit-boss" ' + isBossNotified + ' class="rounded text-rose-600">' +
+                            '<span class="font-semibold text-rose-900">已通報謝先生 (0919-823-602)</span>' +
+                        '</label>' +
+                        '<div class="flex items-center gap-1">' +
+                            '<span class="text-rose-900 font-semibold">求償金額：NT$</span>' +
+                            '<input type="number" id="edit-claim-amount" value="' + r.claimAmount + '" class="w-20 border border-rose-300 rounded p-1 bg-white text-right">' +
+                            '<span>元</span>' +
+                        '</div>' +
+                    '</div>' +
+                '</form>';
 
             document.getElementById('modal-content').innerHTML = editHtml;
 
-            // 編輯狀態的底部按鈕
-            var footerHtml = `
-                <button onclick="openDetailModal(${index})" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-3 py-2 rounded-lg font-medium">
-                    取消修改
-                </button>
-                <button onclick="saveRecordChanges(${index})" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-1">
-                    <i class="fa-solid fa-check"></i> 儲存修改
-                </button>
-            `;
+            var footerHtml = 
+                '<button onclick="openDetailModal(' + index + ')" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-3 py-2 rounded-lg font-medium">' +
+                    '取消修改' +
+                '</button>' +
+                '<button onclick="saveRecordChanges(' + index + ')" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-1">' +
+                    '<i class="fa-solid fa-check"></i> 儲存修改' +
+                '</button>';
             document.getElementById('modal-footer').innerHTML = footerHtml;
         }
 
-        // --- 儲存修改並同步 Firebase 與 LocalStorage ---
         function saveRecordChanges(index) {
             var records = JSON.parse(localStorage.getItem('parking_incidents') || '[]');
             var target = records[index];
             if (!target) return;
 
-            // 更新目標物件欄位
+            var updatedViolations = [];
+            document.querySelectorAll('input[name="edit-violation-opt"]:checked').forEach(function(c) {
+                updatedViolations.push(c.value);
+            });
+
             target.datetime = document.getElementById('edit-datetime').value;
             target.carPlate = document.getElementById('edit-carplate').value || '未提供';
             target.staff = document.getElementById('edit-staff').value;
             target.location = document.getElementById('edit-location').value || '場內';
             target.police = document.getElementById('edit-police').value || '無';
-            target.violations = document.getElementById('edit-violations').value || '無特定勾選';
+            target.violations = updatedViolations.join('、') || '無特定勾選';
             target.photoChecked = document.getElementById('edit-check-photo').checked ? '已拍攝4角度存證' : '未完整存證';
             target.cctvChecked = document.getElementById('edit-check-cctv').checked ? '監視器畫面已鎖定' : '未鎖定';
             target.lvl1Res = document.getElementById('edit-lvl1-res').value;
@@ -882,11 +757,9 @@
             target.notifiedBoss = document.getElementById('edit-boss').checked ? '已通報謝先生' : '未通報';
             target.claimAmount = document.getElementById('edit-claim-amount').value || 0;
 
-            // 1. 儲存至本地 LocalStorage
             records[index] = target;
             localStorage.setItem('parking_incidents', JSON.stringify(records));
 
-            // 2. 同步更新 Firebase Realtime Database
             if (realtimeDb && navigator.onLine) {
                 if (target.firebaseKey) {
                     realtimeDb.ref("incidents").child(target.firebaseKey).update(target).catch(function(err) {
@@ -903,7 +776,6 @@
 
             renderRecords();
             alert('紀錄內容已成功更新！');
-            // 返回檢視模式
             openDetailModal(index);
         }
 
@@ -918,7 +790,7 @@
             var target = records[index];
             if (!target) return;
 
-            if (!confirm(`確定要刪除車號「${target.carPlate}」（時間：${target.datetime}）的這筆紀錄嗎？\n刪除後無法復原。`)) {
+            if (!confirm("確定要刪除車號「" + target.carPlate + "」（時間：" + target.datetime + "）的這筆紀錄嗎？\n刪除後無法復原。")) {
                 return;
             }
 
@@ -943,28 +815,32 @@
             alert('該筆紀錄已刪除。');
         }
 
-        // --- 3. 輸出下載與列印 ---
         function printSingleRecord(index) {
             var records = JSON.parse(localStorage.getItem('parking_incidents') || '[]');
             var r = records[index];
             if (!r) return;
 
             var printContent = 
-                '<table class="w-full border-collapse border border-slate-300 text-left">' +
-                    '<tr><th class="border p-2 bg-slate-100 w-1/4">事發時間</th><td class="border p-2">' + r.datetime + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">車牌號碼</th><td class="border p-2">' + r.carPlate + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">執勤人員</th><td class="border p-2">' + r.staff + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">發生地點</th><td class="border p-2">' + r.location + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">違規類別</th><td class="border p-2">' + r.violations + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">存證狀況</th><td class="border p-2">' + r.photoChecked + ' / ' + r.cctvChecked + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">處置歷程</th><td class="border p-2">L1反饋: ' + r.lvl1Res + ' | L2反饋: ' + r.lvl2Res + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">警方到場</th><td class="border p-2">' + r.police + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">經過詳述</th><td class="border p-2 whitespace-pre-line">' + r.description + '</td></tr>' +
-                    '<tr><th class="border p-2 bg-slate-100">行政與求償</th><td class="border p-2">' + r.notifiedBoss + ' | 求償金額: NT$ ' + r.claimAmount + ' 元</td></tr>' +
+                '<table class="w-full border-collapse border border-slate-400 text-left text-sm">' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 w-1/4 font-bold">事發時間</th><td class="border border-slate-300 p-2.5">' + r.datetime + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold">車牌號碼</th><td class="border border-slate-300 p-2.5 font-mono font-bold text-base">' + r.carPlate + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold">執勤員工</th><td class="border border-slate-300 p-2.5">' + r.staff + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold">發生地點</th><td class="border border-slate-300 p-2.5">' + r.location + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold">違規類別</th><td class="border border-slate-300 p-2.5">' + r.violations + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold">存證狀況</th><td class="border border-slate-300 p-2.5">' + r.photoChecked + ' / ' + r.cctvChecked + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold">處置歷程</th><td class="border border-slate-300 p-2.5">Level 1: ' + r.lvl1Res + ' | Level 2: ' + r.lvl2Res + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold">警方到場</th><td class="border border-slate-300 p-2.5">' + r.police + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold align-top">經過詳述</th><td class="border border-slate-300 p-2.5 whitespace-pre-line leading-relaxed">' + r.description + '</td></tr>' +
+                    '<tr><th class="border border-slate-300 p-2.5 bg-slate-100 font-bold">行政與求償</th><td class="border border-slate-300 p-2.5">' + r.notifiedBoss + ' | 核定金額：NT$ ' + r.claimAmount + ' 元</td></tr>' +
                 '</table>';
 
-            document.getElementById('print-content').innerHTML = printContent;
+            var targetEl = document.getElementById('print-content');
+            targetEl.innerHTML = printContent;
+            
+            var printArea = document.getElementById('printable-record');
+            printArea.classList.remove('hidden');
             window.print();
+            printArea.classList.add('hidden');
         }
 
         function exportAllToCSV() {
@@ -987,7 +863,6 @@
             a.click();
         }
 
-        // --- 4. AI 模組：中文輸入防誤觸、停止回覆、內容還原與無 Markdown 處理 ---
         const EMBEDDED_GEMINI_KEY = "AQ.Ab8RN6K8J2J4YXVA3oJNgtG3drKlKcrkRbPFth9OwT0HZlJQ-Q";
         
         var isComposing = false;
@@ -1079,7 +954,7 @@
         function sanitizeText(raw) {
             if (!raw) return "";
             return raw
-                .replace(/\+\]/gi, '')
+                .replace(/\]+\]/gi, '')
                 .replace(/```[\s\S]*?```/g, '')
                 .replace(/`([^`]+)`/g, '$1')
                 .replace(/\*\*([^*]+)\*\*/g, '$1')
@@ -1121,10 +996,10 @@
 
             if (navigator.onLine) {
                 try {
-                    var systemPrompt = "你現在是「寶山二集團櫻花公園私人停車場」的資深現場督導兼智慧行動副手。你的經營者是謝佳杰，緊急窗口謝先生電話0919-823-602。\n" +
-                        "停車場核心規範：營業09:00-17:00，緩衝至18:30閉園鎖門（報警查核且免除保管責任）。停車每次100元，僅租借車位，絕不包含野餐、泡茶、擺設桌椅等非停車行為（A類）。違規停放（C類）移車前必拍4個角度存證。\n" +
-                        "最高溝通原則：去情緒化、不爭辯、嚴禁向顧客宣告刑法第306條定罪，只明確下達退去要求並拍照錄影存證。\n" +
-                        "重要格式規則：請絕對不要使用 Markdown 符號（請勿使用星號加粗、請勿使用井號標題、請勿使用反引號代碼塊）。請以流暢自然的口語中文回答，直接給第一線工作人員「照著念即可」的脫口話術與下一步行動步驟。";
+                    var systemPrompt = "你現在是寶山二集團櫻花公園私人停車場的現場督導助理。經營者是謝佳杰，緊急窗口謝先生電話0919-823-602。\n" +
+                        "核心規矩：營業09:00-17:00，緩衝至18:30閉園鎖門。停車每次100元，僅限停車，絕不包含野餐泡茶擺桌椅（A類違規）。移車前必拍4角度照片存證。\n" +
+                        "原則：去情緒化、不爭辯、不宣告刑法第306條定罪，只下達退去要求並拍照錄影。\n" +
+                        "格式限制：絕對不要使用任何 Markdown 格式（絕對不要使用星號加粗、不要用井號、不要用代碼塊）。請直接以自然親切的口語中文回答現場人員照著念的話術與步驟。";
 
                     var endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + EMBEDDED_GEMINI_KEY;
                     
@@ -1134,7 +1009,7 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             contents: [
-                                { role: "user", parts: [{ text: systemPrompt + "\n\n現場員工回報狀況：" + q }] }
+                                { role: "user", parts: [{ text: systemPrompt + "\n\n現場員工狀況：" + q }] }
                             ]
                         })
                     });
@@ -1151,7 +1026,7 @@
                     if (rawReply) {
                         renderAiReply(sanitizeText(rawReply));
                     } else {
-                        renderAiReply("API 未能產生回覆，已為您切換至手冊離線庫查詢。");
+                        renderAiReply("API 未能產生回覆，切換至手冊離線庫。");
                         fallbackLocalQA(q);
                     }
                 } catch (err) {
@@ -1163,7 +1038,7 @@
                         if (loader2) loader2.remove();
                         currentLoadingId = null;
                     }
-                    renderAiReply("網路連線不穩或服務異常，切換至手冊離線實戰庫模式。");
+                    renderAiReply("連線異常，切換至手冊離線實戰庫模式。");
                     fallbackLocalQA(q);
                 } finally {
                     setAiGeneratingState(false);
@@ -1218,8 +1093,8 @@
                         "依管理規則第6條，滯留過夜的車輛，閉園期間業者依法完全免除保管責任。若車主事後有爭端，請直接提供單一聯絡窗口謝先生（0919-823-602）協助處理。";
             } else {
                 reply = "收到！面對突發狀況，請先深呼吸，牢記「去情緒化、不爭辯、講事實」三大心法：\n\n" +
-                        "1. 處置節奏：口頭勸導 ➔ 正式警告下達退去要求 ➔ 撥打 110 並通報謝先生（0919-823-602）[span_43](start_span)[span_43](end_span)。\n" +
-                        "2. 嚴格紅線：不要跟客人吵架，也不要自己跟對方說『你觸犯刑法第306條』，我們只陳述規定並用手機錄影存證[span_44](start_span)[span_44](end_span)。\n" +
+                        "1. 處置節奏：口頭勸導 ➔ 正式警告下達退去要求 ➔ 撥打 110 並通報謝先生（0919-823-602）。\n" +
+                        "2. 嚴格紅線：不要跟客人吵架，也不要自己跟對方說『你觸犯刑法第306條』，我們只陳述規定並用手機錄影存證。\n" +
                         "3. 隨時在下方輸入遇到的詳細對話或狀況，我會即時為你客製化解答！";
             }
             renderAiReply(sanitizeText(reply));
