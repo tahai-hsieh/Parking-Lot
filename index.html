@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="停車場手冊">
-    <link rel="apple-touch-icon" href="icon_Parking.png">
+    <link rel="apple-touch-icon" href="./icon_Parking.png">
     
     <!-- 動態產生圓形 Favicon 的佔位標籤 -->
-    <link id="dynamic-favicon" rel="icon" type="image/png" href="icon_Parking.png">
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="./icon_Parking.png">
 
     <!-- Web App Manifest (動態注入) -->
     <script>
@@ -26,7 +26,7 @@
             "theme_color": "#1e293b",
             "icons": [
                 {
-                    "src": "icon_Parking.png",
+                    "src": "./icon_Parking.png",
                     "sizes": "192x192 512x512",
                     "type": "image/png"
                 }
@@ -78,7 +78,7 @@
     <header class="bg-slate-800 text-white p-4 shadow-md sticky top-0 z-40">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <h1 class="text-base sm:text-lg font-bold flex items-center gap-2">
-                <img src="icon_Parking.png" alt="Logo" class="w-6 h-6 object-contain">
+                <img id="header-logo" src="./icon_Parking.png" alt="Logo" class="w-6 h-6 object-contain rounded" onerror="this.outerHTML='<i class=\'fa-solid fa-square-parking text-rose-400 text-xl\'></i>'">
                 櫻花公園私人停車場 行動手冊
             </h1>
             <div class="text-xs text-slate-300">
@@ -198,11 +198,9 @@
                     <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
                         <i class="fa-solid fa-robot text-indigo-500"></i>手冊智慧問答助手
                     </h2>
-                    <button onclick="openApiSettings()" class="text-xs text-slate-500 hover:text-indigo-600 underline">
-                        <i class="fa-solid fa-gear"></i> 設定 API Key
-                    </button>
+                    <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-medium">Gemini 2.5 連線中</span>
                 </div>
-                <p class="text-xs text-slate-500 mb-3">您的現場資深應對顧問：即時分析突發狀況、評估風險等級並提供第一線脫口話術。</p>
+                <p class="text-xs text-slate-500 mb-3">現場資深應對顧問：分析爭議狀況、評估風險等級並提供第一線脫口話術。</p>
 
                 <!-- 對話記錄區 -->
                 <div id="chat-box" class="h-80 overflow-y-auto bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-3 mb-3 text-sm">
@@ -221,9 +219,9 @@
                     <button onclick="quickAsk('現在已經超過18:30了，場內還有車子沒走，大門可以鎖嗎？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">18:30閉園滯留車輛</button>
                 </div>
 
-                <!-- 輸入框 -->
+                <!-- 輸入框 (支援 Enter 發送) -->
                 <div class="flex gap-2">
-                    <input type="text" id="ai-input" placeholder="輸入現場遇到的爭議、違規或特殊狀況..." class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="ai-input" onkeydown="handleInputKeydown(event)" placeholder="輸入現場遇到的爭議狀況（按 Enter 發送）..." class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <button onclick="askAI()" id="ai-send-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1">
                         <span>發送</span>
                     </button>
@@ -450,7 +448,7 @@
         // --- 0. 自動動態將 icon_Parking.png 轉成圓形 Favicon ---
         (function generateCircleFavicon() {
             var img = new Image();
-            img.src = 'icon_Parking.png';
+            img.src = './icon_Parking.png';
             img.onload = function() {
                 var canvas = document.createElement('canvas');
                 var size = 128;
@@ -488,7 +486,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 var swCode = `
-                    var CACHE_NAME = 'parking-app-v2';
+                    var CACHE_NAME = 'parking-app-v3';
                     var ASSETS = [
                         './',
                         './index.html',
@@ -597,7 +595,7 @@
                         var cloudRecords = [];
                         Object.keys(data).forEach(function(key) {
                             var item = data[key];
-                            item.firebaseKey = key; // 保存 Firebase 鍵以便刪除
+                            item.firebaseKey = key;
                             cloudRecords.unshift(item);
                         });
                         localStorage.setItem('parking_incidents', JSON.stringify(cloudRecords));
@@ -781,7 +779,6 @@
                         console.warn("Firebase 刪除未成功:", err);
                     });
                 } else {
-                    // 若無直接 key，依唯一 id 搜尋刪除
                     realtimeDb.ref("incidents").orderByChild("id").equalTo(target.id).once("value", function(snapshot) {
                         snapshot.forEach(function(child) {
                             child.ref.remove();
@@ -841,18 +838,37 @@
             a.click();
         }
 
-        // --- 4. 具備思考深度與自然對話風格的 AI 助手 ---
-        function openApiSettings() {
-            var key = prompt("請輸入您的 Google Gemini API Key（填入後將解鎖完整 AI 智慧分析與話術生成）：", localStorage.getItem('gemini_api_key') || '');
-            if (key !== null) {
-                localStorage.setItem('gemini_api_key', key.trim());
-                alert('API Key 設定完成！已切換至高靈活性 AI 顧問模式。');
+        // --- 4. 具備思考深度、一鍵複製且無 Markdown 雜訊的 AI 助手 ---
+        // 內建使用者提供的 API Key
+        const EMBEDDED_GEMINI_KEY = "AQ.Ab8RN6K8J2J4YXVA3oJNgtG3drKlKcrkRbPFth9OwT0HZlJQ-Q";
+
+        // 支援鍵盤 Enter 送出（Shift+Enter 允許換行）
+        function handleInputKeydown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                askAI();
             }
         }
 
         function quickAsk(q) {
             document.getElementById('ai-input').value = q;
             askAI();
+        }
+
+        // 徹底清除 Markdown 標記、引用註記，回傳純文字
+        function sanitizeText(raw) {
+            if (!raw) return "";
+            return raw
+                .replace(/\+\]/gi, '') // 去除引用標記
+                .replace(/```[\s\S]*?```/g, '')        // 去除代碼塊
+                .replace(/`([^`]+)`/g, '$1')           // 行內代碼
+                .replace(/\*\*([^*]+)\*\*/g, '$1')     // 粗體 **
+                .replace(/\*([^*]+)\*/g, '$1')         // 斜體 *
+                .replace(/^#+\s+/gm, '')               // 標題 #
+                .replace(/^[-*+]\s+/gm, '• ')          // 無序清單符號轉為清晰圓點
+                .replace(/^\d+\.\s+/gm, function(match) { return match; }) // 保留數字清單
+                .replace(/\n{3,}/g, '\n\n')            // 消除過多空白行
+                .trim();
         }
 
         async function askAI() {
@@ -868,7 +884,6 @@
             inputEl.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            var apiKey = localStorage.getItem('gemini_api_key');
             var loadingId = 'ai-loading-' + Date.now();
             
             chatBox.innerHTML += 
@@ -881,36 +896,41 @@
                 '</div>';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            if (apiKey && navigator.onLine) {
+            if (navigator.onLine) {
                 try {
-                    var systemPrompt = `你現在是「寶山二集團櫻花公園私人停車場」的資深現場督導兼智慧行動副手。你的經營者是謝佳杰，緊急窗口謝先生電話0919-823-602。
-停車場核心規範：營業09:00-17:00，緩衝至18:30閉園鎖門（報警查核且免除保管責任）。停車每次100元，僅租借車位，絕不包含野餐、泡茶、擺設桌椅等非停車行為（A類）。違規停放（C類）移車前必拍4個角度存證。
-最高溝通原則：去情緒化、不爭辯、嚴禁向顧客宣告刑法第306條定罪，只明確下達退去要求並拍照錄影存證。
+                    var systemPrompt = "你現在是「寶山二集團櫻花公園私人停車場」的資深現場督導兼智慧行動副手。你的經營者是謝佳杰，緊急窗口謝先生電話0919-823-602。\n" +
+                        "停車場核心規範：營業09:00-17:00，緩衝至18:30閉園鎖門（報警查核且免除保管責任）。停車每次100元，僅租借車位，絕不包含野餐、泡茶、擺設桌椅等非停車行為（A類）。違規停放（C類）移車前必拍4個角度存證。\n" +
+                        "最高溝通原則：去情緒化、不爭辯、嚴禁向顧客宣告刑法第306條定罪，只明確下達退去要求並拍照錄影存證。\n" +
+                        "重要格式規則：請絕對不要使用 Markdown 符號（請勿使用星號加粗、請勿使用井號標題、請勿使用反引號代碼塊）。請以流暢自然的口語中文回答，直接給第一線工作人員「照著念即可」的脫口話術與下一步行動步驟。";
 
-請用像「富有現場經驗、冷靜、接地氣的同行前輩」的語氣跟第一線工作人員對話：
-1. 先簡短同理或點出目前的局勢/風險。
-2. 直接給工作人員「照著念即可」的口語應對話術（口氣要自然、不卑不亢、清楚有力）。
-3. 提示下一步防範動作（例如：是否該啟動錄影、通報謝先生或叫警察）。
-請避免像生硬的機器人複製法規條文，而是將規章轉化為有血有肉的實戰指引。`;
-
-                    var res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey, {
+                    var endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + EMBEDDED_GEMINI_KEY;
+                    
+                    var res = await fetch(endpoint, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             contents: [
-                                { role: "user", parts: [{ text: systemPrompt + "\n\n現場員工回報：" + q }] }
+                                { role: "user", parts: [{ text: systemPrompt + "\n\n現場員工回報狀況：" + q }] }
                             ]
                         })
                     });
+                    
                     var data = await res.json();
-                    var reply = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text ? data.candidates[0].content.parts[0].text : "暫時無法取得回覆，請確認 API Key 額度或網路連線。";
+                    var rawReply = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text ? data.candidates[0].content.parts[0].text : "";
+                    
                     var loader = document.getElementById(loadingId);
                     if (loader) loader.remove();
-                    renderAiReply(reply);
+
+                    if (rawReply) {
+                        renderAiReply(sanitizeText(rawReply));
+                    } else {
+                        renderAiReply("API 未能產生回覆，已為您切換至手冊離線庫查詢。");
+                        fallbackLocalQA(q);
+                    }
                 } catch (err) {
                     var loader2 = document.getElementById(loadingId);
                     if (loader2) loader2.remove();
-                    renderAiReply("連線 API 異常，已自動切換為手冊離線實戰庫模式。");
+                    renderAiReply("網路連線不穩或服務異常，切換至手冊離線實戰庫模式。");
                     fallbackLocalQA(q);
                 }
             } else {
@@ -920,47 +940,76 @@
             }
         }
 
-        function renderAiReply(text) {
+        // 渲染 AI 回應（加入「一鍵複製」按鈕）
+        function renderAiReply(cleanText) {
             var chatBox = document.getElementById('chat-box');
+            var msgId = 'msg-' + Date.now();
+            
+            // 將內容轉為 Base64 方便複製時不產生字元跳脫錯誤
+            var encodedText = btoa(encodeURIComponent(cleanText));
+
             chatBox.innerHTML += 
-                '<div class="flex items-start gap-2">' +
-                    '<div class="w-7 h-7 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs flex-shrink-0">AI</div>' +
-                    '<div class="bg-white border border-slate-200 p-2.5 rounded-lg text-slate-800 text-sm max-w-[85%] shadow-sm whitespace-pre-line leading-relaxed">' + text + '</div>' +
+                '<div class="flex items-start gap-2 group">' +
+                    '<div class="w-7 h-7 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5">AI</div>' +
+                    '<div class="bg-white border border-slate-200 p-3 rounded-lg text-slate-800 text-sm max-w-[88%] shadow-sm relative">' +
+                        '<div class="flex justify-between items-center mb-1.5 border-b border-slate-100 pb-1">' +
+                            '<span class="text-xs text-slate-400 font-medium">應對建議</span>' +
+                            '<button onclick="copyAiMessage(\'' + encodedText + '\', this)" class="text-xs text-indigo-600 hover:text-indigo-800 flex items-center gap-1 font-medium px-1.5 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 transition-colors">' +
+                                '<i class="fa-regular fa-copy"></i>' +
+                                '<span>複製</span>' +
+                            '</button>' +
+                        '</div>' +
+                        '<div class="whitespace-pre-line leading-relaxed text-slate-700">' + cleanText + '</div>' +
+                    '</div>' +
                 '</div>';
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        // 離線模式：提升為有情境思考、層次豐富的應答結構
+        // 複製對話訊息至剪貼簿
+        function copyAiMessage(encodedText, btnElement) {
+            var text = decodeURIComponent(atob(encodedText));
+            navigator.clipboard.writeText(text).then(function() {
+                var originalHtml = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i><span class="text-emerald-600">已複製</span>';
+                setTimeout(function() {
+                    btnElement.innerHTML = originalHtml;
+                }, 2000);
+            }).catch(function() {
+                alert('複製失敗，請手動選取文字。');
+            });
+        }
+
+        // 離線模式：徹底去除 Markdown 符號的純淨文字回應
         function fallbackLocalQA(q) {
             var reply = "";
             if (q.indexOf("付錢") !== -1 || q.indexOf("泡茶") !== -1 || q.indexOf("坐") !== -1 || q.indexOf("野餐") !== -1 || q.indexOf("桌椅") !== -1) {
-                reply = "這種客人最常見的盲點是以為「付了100元就買下整個空間的使用權」。別動怒，堅定告訴他邊界在哪裡：\n\n" +
-                        "💬 建議你可以這樣跟他說：\n" +
-                        "「大哥/大姐您好，這100元是『車輛停放服務費』，不是露營區或茶藝區的租金喔！依照我們入口公告的管理規則，車位只限停車上下車，不能擺桌椅泡茶。請您先收起來，謝謝您的配合。」\n\n" +
-                        "⚠️ 應變提示：\n" +
-                        "如果對方開始爭辯『現場哪裡有寫』，直接進入 Level 2：「規範在入口處已全場公告。我現在代表管理單位正式要求您停止使用，若無法配合，我們會請警方到場協助排除。」記得拿起手機拍照存證，但千萬不要自己脫口指責對方犯刑法！";
+                reply = "這種客人最常見的盲點是以為付了100元就買下整個空間的使用權。別動怒，堅定告訴他邊界在哪裡：\n\n" +
+                        "【建議你可以這樣跟他說】\n" +
+                        "「大哥您好，這100元是車輛停放服務費，不是露營區或茶藝區的租金喔！依照我們入口公告的管理規則，車位只限停車與上下車，不能擺桌椅泡茶。請您先收起來，謝謝您的配合。」\n\n" +
+                        "【應變提示】\n" +
+                        "如果對方開始爭辯現場哪裡有寫，直接進入 Level 2：「規範在入口處已全場公告。我現在代表管理單位正式要求您停止使用，若無法配合，我們會請警方到場協助排除。」記得拿起手機拍照存證，但千萬不要自己脫口指責對方犯刑法！";
             } else if (q.indexOf("移車") !== -1 || q.indexOf("亂停") !== -1 || q.indexOf("擋住") !== -1 || q.indexOf("拍照") !== -1) {
                 reply = "處理違規擋車，保護自己是第一要務，移車程序一定要站得住腳：\n\n" +
-                        "📸 動作一：拍照存證（關鍵4張照片）\n" +
+                        "1. 拍照存證（關鍵4張照片）\n" +
                         "在車輛移動前，必須完整拍攝「正前、正後、左側、右側」。照片裡務必要拍清楚：車牌、擋住通道或沒停在格子內的標線現況、以及車身本來就有的刮痕（避免事後被反咬車損）。\n\n" +
-                        "🚜 動作二：安全移置與費用計收\n" +
-                        "將車輛移至不妨礙通行的空位。依管理規則第5條，移置費用及若有造成草皮/設備損壞，均由該車主全額賠償。\n\n" +
-                        "📋 動作三：記得在「事件填寫」頁面登錄車號存檔！";
+                        "2. 安全移置與費用計收\n" +
+                        "將車輛移至不妨礙通行的空位。依管理規則第5條，移置費用及若有造成草皮或設備損壞，均由該車主全額賠償。\n\n" +
+                        "3. 記得在「事件填寫」頁面登錄車號存檔！";
             } else if (q.indexOf("18:30") !== -1 || q.indexOf("關門") !== -1 || q.indexOf("過夜") !== -1 || q.indexOf("沒走") !== -1 || q.indexOf("鎖") !== -1) {
                 reply = "時間到了 18:30 就是不可妥協的閉園紅線，工作人員不用無止盡等下去：\n\n" +
-                        "🔒 處置步驟：\n" +
+                        "處置步驟：\n" +
                         "1. 準時把大門上鎖閉園。\n" +
                         "2. 巡場記錄下所有滯留在場內的車牌號碼。\n" +
                         "3. 致電通報警方，請轄區員警協助依車號查詢車主聯絡方式通知其儘速離開。\n\n" +
-                        "💡 法律保障提示：\n" +
+                        "法律保障提示：\n" +
                         "依管理規則第6條，滯留過夜的車輛，閉園期間業者依法完全免除保管責任。若車主事後有爭端，請直接提供單一聯絡窗口謝先生（0919-823-602）協助處理。";
             } else {
                 reply = "收到！面對突發狀況，請先深呼吸，牢記「去情緒化、不爭辯、講事實」三大心法：\n\n" +
                         "1. 處置節奏：口頭勸導 ➔ 正式警告下達退去要求 ➔ 撥打 110 並通報謝先生（0919-823-602）[span_0](start_span)[span_0](end_span)。\n" +
                         "2. 嚴格紅線：不要跟客人吵架，也不要自己跟對方說『你觸犯刑法第306條』，我們只陳述規定並用手機錄影存證[span_1](start_span)[span_1](end_span)。\n" +
-                        "3. 如果需要更具體的法條分析或客製對話話術，點擊右上角『設定 API Key』填入金鑰，我就能根據詳細案情即時為你客製化解答！";
+                        "3. 隨時在下方輸入遇到的詳細對話或狀況，我會即時為你客製化解答！";
             }
-            renderAiReply(reply);
+            renderAiReply(sanitizeText(reply));
         }
     </script>
 </body>
