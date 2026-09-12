@@ -18,7 +18,13 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <style>
+        /* 核心鎖定設定：禁止整個網頁的上下滑動與回彈 */
         html, body {
+            height: 100%;
+            height: 100dvh;
+            width: 100%;
+            overflow: hidden;
+            overscroll-behavior-y: none;
             touch-action: manipulation;
             -webkit-user-select: text;
             user-select: text;
@@ -30,13 +36,6 @@
             user-select: auto;
         }
 
-        @media print {
-            body * { visibility: hidden; }
-            #printable-record, #printable-record * { visibility: visible; }
-            #printable-record { position: absolute; left: 0; top: 0; width: 100%; }
-            .no-print { display: none !important; }
-        }
-
         .exact-format {
             font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
             text-align: justify;
@@ -45,11 +44,25 @@
         .exact-format p {
             margin-bottom: 0.75rem;
         }
+
+        /* 確保列印時不受鎖定畫面的影響 */
+        @media print {
+            html, body {
+                height: auto !important;
+                overflow: visible !important;
+            }
+            body * { visibility: hidden; }
+            #printable-record, #printable-record * { visibility: visible; }
+            #printable-record { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col pb-20 sm:pb-0">
+<!-- 整個 body 設定為 flex-col 並佔滿全螢幕高度 -->
+<body class="bg-slate-100 text-slate-800 font-sans flex flex-col">
 
-    <header class="bg-slate-800 text-white p-4 shadow-md sticky top-0 z-40">
+    <!-- 頂部標題 (絕對固定) -->
+    <header class="flex-none bg-slate-800 text-white p-4 shadow-md z-40">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <h1 class="text-base sm:text-lg font-bold flex items-center gap-2">
                 <canvas id="header-icon-canvas" width="28" height="28" class="rounded"></canvas>
@@ -61,15 +74,18 @@
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto w-full p-4 flex-1">
+    <!-- 中間內容區塊 (動態分配剩餘空間，外框不滑動) -->
+    <main class="flex-1 flex flex-col overflow-hidden max-w-4xl mx-auto w-full relative">
         
-        <section id="tab-handbook" class="space-y-4">
-            <div class="flex justify-between items-center">
+        <!-- Tab 1: 規程手冊 (內部可滑動) -->
+        <section id="tab-handbook" class="flex flex-col flex-1 overflow-y-auto p-4 space-y-4">
+            <div class="flex-none flex justify-between items-center">
                 <h2 class="text-lg font-bold text-slate-700"><i class="fa-solid fa-book-open mr-2"></i>營運標準與管理規程</h2>
                 <span class="text-xs bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full font-medium">116年標準版</span>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Notebook 智慧問答雙按鈕區 -->
+            <div class="flex-none grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <a href="https://notebook.google.com/notebook/60fc0e0c-3ae8-4880-8949-f4162c71e5fc" target="_blank" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white p-3.5 rounded-xl shadow-md flex items-center justify-between transition-all group">
                     <div class="flex items-center gap-3">
                         <span class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-lg">
@@ -97,7 +113,8 @@
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- 原始檔案閱讀按鈕區 -->
+            <div class="flex-none grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col justify-between hover:border-indigo-300 transition-colors">
                     <div>
                         <div class="flex items-center gap-2 mb-1">
@@ -105,15 +122,15 @@
                                 <i class="fa-solid fa-scale-balanced"></i>
                             </span>
                             <div>
-                                <h3 class="font-bold text-slate-800 text-sm">停車場管理規則</h3>
+                                <h3 class="font-bold text-slate-800 text-sm">停車場管理規則全文</h3>
                                 <p class="text-[11px] text-slate-400">法定公告規章 · 共10條完整條文</p>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600 mt-2 mb-3">供現場查閱管理規則條文與原文檔案。</p>
+                        <p class="text-xs text-slate-600 mt-2 mb-3">點擊即可開啟閱讀完整《寶山二集團櫻花公園私人停車場管理規則》原文。</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="openDocModal('rules')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-eye"></i> 閱讀條文
+                            <i class="fa-solid fa-eye"></i> 點開閱讀全文
                         </button>
                         <a href="寶山二集團櫻花公園私人停車場管理規則.pdf" target="_blank" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
                             <i class="fa-solid fa-file-pdf"></i> 打開PDF
@@ -132,11 +149,11 @@
                                 <p class="text-[11px] text-slate-400">內部SOP與營運標準書 · 116年標準版</p>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600 mt-2 mb-3">供現場查閱執勤規範與原文檔案。</p>
+                        <p class="text-xs text-slate-600 mt-2 mb-3">點擊即可開啟閱讀完整《寶山二集團櫻花公園私人停車場工作手冊》原文。</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="openDocModal('handbook')" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-eye"></i> 閱讀條文
+                            <i class="fa-solid fa-eye"></i> 點開閱讀全文
                         </button>
                         <a href="停車場工作手冊.pdf" target="_blank" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
                             <i class="fa-solid fa-file-pdf"></i> 打開PDF
@@ -145,7 +162,8 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+            <!-- 營運重點快速卡片 -->
+            <div class="flex-none grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">營業時段</span>
                     <strong class="text-sm text-slate-800">09:00 - 17:00</strong>
@@ -164,7 +182,8 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm border border-slate-200 divide-y divide-slate-100 select-text">
+            <!-- 手風琴快速速查 -->
+            <div class="flex-none bg-white rounded-lg shadow-sm border border-slate-200 divide-y divide-slate-100 select-text">
                 <details class="group p-4">
                     <summary class="flex justify-between items-center font-semibold cursor-pointer text-slate-800 list-none">
                         <span><i class="fa-solid fa-scale-balanced text-indigo-500 mr-2"></i>第1章：法律基礎與空間界定</span>
@@ -233,9 +252,9 @@
             </div>
         </section>
 
-        <!-- Tab 3: 事件記錄表 -->
-        <section id="tab-incident" class="hidden space-y-4">
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+        <!-- Tab 2: 事件記錄表 (內部可滑動) -->
+        <section id="tab-incident" class="hidden flex-col flex-1 overflow-y-auto p-4 space-y-4">
+            <div class="flex-none bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-3">
                     <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
                         <i class="fa-solid fa-file-pen text-rose-500"></i>現場事件紀錄單填寫
@@ -354,43 +373,48 @@
             </div>
         </section>
 
-        <!-- Tab 4: 歷史歸檔清單區 -->
-        <section id="tab-history" class="hidden space-y-4">
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-                    <div>
-                        <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
-                            <i class="fa-solid fa-box-archive text-indigo-500"></i>事件紀錄自動歸檔簿
-                        </h2>
-                        <span id="search-count-tag" class="text-xs text-slate-400">載入中...</span>
+        <!-- Tab 3: 歷史歸檔清單區 (只有列表會滑動，頂部固定) -->
+        <section id="tab-history" class="hidden flex-col flex-1 overflow-hidden p-4 space-y-3">
+            
+            <!-- 標題與操作按鈕 (固定不滑動) -->
+            <div class="flex-none bg-white p-3 rounded-lg shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-box-archive text-indigo-500"></i>事件紀錄自動歸檔簿
+                    </h2>
+                    <span id="search-count-tag" class="text-xs text-slate-400">載入中...</span>
+                </div>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <button onclick="exportAllToExcel()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 font-medium shadow-sm transition-colors flex-1 sm:flex-none">
+                        <i class="fa-solid fa-file-excel text-sm"></i> 匯出 Excel
+                    </button>
+                    <button onclick="switchIncidentSubView('form')" class="text-xs bg-slate-100 hover:bg-slate-200 border px-3 py-2 rounded-lg text-slate-700 flex items-center justify-center gap-1 font-medium">
+                        <i class="fa-solid fa-plus"></i> 新增紀錄
+                    </button>
+                </div>
+            </div>
+
+            <!-- 搜尋過濾區 (固定不滑動) -->
+            <div class="flex-none bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                        <input type="text" id="search-keyword" oninput="applyFilters()" placeholder="搜尋車牌、員工、地點、違規事由、內容描述..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500">
                     </div>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <button onclick="exportAllToExcel()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 font-medium shadow-sm transition-colors flex-1 sm:flex-none">
-                            <i class="fa-solid fa-file-excel text-sm"></i> 匯出 Excel
-                        </button>
-                        <button onclick="switchIncidentSubView('form')" class="text-xs bg-slate-100 hover:bg-slate-200 border px-3 py-2 rounded-lg text-slate-700 flex items-center justify-center gap-1 font-medium">
-                            <i class="fa-solid fa-plus"></i> 新增紀錄
-                        </button>
+                    <div class="flex items-center gap-1 text-xs">
+                        <input type="date" id="filter-date-start" onchange="applyFilters()" class="border border-slate-300 rounded-md px-2 py-1 bg-white text-slate-600">
+                        <span class="text-slate-400">至</span>
+                        <input type="date" id="filter-date-end" onchange="applyFilters()" class="border border-slate-300 rounded-md px-2 py-1 bg-white text-slate-600">
+                        <button onclick="resetSearchFilters()" class="text-xs text-slate-500 hover:text-rose-600 underline px-1">清除</button>
                     </div>
                 </div>
+            </div>
 
-                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2 mb-3">
-                    <div class="flex flex-col sm:flex-row gap-2">
-                        <div class="relative flex-1">
-                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                            <input type="text" id="search-keyword" oninput="applyFilters()" placeholder="搜尋車牌、員工、地點、違規事由、內容描述..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                        </div>
-                        <div class="flex items-center gap-1 text-xs">
-                            <input type="date" id="filter-date-start" onchange="applyFilters()" class="border border-slate-300 rounded-md px-2 py-1 bg-white text-slate-600">
-                            <span class="text-slate-400">至</span>
-                            <input type="date" id="filter-date-end" onchange="applyFilters()" class="border border-slate-300 rounded-md px-2 py-1 bg-white text-slate-600">
-                            <button onclick="resetSearchFilters()" class="text-xs text-slate-500 hover:text-rose-600 underline px-1">清除</button>
-                        </div>
-                    </div>
-                </div>
+            <!-- 提示列 (固定不滑動) -->
+            <p class="flex-none text-xs text-slate-500">點擊任一項目卡片可檢視、編輯修改內容或列印存證。</p>
 
-                <p class="text-xs text-slate-500 mb-2">點擊任一項目卡片可檢視、編輯修改內容或列印存證。</p>
-
+            <!-- 紀錄清單列表 (唯一可上下滑動的區塊) -->
+            <div class="flex-1 overflow-y-auto bg-white rounded-lg shadow-sm border border-slate-200">
                 <div id="records-list" class="divide-y divide-slate-100 text-sm">
                     <div class="p-6 text-center text-slate-400">目前尚無歸檔事件記錄</div>
                 </div>
@@ -447,8 +471,8 @@
         </div>
     </div>
 
-    <!-- 底部導覽列 -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-2 text-xs text-slate-600 shadow-lg sm:static sm:mt-8 sm:border-t-0 sm:bg-transparent sm:shadow-none no-print">
+    <!-- 底部導覽列 (絕對固定) -->
+    <nav class="flex-none w-full bg-white border-t border-slate-200 flex justify-around p-2 text-xs text-slate-600 shadow-lg no-print">
         <button onclick="switchTab('handbook')" id="nav-handbook" class="nav-item flex flex-col items-center gap-1 text-rose-600 font-bold">
             <i class="fa-solid fa-book-open text-base"></i>
             <span>規程手冊</span>
@@ -710,6 +734,7 @@
         manifestLink.href = URL.createObjectURL(manifestBlob);
         document.head.appendChild(manifestLink);
 
+        // 停止不必要的雙擊放大干擾
         var lastTouchEnd = 0;
         document.addEventListener('touchend', function(event) {
             var now = (new Date()).getTime();
@@ -743,16 +768,19 @@
             initSyncRecords();
         });
 
+        // --- 核心分頁切換邏輯 (套用 flex 以正確充滿鎖定的視窗) ---
         function switchTab(tabName) {
             ['handbook', 'incident', 'history'].forEach(function(tab) {
                 var el = document.getElementById('tab-' + tab);
                 var nav = document.getElementById('nav-' + tab);
                 if (tab === tabName) {
                     el.classList.remove('hidden');
+                    el.classList.add('flex');
                     nav.classList.add('text-rose-600', 'font-bold');
                     nav.classList.remove('text-slate-600');
                 } else {
                     el.classList.add('hidden');
+                    el.classList.remove('flex');
                     nav.classList.remove('text-rose-600', 'font-bold');
                     nav.classList.add('text-slate-600');
                 }
