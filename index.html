@@ -165,7 +165,7 @@
                     <div class="flex items-start gap-2">
                         <div class="w-7 h-7 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs flex-shrink-0">AI</div>
                         <div class="bg-white border border-slate-200 p-2.5 rounded-lg text-slate-700 max-w-[85%] shadow-sm select-text">
-                            辛苦了！我是現場行動副手。請先點擊右上角「設定 API Key」儲存金鑰。現場如果遇到任何刁鑽客人、藉口很多或故意找麻煩的情況，隨便用你的話打給我，我即時幫你想怎麼應對！
+                            辛苦了！我是現場行動副手。現場如果遇到任何刁鑽客人、藉口很多或故意找麻煩的情況，隨便用你的話打給我，我即時幫你想怎麼應對！
                         </div>
                     </div>
                 </div>
@@ -395,7 +395,6 @@
     </nav>
 
     <script>
-        // --- 0. 自動動態繪製圖標 ---
         var iconCanvas = document.createElement('canvas');
         iconCanvas.width = 192;
         iconCanvas.height = 192;
@@ -483,7 +482,6 @@
             lastTouchEnd = now;
         }, false);
 
-        // --- 1. Firebase Realtime Database 初始化 ---
         const firebaseConfig = {
             databaseURL: "https://parking-lot-80eec-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
@@ -532,7 +530,6 @@
             if (sub === 'form') switchTab('incident');
         }
 
-        // --- 2. 事件紀錄表：雲端同步與本地紀錄 ---
         var currentFilteredRecords = [];
 
         function initSyncRecords() {
@@ -997,7 +994,7 @@
             XLSX.writeFile(workbook, fileName);
         }
 
-        // --- 4. API Key 設定與前端直接調用 ---
+        // --- 4. API Key 設定與前端直連調用 ---
         var isComposing = false;
         var isAiGenerating = false;
         var lastUserQuery = "";
@@ -1149,10 +1146,22 @@
             var errorDetails = "";
 
             try {
-                var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + encodeURIComponent(apiKey);
+                var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+                var headers = {
+                    'Content-Type': 'application/json'
+                };
+
+                if (apiKey.startsWith("AQ.")) {
+                    headers['Authorization'] = 'Bearer ' + apiKey;
+                    headers['x-goog-api-key'] = apiKey;
+                } else {
+                    url += "?key=" + encodeURIComponent(apiKey);
+                    headers['x-goog-api-key'] = apiKey;
+                }
+
                 var response = await fetch(url, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: headers,
                     body: JSON.stringify({
                         system_instruction: {
                             parts: [{ text: systemPrompt }]
