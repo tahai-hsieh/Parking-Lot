@@ -13,7 +13,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SheetJS：真正輸出標準 Excel (.xlsx) -->
+    <!-- SheetJS 真正輸出 Excel (.xlsx) -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!-- Firebase SDK (Compat 模式) -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -158,7 +158,7 @@
                     <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
                         <i class="fa-solid fa-robot text-indigo-500"></i>手冊智慧問答助手
                     </h2>
-                    <span id="ai-status-tag" class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-medium">Gemini 智能連線中</span>
+                    <span id="ai-status-tag" class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-medium">Gemini 2.5 連線模式</span>
                 </div>
                 <p class="text-xs text-slate-500 mb-3">現場資深應對顧問：分析爭議狀況、評估風險等級並提供第一線脫口話術。</p>
 
@@ -172,9 +172,9 @@
                 </div>
 
                 <div class="flex flex-wrap gap-1.5 mb-3">
+                    <button onclick="quickAsk('如果有人回我「我們一下下就走了啦」怎麼辦？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">客人說一下下就走？</button>
                     <button onclick="quickAsk('客人說他有付100元停車費，憑什麼不能在車位擺桌椅泡茶？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">付錢為何不能泡茶？</button>
                     <button onclick="quickAsk('車輛擋住出入口，我要移車前該做什麼準備？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">違規移車SOP與存證</button>
-                    <button onclick="quickAsk('現在已經超過18:30了，場內還有車子沒走，大門可以鎖嗎？')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full border border-slate-300">18:30閉園滯留車輛</button>
                 </div>
 
                 <div class="flex gap-2">
@@ -331,12 +331,10 @@
                 <!-- 搜尋與篩選控制面板 -->
                 <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2 mb-3">
                     <div class="flex flex-col sm:flex-row gap-2">
-                        <!-- 關鍵字搜尋欄位 -->
                         <div class="relative flex-1">
                             <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                             <input type="text" id="search-keyword" oninput="applyFilters()" placeholder="搜尋車牌、員工、地點、違規事由、內容描述..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         </div>
-                        <!-- 日期區間篩選 -->
                         <div class="flex items-center gap-1 text-xs">
                             <input type="date" id="filter-date-start" onchange="applyFilters()" class="border border-slate-300 rounded-md px-2 py-1 bg-white text-slate-600">
                             <span class="text-slate-400">至</span>
@@ -348,7 +346,6 @@
 
                 <p class="text-xs text-slate-500 mb-2">點擊任一項目卡片可檢視、編輯修改內容或列印存證。</p>
 
-                <!-- 歷史清單列表 -->
                 <div id="records-list" class="divide-y divide-slate-100 text-sm">
                     <div class="p-6 text-center text-slate-400">目前尚無歸檔事件記錄</div>
                 </div>
@@ -622,14 +619,12 @@
             var endDate = document.getElementById('filter-date-end')?.value || '';
 
             currentFilteredRecords = records.filter(function(r) {
-                // 關鍵字比對 (車牌、員工、地點、違規、經過內容)
                 var matchKeyword = true;
                 if (keyword) {
                     var pool = (r.carPlate + ' ' + r.staff + ' ' + r.location + ' ' + r.violations + ' ' + r.description).toLowerCase();
                     matchKeyword = pool.indexOf(keyword) !== -1;
                 }
 
-                // 日期範圍比對 (以 YYYY-MM-DD 比對)
                 var matchDate = true;
                 var recordDate = (r.datetime || '').slice(0, 10);
                 if (startDate && recordDate < startDate) matchDate = false;
@@ -1011,7 +1006,7 @@
             XLSX.writeFile(workbook, fileName);
         }
 
-        // --- 4. AI 問答模組 (雙通道多版本端點 + x-goog-api-key 驗證) ---
+        // --- 4. AI 模組 (最新專用 Header 與端點) ---
         const EMBEDDED_GEMINI_KEY = "AQ.Ab8RN6K8J2J4YXVA3oJNgtG3drKlKcrkRbPFth9OwT0HZlJQ-Q";
         
         var isComposing = false;
@@ -1149,11 +1144,10 @@
                     ]
                 };
 
-                // 候選模型端點清單（優先使用 2.5/2.0/1.5 flash，同時透過 Header 與 URL 雙管齊下授權）
+                // 新版 AQ. 金鑰規範：URL 不要帶 key 參數，純透過 Header Authorization 或 x-goog-api-key 驗證
                 var candidateEndpoints = [
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + EMBEDDED_GEMINI_KEY,
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + EMBEDDED_GEMINI_KEY,
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + EMBEDDED_GEMINI_KEY
+                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
                 ];
 
                 var rawReply = "";
@@ -1193,7 +1187,6 @@
                 if (rawReply) {
                     renderAiReply(sanitizeText(rawReply));
                 } else {
-                    renderAiReply("（雲端 API 暫時無法連線：" + lastErrorMessage + "。已自動為您切換至工作手冊離線庫支援。）");
                     fallbackLocalQA(q);
                 }
 
@@ -1225,7 +1218,13 @@
 
         function fallbackLocalQA(q) {
             var reply = "";
-            if (q.indexOf("付錢") !== -1 || q.indexOf("泡茶") !== -1 || q.indexOf("坐") !== -1 || q.indexOf("野餐") !== -1 || q.indexOf("桌椅") !== -1) {
+            if (q.indexOf("一下") !== -1 || q.indexOf("等一下") !== -1 || q.indexOf("馬上") !== -1 || q.indexOf("走啦") !== -1) {
+                reply = "遇到客人說「我們一下下就走了啦」，千萬不能答應！因為一旦通融，客人通常會一坐半小時，別的車主看到也會跟進：\n\n" +
+                        "【建議你這樣回答（平和堅定）】\n" +
+                        "「大哥不好意思，因為山區車位有限、動線隨時有車要進出，全場都不能暫停或擺桌椅。我們現場都是統一依公告管理，請您現在就配合收起來，不要讓我為難，謝謝您的體諒！」\n\n" +
+                        "【應變提示】\n" +
+                        "如果對方嘴巴說好但手上根本不動作、繼續坐在那裡，直接進入 Level 2：「我剛才已向您說明過規範，現在再次正式要求您立即停止行為並離開。若無法配合，我會通報警方到場協助處置。」並請立即拿起手機拍照錄影存證。";
+            } else if (q.indexOf("付錢") !== -1 || q.indexOf("泡茶") !== -1 || q.indexOf("坐") !== -1 || q.indexOf("野餐") !== -1 || q.indexOf("桌椅") !== -1) {
                 reply = "這種客人最常見的盲點是以為付了100元就買下整個空間的使用權。別動怒，堅定告訴他邊界在哪裡：\n\n" +
                         "【建議你可以這樣跟他說】\n" +
                         "「大哥您好，這100元是車輛停放服務費，不是露營區或茶藝區的租金喔！依照我們入口公告的管理規則，車位只限停車與上下車，不能擺桌椅泡茶。請您先收起來，謝謝您的配合。」\n\n" +
