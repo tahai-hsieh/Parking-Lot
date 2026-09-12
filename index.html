@@ -54,12 +54,63 @@
 
     <main class="max-w-4xl mx-auto w-full p-4 flex-1">
         
+        <!-- Tab 1: 規程手冊 -->
         <section id="tab-handbook" class="space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-bold text-slate-700"><i class="fa-solid fa-book-open mr-2"></i>營運標準與管理規程</h2>
                 <span class="text-xs bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full font-medium">116年標準版</span>
             </div>
 
+            <!-- 文件快速開啟專區 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col justify-between hover:border-indigo-300 transition-colors">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </span>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">停車場管理規則全文</h3>
+                                <p class="text-[11px] text-slate-400">法定公告規章 · 共10條正式規範</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-2 mb-3">包含收費計價標準、場內8大禁止行為、逾時車輛閉園免責與損壞求償條款。</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="openDocModal('rules')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-eye"></i> 點開閱讀全文
+                        </button>
+                        <a href="寶山二集團櫻花公園私人停車場管理規則.pdf" target="_blank" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-medium flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl border border-rose-100 shadow-sm flex flex-col justify-between hover:border-rose-300 transition-colors">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-sm font-bold">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </span>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">工作人員行動手冊</h3>
+                                <p class="text-[11px] text-slate-400">第一線執勤作業準則 · 5大實戰章節</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 mt-2 mb-3">含A/B/C類違規應對話術、三級處置SOP、存證4角度拍照與移車賠償程序。</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="openDocModal('handbook')" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-eye"></i> 點開閱讀全文
+                        </button>
+                        <a href="寶山二集團櫻花公園私人停車場工作手冊.pdf" target="_blank" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-medium flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 營運重點快速卡片 -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">營業時段</span>
@@ -79,6 +130,7 @@
                 </div>
             </div>
 
+            <!-- 手風琴精華速查 -->
             <div class="bg-white rounded-lg shadow-sm border border-slate-200 divide-y divide-slate-100 select-text">
                 <details class="group p-4">
                     <summary class="flex justify-between items-center font-semibold cursor-pointer text-slate-800 list-none">
@@ -148,6 +200,7 @@
             </div>
         </section>
 
+        <!-- Tab 2: 雲端 AI 智慧助理 -->
         <section id="tab-ai" class="hidden space-y-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-2">
@@ -165,7 +218,7 @@
                     <div class="flex items-start gap-2">
                         <div class="w-7 h-7 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs flex-shrink-0">AI</div>
                         <div class="bg-white border border-slate-200 p-2.5 rounded-lg text-slate-700 max-w-[85%] shadow-sm select-text">
-                            辛苦了！我是現場行動副手。現場如果遇到任何刁鑽客人、藉口很多或故意找麻煩的情況，隨便用你的話打給我，我即時幫你想怎麼應對！
+                            辛苦了！我是現場行動副手。請點擊右上角「設定 API Key」儲存您的金鑰。現場如果遇到任何刁鑽客人、藉口很多或故意找麻煩的情況，隨便用你的話打給我，我即時幫你想怎麼應對！
                         </div>
                     </div>
                 </div>
@@ -186,6 +239,7 @@
             </div>
         </section>
 
+        <!-- Tab 3: 事件記錄表 -->
         <section id="tab-incident" class="hidden space-y-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-3">
@@ -306,6 +360,7 @@
             </div>
         </section>
 
+        <!-- Tab 4: 歷史歸檔清單區 -->
         <section id="tab-history" class="hidden space-y-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
@@ -349,6 +404,28 @@
         </section>
     </main>
 
+    <!-- 規程手冊全文檢視彈窗 -->
+    <div id="doc-modal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-4 bg-slate-800 text-white flex justify-between items-center">
+                <h3 id="doc-modal-title" class="font-bold flex items-center gap-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-file-lines text-indigo-400"></i> 文件全文閱讀
+                </h3>
+                <button onclick="closeDocModal()" class="text-slate-300 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="doc-modal-body" class="p-5 overflow-y-auto flex-1 text-sm space-y-4 select-text leading-relaxed text-slate-700">
+            </div>
+            <div class="p-3 bg-slate-50 border-t border-slate-200 flex justify-end">
+                <button onclick="closeDocModal()" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-medium">
+                    關閉文件
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 事件紀錄檢視與編輯詳情彈窗 -->
     <div id="detail-modal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
             <div class="p-4 bg-slate-800 text-white flex justify-between items-center">
@@ -366,6 +443,7 @@
         </div>
     </div>
 
+    <!-- 列印專用隱藏區域 -->
     <div id="printable-record" class="p-8 hidden bg-white max-w-2xl mx-auto border border-black">
         <h2 class="text-xl font-bold text-center border-b pb-2 mb-4">寶山二集團櫻花公園私人停車場 - 現場事件紀錄表</h2>
         <div id="print-content" class="space-y-3 text-sm"></div>
@@ -394,7 +472,117 @@
         </button>
     </nav>
 
+    <!-- 載入 Google 官方 @google/genai 原生 SDK -->
+    <script type="importmap">
+    {
+      "imports": {
+        "@google/genai": "https://esm.run/@google/genai"
+      }
+    }
+    </script>
+
+    <script type="module">
+        import { GoogleGenAI } from '@google/genai';
+
+        const systemInstruction = "你是寶山二集團櫻花公園私人停車場的資深現場督導兼行動副手。經營者是謝佳杰，緊急裁決窗口謝先生電話0919-823-602。營業時間09:00-17:00，緩衝至18:30大門上鎖閉園（閉園期間完全免除保管責任）。停車費每次100元，僅限正常停放車輛與上下車，絕不包含泡茶野餐擺桌椅（A類）或侵入斜坡草皮（B類）。違規移車前必拍4角度照片存證。原則：去情緒化、不爭辯、絕不宣告刑法第306條定罪，只明確下達退去要求並拍照錄影。絕對不要使用任何Markdown格式（不要用星號粗體、不要用井號、不要用代碼塊）。請以資深同事、接地氣且自然的口語中文，針對提問中的具體情境與客人的藉口，直接給第一線員工照著念的話術與處置步驟。";
+
+        window.callGeminiWithSdk = async function(apiKey, userPrompt) {
+            const ai = new GoogleGenAI({ apiKey: apiKey });
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: userPrompt,
+                config: {
+                    systemInstruction: systemInstruction,
+                    temperature: 0.7
+                }
+            });
+            return response.text;
+        };
+    </script>
+
     <script>
+        // --- 文件全文檢視彈窗功能 ---
+        function openDocModal(type) {
+            var modal = document.getElementById('doc-modal');
+            var titleEl = document.getElementById('doc-modal-title');
+            var bodyEl = document.getElementById('doc-modal-body');
+
+            if (type === 'rules') {
+                titleEl.innerHTML = '<i class="fa-solid fa-scale-balanced text-indigo-400"></i> 寶山二集團櫻花公園私人停車場管理規則';
+                bodyEl.innerHTML = `
+                    <div class="border-b pb-3 text-center">
+                        <h4 class="font-bold text-base text-slate-800">寶山二集團櫻花公園私人停車場管理規則</h4>
+                        <p class="text-xs text-slate-500 mt-1">經營者：謝佳杰 · 管理窗口電話：0919-823-602</p>
+                    </div>
+                    <div class="space-y-3 text-xs sm:text-sm">
+                        <p><strong>第1條（宗旨與依據）：</strong>為維護本停車場之使用秩序、設施安全及行車順暢，特依相關法令訂定本規則。本停車場屬私有土地，凡進入本場之車輛及人員，均視為同意遵守本規則全部內容。</p>
+                        <p><strong>第2條（服務對象與空間用途）：</strong>本停車場僅提供一般小型車輛合法停放與進出使用。除經主管許可外，本場全區（包含車格、車道、周邊邊坡與空地）嚴禁作為任何露營、野餐、擺設桌椅、泡茶烹飪或其他休憩聚會之用途。</p>
+                        <p><strong>第3條（營業時間與緩衝）：</strong>本停車場營業時段為每日上午 09:00 至下午 17:00 止。下午 17:00 至 18:30 為離場緩衝時段，僅供既有車輛離場，不再開放車輛入場。</p>
+                        <p><strong>第4條（收費標準與憑證）：</strong>停車收費採計次收費，每輛小型車每次新台幣 100 元整。進場時由執勤人員收取並開立證明。該費用僅為租借特定格位停放車輛之清潔維護對價，不包含車輛或車內財物之保管責任。</p>
+                        <p><strong>第5條（車輛移置原則）：</strong>車輛如未依標線規定停放、任意停放於通道妨礙他人通行、占用出入口或斜坡者，管理人員得逕行拍照存證後，將該車輛移置至場內適當處所。移置所產生之相關費用及衍生之設施損害，一律由該車主負全額賠償責任。</p>
+                        <p><strong>第6條（閉園鎖門與逾時免責）：</strong>每日下午 18:30 為閉園紅線時限，管理人員將準時關閉並鎖閉大門。凡逾時滯留於場內之車輛，工作人員得記錄車號報請警察機關協助查證聯絡。閉園鎖門期間，業者完全免除對場內車輛之保管責任，因而衍生之任何民事損害或不便，車主不得向本場求償。</p>
+                        <p><strong>第7條（場內禁止行為）：</strong>凡進入本場之人員與車輛，嚴禁從事以下行為：<br>
+                        一、吸菸、亂丟菸蒂或丟棄垃圾廢棄物。<br>
+                        二、以桌椅、茶具、帳棚或其他物品占用車格或車道。<br>
+                        三、未熄火長時間怠速逗留。<br>
+                        四、攜帶危險品、易燃物或於場內引燃明火、烤肉。<br>
+                        五、非依行人規劃動線擅入邊坡、草皮或未開放區域。</p>
+                        <p><strong>第8條（損壞賠償責任）：</strong>車輛使用人或隨行人員因違規停放、駕駛不當、或擅入非開放區，致造成場內道路、護欄、標誌、植栽、草皮或任何設施設備毀損者，應依法負回復原狀或照價賠償責任。</p>
+                        <p><strong>第9條（違規處理程序）：</strong>違反本規則者，執勤人員得依程序進行口頭勸導、正式警告下達退去要求；經警告拒不遵從者，得報請警察機關依法排除並強制驅離。</p>
+                        <p><strong>第10條（施行）：</strong>本規則自公告日起正式施行，修訂時亦同。</p>
+                    </div>
+                `;
+            } else if (type === 'handbook') {
+                titleEl.innerHTML = '<i class="fa-solid fa-user-shield text-rose-400"></i> 寶山二集團櫻花公園私人停車場工作手冊';
+                bodyEl.innerHTML = `
+                    <div class="border-b pb-3 text-center">
+                        <h4 class="font-bold text-base text-slate-800">工作人員行動工作手冊（116年標準版）</h4>
+                        <p class="text-xs text-slate-500 mt-1">執勤心法：去情緒化、不爭辯、不擅自定罪、依事實處置</p>
+                    </div>
+                    <div class="space-y-4 text-xs sm:text-sm">
+                        <div>
+                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第1章：法律基礎與空間界定</strong>
+                            <p>一、執勤身份授權：第一線工作人員受經營者謝佳杰全權委任，依法代表行使私有土地之管理權。</p>
+                            <p>二、契約默示同意：顧客付費進場依民法第153條即視為同意本場管理規則。100元僅為停車服務費，絕不包含車位轉作茶席或露營休閒之權限。</p>
+                            <p>三、空間界定：開放區僅限劃設之車格與通行車道；周邊斜坡、未開放草皮及空地均屬私人未開放區域，任何人不得擅入逗留。</p>
+                            <p>四、刑法第306條合規嚴禁警語：嚴禁員工口頭對顧客宣告「你觸犯刑法第306條」等定罪字眼。員工之合法權力僅在於下達退去要求並拍照錄影存證，定罪屬於司法機關職權。</p>
+                        </div>
+                        <div>
+                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第2章：違規行為三大分類</strong>
+                            <p>一、A類違規（非停車用途）：停車格內擺設桌椅、野餐、泡茶、煮食、搭棚或聚餐。</p>
+                            <p>二、B類違規（侵入非開放區）：擅自攀爬進入私人邊坡、未開放草皮、山坡空地逗留拍照。</p>
+                            <p>三、C類違規（違規停放）：未依格停放、跨格停放、任意停放於車道轉彎處或阻擋其他車輛進出。</p>
+                        </div>
+                        <div>
+                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第3章：三級處置SOP與標準話術</strong>
+                            <p>一、Level 1 口頭勸導（語氣平穩客氣）：<br>
+                            「您好，我是管理員。此處為私人停車場，僅供車輛停放，不開放野餐泡茶擺桌椅。依據管理規則，請您立即停止相關行為，謝謝配合。」</p>
+                            <p>二、Level 2 正式警告與下達退去要求（嚴肅堅定、照字念出）：<br>
+                            「您好，我剛才已向您說明規範，您目前的行為已違反管理規定及土地管理權限。我現在再次正式要求您立即停止行為並離開該區域。若仍不配合，我將請警方到場協助處置。」說完立即拿出手機全程拍照錄影存證！</p>
+                            <p>三、Level 3 報警處置（經兩次警告不配合或有爭執恐嚇）：<br>
+                            撥打 110 報案：「報警台您好，我是櫻花公園私人停車場員工。現場有民眾（車號:____）在私人土地違規，經兩次明確勸導並下達退去要求後仍留滯不歸並起爭執，請求派員到場維持秩序。」同步通報謝先生（0919-823-602）。</p>
+                        </div>
+                        <div>
+                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第4章：移置作業與損害求償程序</strong>
+                            <p>一、違規車輛移置前，必須強制拍攝4角度照片存證：1.正前方、2.正後方、3.車身左側、4.車身右側。務必拍清車牌、通道標線妨礙現況及車身既有刮痕。</p>
+                            <p>二、安全移置後，填寫現場事件紀錄單存查，移置費用及損壞之設施草皮全額由該車主賠償。</p>
+                        </div>
+                        <div>
+                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第5章：逾時滯留車輛處理</strong>
+                            <p>一、18:30 為閉園鎖門最後時限，時間一到準時將大門上鎖閉園。</p>
+                            <p>二、逐一登記場內滯留車輛車牌，通報派出所備案並聯繫車主。閉園期間業者完全免除保管責任。</p>
+                        </div>
+                    </div>
+                `;
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeDocModal() {
+            document.getElementById('doc-modal').classList.add('hidden');
+        }
+
+        // --- 0. 自動動態繪製圖標 ---
         var iconCanvas = document.createElement('canvas');
         iconCanvas.width = 192;
         iconCanvas.height = 192;
@@ -482,6 +670,7 @@
             lastTouchEnd = now;
         }, false);
 
+        // --- 1. Firebase Realtime Database 初始化 ---
         const firebaseConfig = {
             databaseURL: "https://parking-lot-80eec-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
@@ -530,6 +719,7 @@
             if (sub === 'form') switchTab('incident');
         }
 
+        // --- 2. 事件紀錄表：雲端同步與本地紀錄 ---
         var currentFilteredRecords = [];
 
         function initSyncRecords() {
@@ -994,7 +1184,7 @@
             XLSX.writeFile(workbook, fileName);
         }
 
-        // --- 4. API Key 設定與前端直連調用 ---
+        // --- 4. API Key 設定與原生 SDK 調用 ---
         var isComposing = false;
         var isAiGenerating = false;
         var lastUserQuery = "";
@@ -1006,12 +1196,12 @@
             if (input !== null) {
                 localStorage.setItem('user_gemini_api_key', input.trim());
                 updateApiKeyStatus();
-                alert("API Key 已成功儲存！現在您可以直接發問，AI 會進行即時推論。");
+                alert("API Key 已成功儲存！");
             }
         }
 
         function updateApiKeyStatus() {
-            var key = localStorage.getItem('user_gemini_api_key');
+            var key = localStorage.getItem('user_gemini_api_key') || '';
             var statusEl = document.getElementById('key-status-text');
             var btnEl = document.getElementById('btn-set-key');
             if (statusEl && btnEl) {
@@ -1071,7 +1261,7 @@
                 inputEl.focus();
             }
 
-            renderAiReply("（已為您停止生成。剛才的問題已重新放回輸入框，您可以修改後再送出。）");
+            renderAiReply("（已停止生成。剛才的問題已重新放回輸入框，您可以修改後再送出。）");
             setAiGeneratingState(false);
         }
 
@@ -1112,10 +1302,6 @@
             if (!q || isAiGenerating) return;
 
             var apiKey = localStorage.getItem('user_gemini_api_key') || '';
-            if (!apiKey) {
-                openApiKeyDialog();
-                return;
-            }
 
             lastUserQuery = q;
 
@@ -1140,49 +1326,20 @@
 
             setAiGeneratingState(true);
 
-            var systemPrompt = "你是寶山二集團櫻花公園私人停車場的資深現場督導兼行動副手。經營者是謝佳杰，緊急裁決窗口謝先生電話0919-823-602。營業時間09:00-17:00，緩衝至18:30大門上鎖閉園（閉園期間完全免除保管責任）。停車費每次100元，僅限正常停放車輛與上下車，絕不包含泡茶野餐擺桌椅（A類）或侵入斜坡草皮（B類）。違規移車前必拍4角度照片存證。原則：去情緒化、不爭辯、絕不宣告刑法第306條定罪，只明確下達退去要求並拍照錄影。絕對不要使用任何Markdown格式（不要用星號粗體、不要用井號、不要用代碼塊）。請以資深同事、接地氣且自然的口語中文，針對提問中的具體情境與客人的藉口，直接給第一線員工照著念的話術與處置步驟。";
-
             var generatedText = "";
             var errorDetails = "";
 
-            try {
-                var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-                var headers = {
-                    'Content-Type': 'application/json'
-                };
-
-                if (apiKey.startsWith("AQ.")) {
-                    headers['Authorization'] = 'Bearer ' + apiKey;
-                    headers['x-goog-api-key'] = apiKey;
-                } else {
-                    url += "?key=" + encodeURIComponent(apiKey);
-                    headers['x-goog-api-key'] = apiKey;
+            if (window.callGeminiWithSdk) {
+                try {
+                    var response = await window.callGeminiWithSdk(apiKey, q);
+                    if (response && response.trim().length > 0) {
+                        generatedText = sanitizeText(response);
+                    }
+                } catch(err) {
+                    errorDetails = err.message || JSON.stringify(err);
                 }
-
-                var response = await fetch(url, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify({
-                        system_instruction: {
-                            parts: [{ text: systemPrompt }]
-                        },
-                        contents: [
-                            { role: "user", parts: [{ text: "現場狀況：" + q }] }
-                        ],
-                        generationConfig: {
-                            temperature: 0.7
-                        }
-                    })
-                });
-
-                var data = await response.json();
-                if (response.ok && data.candidates && data.candidates[0] && data.candidates[0].content) {
-                    generatedText = sanitizeText(data.candidates[0].content.parts[0].text);
-                } else {
-                    errorDetails = data.error ? (data.error.message || JSON.stringify(data.error)) : ("HTTP " + response.status);
-                }
-            } catch(err) {
-                errorDetails = err.message || "網路請求中斷";
+            } else {
+                errorDetails = "SDK 正在載入，請稍候重試。";
             }
 
             if (currentLoadingId) {
@@ -1194,7 +1351,7 @@
             if (generatedText) {
                 renderAiReply(generatedText);
             } else {
-                renderAiReply("連線 Gemini 發生錯誤：" + errorDetails + "\n\n請點擊右上角「設定 API Key」檢查金鑰是否正確無誤。");
+                renderAiReply("連線 Gemini 發生錯誤：" + errorDetails + "\n\n請確認 API Key 是否有效。");
             }
 
             setAiGeneratingState(false);
