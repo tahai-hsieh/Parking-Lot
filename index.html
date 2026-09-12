@@ -36,6 +36,15 @@
             #printable-record { position: absolute; left: 0; top: 0; width: 100%; }
             .no-print { display: none !important; }
         }
+
+        .exact-format {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            text-align: justify;
+            line-height: 1.6;
+        }
+        .exact-format p {
+            margin-bottom: 0.75rem;
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col pb-20 sm:pb-0">
@@ -47,21 +56,47 @@
                 櫻花公園私人停車場 行動手冊
             </h1>
             <div class="text-xs text-slate-300">
-                緊急窗口：謝先生 <a href="tel:0919823602" class="underline text-rose-300">0919-823-602</a>[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)
+                緊急窗口：謝先生 <a href="tel:0919823602" class="underline text-rose-300">0919-823-602</a>
             </div>
         </div>
     </header>
 
     <main class="max-w-4xl mx-auto w-full p-4 flex-1">
         
-        <!-- Tab 1: 規程手冊 -->
         <section id="tab-handbook" class="space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-bold text-slate-700"><i class="fa-solid fa-book-open mr-2"></i>營運標準與管理規程</h2>
                 <span class="text-xs bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full font-medium">116年標準版</span>
             </div>
 
-            <!-- 原始檔案閱讀按鈕區 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a href="https://notebook.google.com/notebook/60fc0e0c-3ae8-4880-8949-f4162c71e5fc" target="_blank" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white p-3.5 rounded-xl shadow-md flex items-center justify-between transition-all group">
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </span>
+                        <div>
+                            <h3 class="font-bold text-sm sm:text-base">前往管理規則問答</h3>
+                            <p class="text-xs text-indigo-100">查詢管理規則相關條文與解答</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-sm group-hover:translate-x-0.5 transition-transform mr-1"></i>
+                </a>
+
+                <a href="https://notebook.google.com/notebook/6c750a12-fe1e-4a87-918d-5d419e25f22f" target="_blank" class="bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white p-3.5 rounded-xl shadow-md flex items-center justify-between transition-all group">
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </span>
+                        <div>
+                            <h3 class="font-bold text-sm sm:text-base">前往工作手冊問答</h3>
+                            <p class="text-xs text-rose-100">查詢現場執勤 SOP 與應對話術</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-sm group-hover:translate-x-0.5 transition-transform mr-1"></i>
+                </a>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col justify-between hover:border-indigo-300 transition-colors">
                     <div>
@@ -70,16 +105,19 @@
                                 <i class="fa-solid fa-scale-balanced"></i>
                             </span>
                             <div>
-                                <h3 class="font-bold text-slate-800 text-sm">停車場管理規則全文</h3>
+                                <h3 class="font-bold text-slate-800 text-sm">停車場管理規則</h3>
                                 <p class="text-[11px] text-slate-400">法定公告規章 · 共10條完整條文</p>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600 mt-2 mb-3">點擊即可開啟閱讀完整《寶山二集團櫻花公園私人停車場管理規則》原文。</p>
+                        <p class="text-xs text-slate-600 mt-2 mb-3">供現場查閱管理規則條文與原文檔案。</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="openDocModal('rules')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-eye"></i> 點開閱讀全文
+                            <i class="fa-solid fa-eye"></i> 閱讀條文
                         </button>
+                        <a href="寶山二集團櫻花公園私人停車場管理規則.pdf" target="_blank" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-file-pdf"></i> 打開PDF
+                        </a>
                     </div>
                 </div>
 
@@ -94,37 +132,38 @@
                                 <p class="text-[11px] text-slate-400">內部SOP與營運標準書 · 116年標準版</p>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600 mt-2 mb-3">點擊即可開啟閱讀完整《寶山二集團櫻花公園私人停車場工作手冊》原文。</p>
+                        <p class="text-xs text-slate-600 mt-2 mb-3">供現場查閱執勤規範與原文檔案。</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="openDocModal('handbook')" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-eye"></i> 點開閱讀全文
+                            <i class="fa-solid fa-eye"></i> 閱讀條文
                         </button>
+                        <a href="停車場工作手冊.pdf" target="_blank" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-file-pdf"></i> 打開PDF
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <!-- 營運重點快速卡片 -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">營業時段</span>
-                    <strong class="text-sm text-slate-800">09:00 - 17:00</strong>[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)
+                    <strong class="text-sm text-slate-800">09:00 - 17:00</strong>
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">停車費</span>
-                    <strong class="text-sm text-slate-800">每次 100 元</strong>[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)
+                    <strong class="text-sm text-slate-800">每次 100 元</strong>
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">離場緩衝</span>
-                    <strong class="text-sm text-amber-600">17:00 - 18:30</strong>[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)
+                    <strong class="text-sm text-amber-600">17:00 - 18:30</strong>
                 </div>
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">鎖門紅線</span>
-                    <strong class="text-sm text-rose-600">18:30 (報警查核)</strong>[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)
+                    <strong class="text-sm text-rose-600">18:30 (報警查核)</strong>
                 </div>
             </div>
 
-            <!-- 手風琴快速速查 -->
             <div class="bg-white rounded-lg shadow-sm border border-slate-200 divide-y divide-slate-100 select-text">
                 <details class="group p-4">
                     <summary class="flex justify-between items-center font-semibold cursor-pointer text-slate-800 list-none">
@@ -132,10 +171,10 @@
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p>執勤原則：一律貫徹「去情緒化、不爭辯、不擅自宣告定罪、僅陳述事實與規則」[span_10](start_span)[span_10](end_span)。第一線人員代表經營者謝佳杰行使管理權限[span_11](start_span)[span_11](end_span)。</p>
-                        <p>民法第153條：車輛進場即視為默示同意契約[span_12](start_span)[span_12](end_span)。付費僅取得停車位使用權，絕不包含將車位作為休憩、野餐用途[span_13](start_span)[span_13](end_span)。</p>
-                        <p>民法第765/767條：全場車道、車位、斜坡及周邊空地均屬私有土地，管理員得依法排除不當干涉並要求退去[span_14](start_span)[span_14](end_span)。</p>
-                        <p>刑法第306條合規嚴格警告：嚴禁員工直接對顧客宣告定罪（例如稱「你已觸犯刑法第306條」），員工義務僅為下達退去要求並拍照錄影存證[span_15](start_span)[span_15](end_span)。</p>
+                        <p>執勤原則：一律貫徹「去情緒化、不爭辯、不擅自宣告定罪、僅陳述事實與規則」。第一線人員代表經營者謝佳杰行使管理權限。</p>
+                        <p>民法第153條：車輛進場即視為默示同意契約。付費僅取得停車位使用權，絕不包含將車位作為休憩、野餐用途。</p>
+                        <p>民法第765/767條：全場車道、車位、斜坡及周邊空地均屬私有土地，管理員得依法排除不當干涉並要求退去。</p>
+                        <p>刑法第306條合規嚴格警告：嚴禁員工直接對顧客宣告定罪（例如稱「你已觸犯刑法第306條」），員工義務僅為下達退去要求並拍照錄影存證。</p>
                     </div>
                 </details>
 
@@ -145,13 +184,13 @@
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p>違規三大分類：[span_16](start_span)[span_16](end_span)</p>
+                        <p>違規三大分類：</p>
                         <ul class="list-disc pl-5 space-y-1">
-                            <li>A類（非停車用途）：停車格內野餐、泡茶、擺設桌椅、聚餐[span_17](start_span)[span_17](end_span)。</li>
-                            <li>B類（侵入非開放區）：進入私人斜坡、未開放草皮或空地逗留[span_18](start_span)[span_18](end_span)。</li>
-                            <li>C類（違規停放）：任意停放妨礙動線、未依格停放、占用出入口[span_19](start_span)[span_19](end_span)。</li>
+                            <li>A類（非停車用途）：停車格內野餐、泡茶、擺設桌椅、聚餐。</li>
+                            <li>B類（侵入非開放區）：進入私人斜坡、未開放草皮或空地逗留。</li>
+                            <li>C類（違規停放）：任意停放妨礙動線、未依格停放、占用出入口。</li>
                         </ul>
-                        <p class="pt-2">管理規則第7條8大禁令：吸菸或丟棄垃圾、妨礙他車、占用車道、危險行為、攜帶危險易燃物、從事聚會露營烤肉生火、停車未熄火長時間逗留、非行人動線進出取車[span_20](start_span)[span_20](end_span)[span_21](start_span)[span_21](end_span)。</p>
+                        <p class="pt-2">管理規則第7條8大禁令：吸菸或丟棄垃圾、妨礙他車、占用車道、危險行為、攜帶危險易燃物、從事聚會露營烤肉生火、停車未熄火長時間逗留、非行人動線進出取車。</p>
                     </div>
                 </details>
 
@@ -162,16 +201,16 @@
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-3 border-t pt-3">
                         <div class="bg-slate-50 p-2.5 rounded border">
-                            <span class="font-bold text-slate-700">Level 1 口頭勸導（平和堅定）</span>[span_22](start_span)[span_22](end_span)
-                            <p class="mt-1 text-slate-600">「您好，我是管理員。此處為私人停車場，僅供停車使用，不開放野餐/泡茶/擺設桌椅。根據管理規則第7條，請您立即停止相關行為，謝謝配合。」[span_23](start_span)[span_23](end_span)</p>
+                            <span class="font-bold text-slate-700">Level 1 口頭勸導（平和堅定）</span>
+                            <p class="mt-1 text-slate-600">「您好，我是管理員。此處為私人停車場，僅供停車使用，不開放野餐/泡茶/擺設桌椅。根據管理規則第7條，請您立即停止相關行為，謝謝配合。」</p>
                         </div>
                         <div class="bg-amber-50 p-2.5 rounded border border-amber-200">
-                            <span class="font-bold text-amber-800">Level 2 正式警告（嚴肅明確）</span>[span_24](start_span)[span_24](end_span)
-                            <p class="mt-1 text-amber-900">「您好，我剛才已向您說明規範，您目前的行為已違反管理規定及土地管理權限。我現在再次正式要求您立即停止並離開該區域。若仍不配合，我將請警方到場協助處置。」[span_25](start_span)[span_25](end_span)</p>
+                            <span class="font-bold text-amber-800">Level 2 正式警告（嚴肅明確）</span>
+                            <p class="mt-1 text-amber-900">「您好，我剛才已向您說明規範，您目前的行為已違反管理規定及土地管理權限。我現在再次正式要求您立即停止並離開該區域。若仍不配合，我將請警方到場協助處置。」</p>
                         </div>
                         <div class="bg-rose-50 p-2.5 rounded border border-rose-200">
-                            <span class="font-bold text-rose-800">Level 3 通報報警與主管（二次警告不配合）</span>[span_26](start_span)[span_26](end_span)
-                            <p class="mt-1 text-rose-900">110報案話術：「報警台您好，我是櫻花公園私人停車場員工。現場有民眾（車號:_____）在停車格/私人土地違規，經兩次明確勸導並下達退去要求後仍留滯不歸並起爭執，請求派員協助維持秩序。」[span_27](start_span)[span_27](end_span) 同步通報謝先生（0919-823-602）[span_28](start_span)[span_28](end_span)。</p>
+                            <span class="font-bold text-rose-800">Level 3 通報報警與主管（二次警告不配合）</span>
+                            <p class="mt-1 text-rose-900">110報案話術：「報警台您好，我是櫻花公園私人停車場員工。現場有民眾（車號:_____）在停車格/私人土地違規，經兩次明確勸導並下達退去要求後仍留滯不歸並起爭執，請求派員協助維持秩序。」 同步通報謝先生（0919-823-602）。</p>
                         </div>
                     </div>
                 </details>
@@ -182,49 +221,19 @@
                         <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform text-slate-400"></i>
                     </summary>
                     <div class="mt-3 text-sm text-slate-600 space-y-2 border-t pt-3">
-                        <p>C類違規移置流程：[span_29](start_span)[span_29](end_span)</p>
+                        <p>C類違規移置流程：</p>
                         <ol class="list-decimal pl-5 space-y-1">
-                            <li>拍照存證（必拍4角度）：正前、正後、左側、右側[span_30](start_span)[span_30](end_span)。拍下車牌、現場標線妨礙事實及車身既有傷痕[span_31](start_span)[span_31](end_span)。</li>
-                            <li>安全移置：移置至場內適當處所[span_32](start_span)[span_32](end_span)[span_33](start_span)[span_33](end_span)。</li>
-                            <li>費用追償：移置費由車主全額負擔[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span)；造成草皮或設施受損依規定求償[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span)。</li>
+                            <li>拍照存證（必拍4角度）：正前、正後、左側、右側。拍下車牌、現場標線妨礙事實及車身既有傷痕。</li>
+                            <li>安全移置：移置至場內適當處所。</li>
+                            <li>費用追償：移置費由車主全額負擔；造成草皮或設施受損依規定求償。</li>
                         </ol>
-                        <p class="pt-2">逾時停放至 18:30 以後：鎖閉大門，記錄車號通知警方查證聯繫車主[span_38](start_span)[span_38](end_span)[span_39](start_span)[span_39](end_span)。閉園期間業者完全免除車輛保管責任[span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span)。</p>
+                        <p class="pt-2">逾時停放至 18:30 以後：鎖閉大門，記錄車號通知警方查證聯繫車主。閉園期間業者完全免除車輛保管責任。</p>
                     </div>
                 </details>
             </div>
         </section>
 
-        <!-- Tab 2: 管理規則問答 -->
-        <section id="tab-rules-ai" class="hidden space-y-4">
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex flex-col h-[75vh]">
-                <div class="flex justify-between items-center mb-3">
-                    <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
-                        <i class="fa-solid fa-scale-balanced text-indigo-500"></i>管理規則問答助手
-                    </h2>
-                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full font-medium">Notebook 內嵌模式</span>
-                </div>
-                <div class="flex-1 w-full rounded-lg overflow-hidden border border-slate-200 bg-slate-50 relative">
-                    <iframe src="https://notebook.google.com/notebook/60fc0e0c-3ae8-4880-8949-f4162c71e5fc" class="w-full h-full border-0 absolute inset-0"></iframe>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 3: 工作手冊問答 -->
-        <section id="tab-handbook-ai" class="hidden space-y-4">
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex flex-col h-[75vh]">
-                <div class="flex justify-between items-center mb-3">
-                    <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
-                        <i class="fa-solid fa-user-shield text-rose-500"></i>工作手冊問答助手
-                    </h2>
-                    <span class="text-xs bg-rose-100 text-rose-800 px-2.5 py-0.5 rounded-full font-medium">Notebook 內嵌模式</span>
-                </div>
-                <div class="flex-1 w-full rounded-lg overflow-hidden border border-slate-200 bg-slate-50 relative">
-                    <iframe src="https://notebook.google.com/notebook/6c750a12-fe1e-4a87-918d-5d419e25f22f" class="w-full h-full border-0 absolute inset-0"></iframe>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 4: 事件記錄表 -->
+        <!-- Tab 3: 事件記錄表 -->
         <section id="tab-incident" class="hidden space-y-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-3">
@@ -329,7 +338,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-rose-50 p-3 rounded-lg border border-rose-200 text-xs">
                         <label class="flex items-center gap-2">
                             <input type="checkbox" id="check-notified-boss" class="rounded text-rose-600">
-                            <span class="font-semibold text-rose-900">已通報行政窗口謝先生 (0919-823-602)</span>[span_42](start_span)[span_42](end_span)
+                            <span class="font-semibold text-rose-900">已通報行政窗口謝先生 (0919-823-602)</span>
                         </label>
                         <div class="flex items-center gap-2">
                             <span class="font-semibold text-rose-900">求償核定金額：</span>
@@ -345,7 +354,7 @@
             </div>
         </section>
 
-        <!-- Tab 5: 歷史歸檔清單區 -->
+        <!-- Tab 4: 歷史歸檔清單區 -->
         <section id="tab-history" class="hidden space-y-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
@@ -400,7 +409,7 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div id="doc-modal-body" class="p-5 overflow-y-auto flex-1 text-sm space-y-4 select-text leading-relaxed text-slate-700">
+            <div id="doc-modal-body" class="p-5 overflow-y-auto flex-1 text-[13px] text-slate-800 exact-format">
             </div>
             <div class="p-3 bg-slate-50 border-t border-slate-200 flex justify-end">
                 <button onclick="closeDocModal()" class="text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-medium">
@@ -438,19 +447,11 @@
         </div>
     </div>
 
-    <!-- 底部導覽列（包含雙 Notebook 內嵌分頁） -->
+    <!-- 底部導覽列 -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-2 text-xs text-slate-600 shadow-lg sm:static sm:mt-8 sm:border-t-0 sm:bg-transparent sm:shadow-none no-print">
         <button onclick="switchTab('handbook')" id="nav-handbook" class="nav-item flex flex-col items-center gap-1 text-rose-600 font-bold">
             <i class="fa-solid fa-book-open text-base"></i>
             <span>規程手冊</span>
-        </button>
-        <button onclick="switchTab('rules-ai')" id="nav-rules-ai" class="nav-item flex flex-col items-center gap-1 hover:text-rose-600">
-            <i class="fa-solid fa-scale-balanced text-base"></i>
-            <span>規則問答</span>
-        </button>
-        <button onclick="switchTab('handbook-ai')" id="nav-handbook-ai" class="nav-item flex flex-col items-center gap-1 hover:text-rose-600">
-            <i class="fa-solid fa-user-shield text-base"></i>
-            <span>手冊問答</span>
         </button>
         <button onclick="switchTab('incident')" id="nav-incident" class="nav-item flex flex-col items-center gap-1 hover:text-rose-600">
             <i class="fa-solid fa-file-pen text-base"></i>
@@ -463,7 +464,6 @@
     </nav>
 
     <script>
-        // --- 完整一字不漏載入官方 PDF 原文 ---
         function openDocModal(type) {
             var modal = document.getElementById('doc-modal');
             var titleEl = document.getElementById('doc-modal-title');
@@ -472,122 +472,157 @@
             if (type === 'rules') {
                 titleEl.innerHTML = '<i class="fa-solid fa-scale-balanced text-indigo-400"></i> 寶山二集團櫻花公園私人停車場管理規則';
                 bodyEl.innerHTML = `
-                    <div class="border-b pb-3 text-center">
-                        <h4 class="font-bold text-base text-slate-800">寶山二集團櫻花公園私人停車場管理規則</h4>
-                        <p class="text-xs text-slate-500 mt-1">經營者: 謝佳杰[span_43](start_span)[span_43](end_span) · 聯絡電話: 0919-823-602[span_44](start_span)[span_44](end_span) · 停車種類: 汽車[span_45](start_span)[span_45](end_span)</p>
+                    <div style="text-align: left; margin-bottom: 1rem;">
+                        <p style="margin: 0;">經營者:謝佳杰</p>
+                        <p style="margin: 0;">聯絡電話:0919-823-602</p>
+                        <p style="margin: 0;">停車種類:汽車</p>
                     </div>
-                    <div class="space-y-3 text-xs sm:text-sm">
-                        <p><strong>第 1 條</strong><br>1. 本管理規則全文公告於本停車場入口明顯處及場內，適用於進入本停車場之車輛駕駛人、乘員及其他車輛使用人（以下統稱『使用人』）。本管理規則公告於本停車場入口及場內適當處所。使用人進入本停車場使用停車服務者，應遵守本管理規則[span_46](start_span)[span_46](end_span)。<br>2. 非使用人未經許可進入或逗留於本停車場及其周邊私有土地者，違反者，管理單位得要求其離場；拒不離場者，管理單位得依法進行處置[span_47](start_span)[span_47](end_span)。</p>
-                        <p><strong>第 2 條</strong><br>本管理規則所列之費用均為新臺幣[span_48](start_span)[span_48](end_span)。</p>
-                        <p><strong>第 3 條</strong><br>使用人使用停車位之權限，以停放車輛及正常進出、上下車、必要之裝卸物品等與停車直接相關之行為為原則[span_49](start_span)[span_49](end_span)。</p>
-                        <p><strong>第 4 條</strong><br>使用人應遵守本停車場工作人員之引導與指示，勿擅闖本停車場，或未依照指示路線行駛[span_50](start_span)[span_50](end_span)。</p>
-                        <p><strong>第 5 條</strong><br>使用停車場之權益與責任：<br>
-                        一、車輛進、出場應遵循停車場內標誌、標線或依管理人員指示方向進出，車輛停放時，應依標誌、標線、停車格位佈設方式入格停妥車輛，俾確保安全，如有任意停放致妨礙其他車輛行進或停放者，管理單位得於拍照或錄影存證後移置至適當處所。因違規停放而依法或依本規則移置車輛者，車輛使用人應負擔依法或依約應由其負擔之移置費用；因可歸責於車輛使用人之事由所致車輛或停車場設施損害者，並負損害賠償責任[span_51](start_span)[span_51](end_span)。<br>
-                        二、本停車場僅出租停車位，供車輛停放之用，停車場經營業者對停放之車輛不負保管責任。但可歸責於停車場經營業者之事由，致車輛毀損、滅失或車內物品遺失者，不在其限[span_52](start_span)[span_52](end_span)。<br>
-                        三、車輛使用者因故意或過失破壞、毀損停車場內各項停車設備者，應負損害賠償責任[span_53](start_span)[span_53](end_span)。<br>
-                        四、停車場內各項停車設施，停車場經營業者應善盡管理維護之責，車輛使用者及其相關人員因本契約使用停車場設施，而發生意外事故或遭毀損時，停車場經營業者應負損害賠償責任。但停車場經營業者對於設置或保管並無欠缺，或損害非因設置或保管有欠缺，或於防止損害之發生，已盡相當之注意者，不在此限[span_54](start_span)[span_54](end_span)。</p>
-                        <p><strong>第 6 條</strong><br>
-                        1. 本停車場營業時間為 09:00 至 17:00，停車費用為每次停車 100 元。營業時間及停車費收費標準應於停車場入口及適當明顯處所公告[span_55](start_span)[span_55](end_span)。<br>
-                        2. 使用人應於每日 17:00 前將車輛駛離，17:00 僅提供滯留車輛離場服務，非延長營業。如未依限離場，相關處置與衍生費用約定如下[span_56](start_span)[span_56](end_span)：<br>
-                        一、原則上員工會於現場等待至 18:30。車輛於 17:10 起駛離者，其停車費之計收，依本停車場已公告之收費標準及適用之法令辦理[span_57](start_span)[span_57](end_span)。<br>
-                        二、逾每日 18:30 仍未離場而滯留場內之車輛，管理單位得記錄車號並通知警方協助查證聯繫車主。若車輛停放至隔日，閉園期間業者不負保管之責[span_58](start_span)[span_58](end_span)。<br>
-                        三、每日 18:30 關閉停車場大門，17:00 至 18:30 期間僅供日間已進場之滯留車輛辦理離場手續，嚴禁非營業時段未經許可擅自駛入[span_59](start_span)[span_59](end_span)。</p>
-                        <p><strong>第 7 條</strong><br>
-                        1. 本停車場之車道、停車格及其他開放區域，與停車場周邊之私人土地、斜坡、空地及其他非開放區域，其使用權限各自獨立，使用人不得以停車付費為由，主張取得停車場其他區域或鄰接私人土地之使用權[span_60](start_span)[span_60](end_span)。<br>
-                        2. 除經管理單位明確允許外，使用人及未經同意於本停車場逗留之民眾不得有下列行為[span_61](start_span)[span_61](end_span)：<br>
-                        一、於停車場內吸菸或任意丟棄垃圾[span_62](start_span)[span_62](end_span)。<br>
-                        二、妨礙其他車輛進出或停放[span_63](start_span)[span_63](end_span)。<br>
-                        三、占用車道、出入口或其他應保持暢通之區域[span_64](start_span)[span_64](end_span)。<br>
-                        四、從事可能造成火災、交通或人身安全危險之行為[span_65](start_span)[span_65](end_span)。<br>
-                        五、攜帶危險品、易燃物、爆裂物進入[span_66](start_span)[span_66](end_span)。<br>
-                        六、未經許可於停車場或非開放區域從事野餐、泡茶、烤肉、生火、露營、擺設桌椅、搭設帳棚、引燃明火行為或其他聚會休憩活動[span_67](start_span)[span_67](end_span)。<br>
-                        七、車輛停妥後未熄火，無故於停車場內長時間停留或從事妨礙停車場正常營運、安全或他人使用之行為[span_68](start_span)[span_68](end_span)。<br>
-                        八、由非行人通行動線進出取車，或其他客觀上足以妨礙停車場營運、阻礙動線或危及公共安全之行為[span_69](start_span)[span_69](end_span)。</p>
-                        <p><strong>第 8 條</strong><br>違反前條第二項各款規定致本停車場設備、周遭土地環境或第三人受有損害者，行為人應依法負損害賠償責任[span_70](start_span)[span_70](end_span)。</p>
-                        <p><strong>第 9 條</strong><br>
-                        1. 使用人違反本管理規則者，管理單位得先予口頭勸導，並視違規情形要求其停止違規行為或離場[span_71](start_span)[span_71](end_span)。<br>
-                        2. 使用人經合法要求離場而無正當理由仍拒絕離場者，管理單位得依法處理；如其行為具體符合刑事法律之構成要件，管理單位得報請警察機關依法處理[span_72](start_span)[span_72](end_span)。<br>
-                        3. 管理單位採取前項措施時，應以維護停車場正常營運、場地安全及其他使用人之權益所必要之範圍為限[span_73](start_span)[span_73](end_span)。</p>
-                        <p><strong>第 10 條</strong><br>
-                        1. 本管理規則自中華民國 116 年 1 月 1 日起施行；施行後修正時自公告日立即生效[span_74](start_span)[span_74](end_span)。<br>
-                        2. 本管理規則未規定之事項，依適用之法律、主管機關所定相關規範及雙方合法成立之契約約定辦理[span_75](start_span)[span_75](end_span)。<br>
-                        3. 本停車場消費爭議或管理事項之聯絡窗口如下：管理員謝先生，電話：0919-823-602[span_76](start_span)[span_76](end_span)。</p>
-                    </div>
+                    <h4 style="font-weight: bold; font-size: 16px; text-align: center; margin-bottom: 1rem;">寶山二集團櫻花公園私人停車場管理規則</h4>
+                    <p>第1條<br>
+                    1 本管理規則全文公告於本停車場入口明顯處及場內，適用於進入本停車場之車輛駕駛人、乘員及其他車輛使用人（以下統稱『使用人』）。本管理規則公告於本停車場入口及場內適當處所。使用人進入本停車場使用停車服務者，應遵守本管理規則。<br>
+                    2 非使用人未經許可進入或逗留於本停車場及其周邊私有土地者，違反者，管理單位得要求其離場；拒不離場者，管理單位得依法進行處置。</p>
+                    <p>第2條<br>
+                    本管理規則所列之費用均為新臺幣。</p>
+                    <p>第3條<br>
+                    使用人使用停車位之權限，以停放車輛及正常進出、上下車、必要之裝卸物品等與停車直接相關之行為為原則。</p>
+                    <p>第4條<br>
+                    使用人應遵守本停車場工作人員之引導與指示，勿擅闖本停車場，或未依照指示路線行駛。</p>
+                    <p>第5條<br>
+                    使用停車場之權益與責任：<br>
+                    一、車輛進、出場應遵循停車場內標誌、標線或依管理人員指示方向進出，車輛停放時，應依標誌、標線、停車格位佈設方式入格停妥車輛，俾確保安全，如有任意停放致妨礙其他車輛行進或停放者，管理單位得於拍照或錄影存證後移置至適當處所。因違規停放而依法或依本規則移置車輛者，車輛使用人應負擔依法或依約應由其負擔之移置費用；因可歸責於車輛使用人之事由所致車輛或停車場設施損害者，並負損害賠償責任。<br>
+                    二、本停車場僅出租停車位，供車輛停放之用，停車場經營業者對停放之車輛不負保管責任。但可歸責於停車場經營業者之事由，致車輛毀損、滅失或車內物品遺失者，不在此限。<br>
+                    三、車輛使用者因故意或過失破壞、毀損停車場內各項停車設備者，應負損害賠償責任。<br>
+                    四、停車場內各項停車設施，停車場經營業者應善盡管理維護之責，車輛使用者及其相關人員因本契約使用停車場設施，而發生意外事故或遭毀損時，停車場經營業者應負損害賠償責任。但停車場經營業者對於設置或保管並無欠缺，或損害非因設置或保管有欠缺，或於防止損害之發生，已盡相當之注意者，不在此限。</p>
+                    <p>第6條<br>
+                    1 本停車場營業時間為09:00至17:00，停車費用為每次停車100元。營業時間及停車費收費標準應於停車場入口及適當明顯處所公告。<br>
+                    2 使用人應於每日17:00前將車輛駛離，17:00僅提供滯留車輛離場服務，非延長營業。如未依限離場，相關處置與衍生費用約定如下：<br>
+                    一、原則上員工會於現場等待至18:30。車輛於17:10起駛離者，其停車費之計收，依本停車場已公告之收費標準及適用之法令辦理。<br>
+                    二、逾每日18:30仍未離場而滯留場內之車輛，管理單位得記錄車號並通知警方協助查證聯繫車主。若車輛停放至隔日，閉園期間業者不負保管之責。<br>
+                    三、每日18:30關閉停車場大門，17:00至18:30期間僅供日間已進場之滯留車輛辦理離場手續，嚴禁非營業時段未經許可擅自駛入。</p>
+                    <p>第7條<br>
+                    1 本停車場之車道、停車格及其他開放區域，與停車場周邊之私人土地、斜坡、空地及其他非開放區域，其使用權限各自獨立，使用人不得以停車付費為由，主張取得停車場其他區域或鄰接私人土地之使用權。<br>
+                    2 除經管理單位明確允許外，使用人及未經同意於本停車場逗留之民眾不得有下列行為：<br>
+                    一、於停車場內吸菸或任意丟棄垃圾。<br>
+                    二、妨礙其他車輛進出或停放。<br>
+                    三、占用車道、出入口或其他應保持暢通之區域。<br>
+                    四、從事可能造成火災、交通或人身安全危險之行為。<br>
+                    五、攜帶危險品、易燃物、爆裂物進入。<br>
+                    六、未經許可於停車場或非開放區域從事野餐、泡茶、烤肉、生火、露營、擺設桌椅、搭設帳棚、引燃明火行為或其他聚會休憩活動。<br>
+                    七、車輛停妥後未熄火，無故於停車場內長時間停留或從事妨礙停車場正常營運、安全或他人使用之行為。<br>
+                    八、由非行人通行動線進出取車，或其他客觀上足以妨礙停車場營運、阻礙動線或危及公共安全之行為。</p>
+                    <p>第8條<br>
+                    違反前條第二項各款規定致本停車場設備、周遭土地環境或第三人受有損害者，行為人應依法負損害賠償責任。</p>
+                    <p>第9條<br>
+                    1 使用人違反本管理規則者，管理單位得先予口頭勸導，並視違規情形要求其停止違規行為或離場。<br>
+                    2 使用人經合法要求離場而無正當理由仍拒絕離場者，管理單位得依法處理；如其行為具體符合刑事法律之構成要件，管理單位得報請警察機關依法處理。<br>
+                    3 管理單位採取前項措施時，應以維護停車場正常營運、場地安全及其他使用人之權益所必要之範圍為限。</p>
+                    <p>第10條<br>
+                    1 本管理規則自中華民國116年1月1日起施行；施行後修正時自公告日立即生效。<br>
+                    2 本管理規則未規定之事項，依適用之法律、主管機關所定相關規範及雙方合法成立之契約約定辦理。<br>
+                    3 本停車場消費爭議或管理事項之聯絡窗口如下：管理員謝先生，電話：0919-823-602。</p>
                 `;
             } else if (type === 'handbook') {
                 titleEl.innerHTML = '<i class="fa-solid fa-user-shield text-rose-400"></i> 寶山二集團櫻花公園私人停車場工作手冊';
                 bodyEl.innerHTML = `
-                    <div class="border-b pb-3 text-center">
-                        <h4 class="font-bold text-base text-slate-800">寶山二集團櫻花公園私人停車場工作手冊（116年標準版）</h4>
-                        <p class="text-xs text-slate-500 mt-1">經營者: 謝佳杰[span_77](start_span)[span_77](end_span) · 窗口: 謝先生(0919-823-602)[span_78](start_span)[span_78](end_span) · 生效日期: 116年1月1日[span_79](start_span)[span_79](end_span)</p>
+                    <h4 style="font-weight: bold; font-size: 16px; text-align: center; margin-bottom: 1rem;">寶山二集團櫻花公園私人停車場工作手冊(116年標準版)</h4>
+                    <div style="text-align: left; margin-bottom: 1rem;">
+                        <p style="margin: 0;">文件性質:內部標準作業程序(SOP)與營運標準書</p>
+                        <p style="margin: 0;">生效日期:自中華民國116年1月1日起施行</p>
+                        <p style="margin: 0;">適用對象:停車場管理員、現場工作人員、主管</p>
+                        <p style="margin: 0;">經營者:謝佳杰</p>
+                        <p style="margin: 0;">行政裁決、申訴與緊急聯絡窗口:謝先生(電話:0919-823-602)</p>
+                        <p style="margin: 0;">停車種類:汽車</p>
+                        <p style="margin: 0;">收費標準:每次停車新臺幣100元(本場各項費用均為新臺幣)</p>
                     </div>
-                    <div class="space-y-4 text-xs sm:text-sm">
-                        <div>
-                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第一章 法律基礎、權利範圍與合規守則</strong>
-                            <p>現場管理一律貫徹「去情緒化、不爭辯、不擅自宣告定罪、僅陳述事實與規則」原則。第一線人員係代表經營者謝佳杰行使管理權限[span_80](start_span)[span_80](end_span)。</p>
-                            <p class="mt-2"><strong>1.1 實務法規基礎</strong>[span_81](start_span)[span_81](end_span)<br>
-                            1. 《民法》第153條（契約成立與默示同意）：本場管理規則全文公告於入口明顯處及場內。車輛進入場內即視為默示同意每次100元之管理規則與停車服務契約。付費僅取得「停車位使用權（以停放車輛、正常進出、上下車、必要之裝卸物品為原則）」，絕不代表取得場內其餘私人區域或將車位作為休憩空間之權限[span_82](start_span)[span_82](end_span)。<br>
-                            2. 《民法》第765條、第767條（物上請求權）：本場車道、停車格、周邊斜坡及空地均屬私有土地，管理單位作為土地所有人或代理人，依法得排除他人不當干涉。對非使用人未經許可進入或逗留、或顧客逾越權限使用非開放區域者，得依法要求其停止使用並離開[span_83](start_span)[span_83](end_span)。<br>
-                            3. 《刑法》第306條（侵入土地或受退去要求留滯）：針對違規佔用或侵入私人非開放土地事件，行為人經管理員明確下達退去要求後仍留滯不歸者，始可能涉及該刑事責任[span_84](start_span)[span_84](end_span)。<br>
-                            <span class="text-rose-600 block mt-1">○ 合規嚴格警告：嚴禁員工自行充當法官對顧客定罪（如直接對顧客指稱「你已觸犯刑法第306條」）；第一線人員義務僅在於「明確下達退去要求」並「拍照錄影留存客觀事實證據」，刑事構成要件由警方及司法機關依法認定[span_85](start_span)[span_85](end_span)。</span><br>
-                            4. 《管理規則》第8條（損害賠償責任）：行為人違反管理規則第7條第2項各款規定，致停車場設備、周遭土地環境（如草皮毀損）或第三人受損害，依法負損害賠償責任[span_86](start_span)[span_86](end_span)。</p>
-                            <p class="mt-2"><strong>1.2 權利範圍與空間界定表</strong>[span_87](start_span)[span_87](end_span)<br>
-                            • 停車格/車道：使用限制僅限停放車輛、進出與必要裝卸貨物。轉作野餐休憩屬 A類違規；未依標誌停妥或佔用車道屬 C類違規，拍照存證後移置[span_88](start_span)[span_88](end_span)。<br>
-                            • 私人斜坡/空地/草皮：屬非開放區域，嚴禁進入、逗留或從事任何活動。擅自闖入屬 B類侵入，管理單位得立即要求離場；拒不離場依法報警處理[span_89](start_span)[span_89](end_span)。</p>
-                        </div>
-                        <div>
-                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第二章 違規行為分類與管制清單</strong>
-                            <p><strong>2.1 違規行為三大分類</strong>[span_90](start_span)[span_90](end_span)<br>
-                            • A類（場內非停車用途）：於停車格內從事野餐、泡茶、聚餐、擺設桌椅等休憩活動[span_91](start_span)[span_91](end_span)。<br>
-                            • B類（侵入非開放區域）：非使用人或顧客擅自進入私人斜坡、非開放草皮或空地逗留[span_92](start_span)[span_92](end_span)。<br>
-                            • C類（違規停放/阻礙動線）：任意停放、未依標誌標線停妥、妨礙其他車輛進出、占用車道或出入口[span_93](start_span)[span_93](end_span)。</p>
-                            <p class="mt-2"><strong>2.2 《管理規則》第7條：8大禁止行為清單（強制執行）</strong>[span_94](start_span)[span_94](end_span)<br>
-                            現場人員發現任何使用人或逗留民眾有下列行為，應立即啟動處置[span_95](start_span)[span_95](end_span)：<br>
-                            1. 於停車場內吸菸或任意丟棄垃圾[span_96](start_span)[span_96](end_span)。<br>
-                            2. 妨礙其他車輛進出或停放[span_97](start_span)[span_97](end_span)。<br>
-                            3. 佔用車道、出入口或其他應保持暢通之區域[span_98](start_span)[span_98](end_span)。<br>
-                            4. 從事可能造成火災、交通或人身安全危險之行為[span_99](start_span)[span_99](end_span)。<br>
-                            5. 攜帶危險品、易燃物、爆裂物進入[span_100](start_span)[span_100](end_span)。<br>
-                            6. 未經許可於停車場或非開放區域從事野餐、泡茶、烤肉、生火、露營、擺設桌椅、搭設帳棚、引燃明火行為或其他聚會休憩活動[span_101](start_span)[span_101](end_span)。<br>
-                            7. 車輛停妥後未熄火，無故於停車場內長時間停留或妨礙停車場正常營運、安全或他人使用[span_102](start_span)[span_102](end_span)。<br>
-                            8. 由非行人通行動線進出取車，或其他客觀上足以妨礙停車場營運、阻礙動線或危及公共安全之行為[span_103](start_span)[span_103](end_span)。</p>
-                        </div>
-                        <div>
-                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第三章 現場違規行為處置SOP與應對話術</strong>
-                            <p><strong>3.1 三級處置程序</strong>[span_104](start_span)[span_104](end_span)<br>
-                            • Level 1: 口頭勸導（平和堅定）[span_105](start_span)[span_105](end_span)<br>
-                            話術：「您好，我是管理員。此處為私人停車場，僅供停車使用，不開放野餐/泡茶/擺設桌椅（非開放區域嚴禁進入）。根據本場管理規則第7條，請您立即停止相關行為（離開該非開放區域），謝謝配合。」[span_106](start_span)[span_106](end_span)<br>
-                            • Level 2: 正式警告（嚴肅明確）[span_107](start_span)[span_107](end_span)<br>
-                            話術：「您好，我剛才已向您說明過規範，您目前的行為已違反本場管理規定及土地管理權限。我現在再次正式要求您立即停止並離開該區域。若仍不配合，我將請警方到場協助處置。」[span_108](start_span)[span_108](end_span)<br>
-                            • Level 3: 通報報警與主管[span_109](start_span)[span_109](end_span)<br>
-                            ○ 啟動門檻：經二次勸導仍拒絕配合留滯不歸、妨礙車輛通行、出現肢體推擠威脅或安全重大問題者[span_110](start_span)[span_110](end_span)。<br>
-                            ○ 110報案標準話術：「報警台您好，我是櫻花公園私人停車場員工。現場有民眾（車號:____）在停車格/私人土地從事違規行為，經兩次明確勸導並下達退去要求後仍留滯不歸，並與員工發生爭執。請求派員協助維持秩序並處理。」[span_111](start_span)[span_111](end_span)<br>
-                            ○ 通報窗口：同步通報行政裁決窗口謝先生（0919-823-602）[span_112](start_span)[span_112](end_span)。</p>
-                            <p class="mt-2"><strong>3.2 常見反詰標準回答（Rebuttal Handlers）</strong>[span_113](start_span)[span_113](end_span)<br>
-                            • Q1: 我有付錢, 憑什麼不能坐/不能泡茶? <br>回答：「您支付的是停車服務費，依約僅能停放車輛。停車費並不包含將停車位轉作休憩場所的使用權。」[span_114](start_span)[span_114](end_span)<br>
-                            • Q2: 現場又沒寫禁止! <br>回答：「本場管理規則全文已依法公告於入口及場內明顯處。即便該點位無個別標示，我現在已代表管理單位口頭明確告知管理要求，請您配合。」[span_115](start_span)[span_115](end_span)<br>
-                            • Q3: 這是私人土地, 你憑什麼叫我走? <br>回答：「此區域並非提供停車顧客使用之開放範圍，我們現在代表管理單位依法行使土地權限，要求您停止使用並離開。」[span_116](start_span)[span_116](end_span)<br>
-                            • Q4: 我就要繼續坐, 你能拿我怎樣? <br>回答：「我們已經正式要求您停止行為並退去，若仍不配合，我們會立即通知警方到場依法協助處理。」[span_117](start_span)[span_117](end_span)</p>
-                        </div>
-                        <div>
-                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第四章 營業時間、緩衝期與逾時滯留處置SOP</strong>
-                            <p>• 09:00-17:00（正常營業時段）：提供進場停車服務，收費每次100元。使用人應於17:00前駛離。依《管理規則》第5條第2項，本場僅出租車位，對停放車輛不負保管責任（但可歸責於業者之事由致毀損滅失者不在此限）[span_118](start_span)[span_118](end_span)。<br>
-                            • 17:00-18:30（離場緩衝期）：全面禁止任何新車駛入；僅供日間已進場車輛辦理離場。員工於現場值守至18:30。17:10起駛離者，其停車費之計收依公告標準及適用法令辦理[span_119](start_span)[span_119](end_span)。<br>
-                            • 18:30（絕對閉園與大門鎖閉紅線）：大門正式上鎖閉園，清查並記錄場內所有滯留車號，通報警方協助查證並聯繫車主。依《管理規則》第6條第2項第2款，車輛停放至隔日，閉園期間業者依法完全免除保管責任。嚴禁非營業時段擅自駛入[span_120](start_span)[span_120](end_span)。</p>
-                        </div>
-                        <div>
-                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第五章 違規停放移置與損害賠償責任SOP</strong>
-                            <p>使用人任意停放致妨礙行進或停放、占用車道出入口、未依格停放者（C類違規），依《管理規則》第5條第1款執行移置作業[span_121](start_span)[span_121](end_span)：<br>
-                            1. 第一步：強制存證拍照（4個角度，不可遺漏）<br>移置前必須以相機或手機完整拍攝車輛：1.正前、2.正後、3.左側、4.右側。拍攝重點包含違規事實（妨礙車道、未入格）、現場標誌標線、車牌號碼、車體外觀既有毀損現狀[span_122](start_span)[span_122](end_span)。<br>
-                            2. 第二步：移置執行<br>將車輛移置至場內適當處所，移置過程應以安全為原則[span_123](start_span)[span_123](end_span)。<br>
-                            3. 第三步：追討移置費用與損害賠償<br>車輛使用人應全額負擔因違規移置所生之費用（《管理規則》第5條第1款）。因違規行為造成設施損壞、草皮毀損或周遭土地受損者，管理員應於紀錄表記錄，依《管理規則》第5條第1款、第3款及第8條由窗口謝先生依法追討損害賠償[span_124](start_span)[span_124](end_span)。</p>
-                        </div>
-                        <div>
-                            <strong class="text-slate-800 block text-sm border-b pb-1 mb-1">第六章 管理紀錄、通報模組與事件紀錄表</strong>
-                            <p>• 單一行政裁決與申訴窗口：謝先生（電話：0919-823-602）[span_125](start_span)[span_125](end_span)。<br>
-                            • 窗口職責範圍：處理重大消費爭議、現場警方到場交接、核定違規移置費用及損害賠償估算[span_126](start_span)[span_126](end_span)。</p>
-                        </div>
-                    </div>
+                    <p style="font-weight: bold; margin-top: 1.5rem;">第一章 法律基礎、權利範圍與合規守則</p>
+                    <p>現場管理一律貫徹「去情緒化、不爭辯、不擅自宣告定罪、僅陳述事實與規則」原則。第一線人員係代表經營者謝佳杰行使現場管理權限。</p>
+                    <p>1.1 實務法規基礎<br>
+                    1. 《民法》第153條(契約成立與默示同意):本場管理規則全文公告於入口明顯處及場內。車輛進入場內即視為默示同意每次100元之管理規則與停車服務契約。付費僅取得「停車位使用權(以停放車輛、正常進出、上下車、必要之裝卸物品為原則)」，絕不代表取得場內其餘私人區域或將車位作為休憩空間之權限。<br>
+                    2. 《民法》第765條、第767條(物上請求權):本場車道、停車格、周邊斜坡及空地均屬私有土地，管理單位作為土地所有人或代理人，依法得排除他人不當干涉。對非使用人未經許可進入或逗留、或顧客逾越權限使用非開放區域者，得依法要求其停止使用並離開。<br>
+                    3. 《刑法》第306條(侵入土地或受退去要求留滯):針對違規佔用或侵入私人非開放土地事件，行為人經管理員明確下達退去要求後仍留滯不歸者，始可能涉及該刑事責任。<br>
+                    ○合規嚴格警告:嚴禁員工自行充當法官對顧客定罪(如直接向顧客指稱「你已觸犯刑法第306條」)；第一線人員義務僅在於「明確下達退去要求」並「拍照錄影留存客觀事實證據」，刑事構成要件由警方及司法機關依法認定。<br>
+                    4. 《管理規則》第8條(損害賠償責任):行為人違反管理規則第7條第2項各款規定，致停車場設備、周遭土地環境(如草皮毀損)或第三人受損害，依法負損害賠償責任。</p>
+                    <p>1.2 權利範圍與空間界定表<br>
+                    • 停車格/車道:使用限制僅限停放車輛、進出與必要裝卸貨物。轉作野餐休憩屬 A類違規；未依標誌停妥或佔用車道屬C類違規，拍照存證後移置。<br>
+                    • 私人斜坡/空地/草皮:屬非開放區域，嚴禁進入、逗留或從事任何活動。擅自闖入屬 B類侵入，管理單位得立即要求離場；拒不離場依法報警處理。</p>
+
+                    <p style="font-weight: bold; margin-top: 1.5rem;">第二章 違規行為分類與管制清單</p>
+                    <p>2.1 違規行為三大分類<br>
+                    • A類(場內非停車用途):於停車格內從事野餐、泡茶、聚餐、擺設桌椅等休憩活動。<br>
+                    • B類(侵入非開放區域):非使用人或顧客擅自進入私人斜坡、非開放草皮或空地逗留。<br>
+                    • C類(違規停放/阻礙動線):任意停放、未依標誌標線停妥、妨礙其他車輛進出、占用車道或出入口。</p>
+                    <p>2.2 《管理規則》第7條:8大禁止行為清單(強制執行)<br>
+                    現場人員發現任何使用人或逗留民眾有下列行為，應立即啟動處置:<br>
+                    1. 於停車場內吸菸或任意丟棄垃圾。<br>
+                    2. 妨礙其他車輛進出或停放。<br>
+                    3. 佔用車道、出入口或其他應保持暢通之區域。<br>
+                    4. 從事可能造成火災、交通或人身安全危險之行為。<br>
+                    5. 攜帶危險品、易燃物、爆裂物進入。<br>
+                    6. 未經許可於停車場或非開放區域從事野餐、泡茶、烤肉、生火、露營、擺設桌椅、搭設帳棚、引燃明火行為或其他聚會休憩活動。<br>
+                    7. 車輛停妥後未熄火，無故於停車場內長時間停留或從事妨礙停車場正常營運、安全或他人使用。<br>
+                    8. 由非行人通行動線進出取車，或其他客觀上足以妨礙停車場營運、阻礙動線或危及公共安全之行為。</p>
+
+                    <p style="font-weight: bold; margin-top: 1.5rem;">第三章 現場違規行為處置SOP與應對話術</p>
+                    <p>3.1 三級處置程序<br>
+                    • Level 1:口頭勸導(平和堅定)<br>
+                    話術:「您好，我是管理員。此處為私人停車場，僅供停車使用，不開放野餐/泡茶/擺設桌椅(非開放區域嚴禁進入)。根據本場管理規則第7條，請您立即停止相關行為(離開該非開放區域)，謝謝配合。」<br>
+                    • Level 2:正式警告(嚴肅明確)<br>
+                    話術:「您好，我剛才已向您說明過規範，您目前的行為已違反本場管理規定及土地管理權限。我現在再次正式要求您立即停止並離開該區域。若仍不配合，我將請警方到場協助處置。」<br>
+                    • Level 3:通報報警與主管<br>
+                    ○ 啟動門檻:經二次勸導仍拒絕配合留滯不歸、妨礙車輛通行、出現肢體推擠威脅或安全重大問題者。<br>
+                    ○ 110報案標準話術:「報警台您好，我是櫻花公園私人停車場員工。現場有民眾(車號:__ )在停車格/私人土地從事違規行為，經兩次明確勸導並下達退去要求後仍留滯不歸，並與員工發生爭執。請求派員到場協助維持秩序並處理。」<br>
+                    ○ 通報窗口:同步通報行政裁決窗口謝先生(0919-823-602)。</p>
+                    <p>3.2 常見反詰標準回答(Rebuttal Handlers)<br>
+                    • Q1:我有付錢，憑什麼不能坐/不能泡茶?<br>
+                    回答:「您支付的是停車服務費，依約僅能停放車輛。停車費並不包含將停車位轉作休憩場所的使用權。」<br>
+                    • Q2:現場又沒寫禁止!<br>
+                    回答:「本場管理規則全文已依法公告於入口及場內明顯處。即便該點位無個別標示，我現在已代表管理單位口頭明確告知管理要求，請您配合。」<br>
+                    • Q3:這是私人土地，你憑什麼叫我走?<br>
+                    回答:「此區域並非提供停車顧客使用之開放範圍，我們現在代表管理單位依法行使土地權限，要求您停止使用並離開。」<br>
+                    • Q4:我就要繼續坐，你能拿我怎樣?<br>
+                    回答:「我們已經正式要求您停止行為並退去，若仍不配合，我們會立即通知警方到場依法協助處理。」</p>
+
+                    <p style="font-weight: bold; margin-top: 1.5rem;">第四章 營業時間、緩衝期與逾時滯留處置SOP</p>
+                    <p>• 09:00-17:00(正常營業時段):提供進場停車服務，收費每次100元。使用人應於17:00前駛離。依《管理規則》第5條第2項，本場僅出租車位，對停放車輛不負保管責任(但可歸責於業者之事由致毀損滅失者不在此限)。<br>
+                    • 17:00-18:30(離場緩衝期):全面禁止任何新車駛入；僅供日間已進場車輛辦理離場。員工於現場值守至18:30。17:10起駛離者，其停車費之計收依公告標準及適用法令辦理。<br>
+                    • 18:30(絕對閉園與大門鎖閉紅線):大門正式上鎖閉園，清查並記錄場內所有滯留車號，通報警方協助查證並聯繫車主。依《管理規則》第6條第2項第2款，車輛停放至隔日，閉園期間業者依法完全免除保管責任。嚴禁非營業時段擅自駛入。</p>
+
+                    <p style="font-weight: bold; margin-top: 1.5rem;">第五章 違規停放移置與損害賠償責任SOP</p>
+                    <p>使用人任意停放致妨礙行進或停放、占用車道出入口、未依格停放者(C類違規)，依《管理規則》第5條第1款執行移置作業:<br>
+                    1. 第一步:強制存證拍照(4個角度，不可遺漏)<br>
+                    移置前必須以相機或手機完整拍攝車輛:1.正前、2.正後、3.左側、4.右側。拍攝重點包含違規事實(妨礙車道、未入格)、現場標誌標線、車牌號碼、車體外觀既有毀損現狀。<br>
+                    2. 第二步:移置執行<br>
+                    將車輛移置至場內適當處所，移置過程應以安全為原則。<br>
+                    3. 第三步:追討移置費用與損害賠償<br>
+                    車輛使用人應全額負擔因違規移置所生之費用(《管理規則》第5條第1款)。因違規行為造成設施損壞、草皮毀損或周遭土地受損者，管理員應於紀錄表記錄，依《管理規則》第5條第1款、第3款及第8條由窗口謝先生依法追討損害賠償。</p>
+
+                    <p style="font-weight: bold; margin-top: 1.5rem;">第六章 管理紀錄、通報模組與事件紀錄表</p>
+                    <p>6.1 行政支援與裁決窗口<br>
+                    • 單一行政裁決與申訴窗口:謝先生(電話:0919-823-602)。<br>
+                    • 窗口職責範圍:處理重大消費爭議、現場警方到場交接、核定違規移置費用及損害賠償估算。</p>
+                    <p style="font-weight: bold; margin-top: 1rem; text-decoration: underline;">櫻花公園私人停車場事件紀錄表</p>
+                    <p>現場遇違規勸導、警告或報警處置，管理員應落實文書存證，如實填寫本表:<br>
+                    基礎資訊:<br>
+                    • 日期: 年 月 日 時間:<br>
+                    • 車牌號碼: 車位編號:<br>
+                    • 執勤員工姓名:<br>
+                    • 到場警員編號/單位: (無警方到場免填)<br>
+                    違規事由勾選:<br>
+                    ☐ A類違規:野餐/泡茶/聚會/擺設桌椅/搭帳棚/未熄火長時間停留<br>
+                    ☐ B類侵入:擅入私人斜坡/未開放草皮或空地<br>
+                    ☐ C類違規停放:任意停放妨礙通行/未依格停放/占用車道出入口<br>
+                    ☐ 違反第7條第2項禁令:吸菸/丟棄垃圾/明火烤肉/攜帶危險品/非行人動線進出<br>
+                    存證確認:<br>
+                    ☐ 移置前4角度照片已完成拍攝(正前、正後、左側、右側)<br>
+                    ☐ 監視器錄影畫面已留存並鎖定<br>
+                    處置歷程:<br>
+                    • Level 1 勸導時間: 民眾反饋: ☐ 配合 ☐ 爭辯 ☐ 拒絕<br>
+                    • Level 2 警告時間: 民眾反饋: ☐ 配合 ☐ 拒絕離場<br>
+                    • Level 3 報警時間: 員警抵達時間:<br>
+                    • 現場民眾反應及事件經過簡述:<br>
+                    行政裁決與求償:<br>
+                    ☐ 已通報行政窗口謝先生<br>
+                    • 移置費用/設施與草皮損害求償核定金額:新臺幣 元</p>
                 `;
             }
             modal.classList.remove('hidden');
@@ -597,7 +632,6 @@
             document.getElementById('doc-modal').classList.add('hidden');
         }
 
-        // --- 0. 自動動態繪製圖標 ---
         var iconCanvas = document.createElement('canvas');
         iconCanvas.width = 192;
         iconCanvas.height = 192;
@@ -685,7 +719,6 @@
             lastTouchEnd = now;
         }, false);
 
-        // --- 1. Firebase Realtime Database 初始化 ---
         const firebaseConfig = {
             databaseURL: "https://parking-lot-80eec-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
@@ -711,7 +744,7 @@
         });
 
         function switchTab(tabName) {
-            ['handbook', 'rules-ai', 'handbook-ai', 'incident', 'history'].forEach(function(tab) {
+            ['handbook', 'incident', 'history'].forEach(function(tab) {
                 var el = document.getElementById('tab-' + tab);
                 var nav = document.getElementById('nav-' + tab);
                 if (tab === tabName) {
@@ -732,7 +765,6 @@
             if (sub === 'form') switchTab('incident');
         }
 
-        // --- 2. 事件紀錄表：雲端同步與本地紀錄 ---
         var currentFilteredRecords = [];
 
         function initSyncRecords() {
@@ -1037,7 +1069,7 @@
                     <div class="bg-rose-50 p-2.5 rounded border border-rose-200 text-xs flex flex-wrap justify-between items-center gap-2">
                         <label class="flex items-center gap-1.5">
                             <input type="checkbox" id="edit-boss" ${isBossNotified} class="rounded text-rose-600">
-                            <span class="font-semibold text-rose-900">已通報謝先生 (0919-823-602)</span>[span_127](start_span)[span_127](end_span)
+                            <span class="font-semibold text-rose-900">已通報謝先生 (0919-823-602)</span>
                         </label>
                         <div class="flex items-center gap-1">
                             <span class="text-rose-900 font-semibold">求償金額：NT$</span>
