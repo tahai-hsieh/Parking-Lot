@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>寶山二集團櫻花公園私人停車場 - 工作人員行動手冊</title>
+    <title>寶山櫻花公園私人停車場-行動手冊</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="停車場手冊">
+    <meta name="apple-mobile-web-app-title" content="寶山櫻花公園私人停車場-行動手冊">
     <link id="apple-icon" rel="apple-touch-icon" href="">
     <link id="dynamic-favicon" rel="icon" type="image/png" href="">
 
@@ -18,7 +18,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <style>
-        /* 核心鎖定設定：禁止整個網頁的上下滑動與回彈 */
         html, body {
             height: 100%;
             height: 100dvh;
@@ -45,7 +44,6 @@
             margin-bottom: 0.75rem;
         }
 
-        /* 確保列印時不受鎖定畫面的影響 */
         @media print {
             html, body {
                 height: auto !important;
@@ -58,33 +56,28 @@
         }
     </style>
 </head>
-<!-- 整個 body 設定為 flex-col 並佔滿全螢幕高度 -->
 <body class="bg-slate-100 text-slate-800 font-sans flex flex-col">
 
-    <!-- 頂部標題 (絕對固定) -->
-    <header class="flex-none bg-slate-800 text-white p-4 shadow-md z-40">
+    <header class="flex-none bg-slate-800 text-white p-3 sm:p-4 shadow-md z-40">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 class="text-base sm:text-lg font-bold flex items-center gap-2">
-                <canvas id="header-icon-canvas" width="28" height="28" class="rounded"></canvas>
-                櫻花公園私人停車場 行動手冊
+            <h1 class="text-base sm:text-lg font-bold flex items-center gap-2 leading-snug">
+                <canvas id="header-icon-canvas" width="28" height="28" class="rounded shrink-0"></canvas>
+                <span>櫻花公園私人停車場<br class="sm:hidden"> 行動手冊</span>
             </h1>
-            <div class="text-xs text-slate-300">
-                緊急窗口：謝先生 <a href="tel:0919823602" class="underline text-rose-300">0919-823-602</a>
+            <div class="text-xs text-slate-300 text-right leading-snug">
+                緊急窗口：謝先生<br class="sm:hidden"> <a href="tel:0919823602" class="underline text-rose-300">0919-823-602</a>
             </div>
         </div>
     </header>
 
-    <!-- 中間內容區塊 (動態分配剩餘空間，外框不滑動) -->
     <main class="flex-1 flex flex-col overflow-hidden max-w-4xl mx-auto w-full relative">
         
-        <!-- Tab 1: 規程手冊 (內部可滑動) -->
         <section id="tab-handbook" class="flex flex-col flex-1 overflow-y-auto p-4 space-y-4">
             <div class="flex-none flex justify-between items-center">
                 <h2 class="text-lg font-bold text-slate-700"><i class="fa-solid fa-book-open mr-2"></i>營運標準與管理規程</h2>
                 <span class="text-xs bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full font-medium">116年標準版</span>
             </div>
 
-            <!-- Notebook 智慧問答雙按鈕區 -->
             <div class="flex-none grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <a href="https://notebook.google.com/notebook/60fc0e0c-3ae8-4880-8949-f4162c71e5fc" target="_blank" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white p-3.5 rounded-xl shadow-md flex items-center justify-between transition-all group">
                     <div class="flex items-center gap-3">
@@ -113,7 +106,6 @@
                 </a>
             </div>
 
-            <!-- 原始檔案閱讀按鈕區 -->
             <div class="flex-none grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm flex flex-col justify-between hover:border-indigo-300 transition-colors">
                     <div>
@@ -122,15 +114,15 @@
                                 <i class="fa-solid fa-scale-balanced"></i>
                             </span>
                             <div>
-                                <h3 class="font-bold text-slate-800 text-sm">停車場管理規則全文</h3>
+                                <h3 class="font-bold text-slate-800 text-sm">停車場管理規則</h3>
                                 <p class="text-[11px] text-slate-400">法定公告規章 · 共10條完整條文</p>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600 mt-2 mb-3">點擊即可開啟閱讀完整《寶山二集團櫻花公園私人停車場管理規則》原文。</p>
+                        <p class="text-xs text-slate-600 mt-2 mb-3">供現場查閱管理規則條文與原文檔案。</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="openDocModal('rules')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-eye"></i> 點開閱讀全文
+                            <i class="fa-solid fa-eye"></i> 閱讀條文
                         </button>
                         <a href="寶山二集團櫻花公園私人停車場管理規則.pdf" target="_blank" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
                             <i class="fa-solid fa-file-pdf"></i> 打開PDF
@@ -149,11 +141,11 @@
                                 <p class="text-[11px] text-slate-400">內部SOP與營運標準書 · 116年標準版</p>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600 mt-2 mb-3">點擊即可開啟閱讀完整《寶山二集團櫻花公園私人停車場工作手冊》原文。</p>
+                        <p class="text-xs text-slate-600 mt-2 mb-3">供現場查閱執勤規範與原文檔案。</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="openDocModal('handbook')" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-eye"></i> 點開閱讀全文
+                            <i class="fa-solid fa-eye"></i> 閱讀條文
                         </button>
                         <a href="停車場工作手冊.pdf" target="_blank" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-lg flex items-center justify-center gap-1">
                             <i class="fa-solid fa-file-pdf"></i> 打開PDF
@@ -162,7 +154,6 @@
                 </div>
             </div>
 
-            <!-- 營運重點快速卡片 -->
             <div class="flex-none grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
                 <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                     <span class="text-slate-500 block">營業時段</span>
@@ -182,7 +173,6 @@
                 </div>
             </div>
 
-            <!-- 手風琴快速速查 -->
             <div class="flex-none bg-white rounded-lg shadow-sm border border-slate-200 divide-y divide-slate-100 select-text">
                 <details class="group p-4">
                     <summary class="flex justify-between items-center font-semibold cursor-pointer text-slate-800 list-none">
@@ -252,7 +242,6 @@
             </div>
         </section>
 
-        <!-- Tab 2: 事件記錄表 (內部可滑動) -->
         <section id="tab-incident" class="hidden flex-col flex-1 overflow-y-auto p-4 space-y-4">
             <div class="flex-none bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-3">
@@ -373,10 +362,8 @@
             </div>
         </section>
 
-        <!-- Tab 3: 歷史歸檔清單區 (只有列表會滑動，頂部固定) -->
         <section id="tab-history" class="hidden flex-col flex-1 overflow-hidden p-4 space-y-3">
             
-            <!-- 標題與操作按鈕 (固定不滑動) -->
             <div class="flex-none bg-white p-3 rounded-lg shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <div>
                     <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
@@ -394,7 +381,6 @@
                 </div>
             </div>
 
-            <!-- 搜尋過濾區 (固定不滑動) -->
             <div class="flex-none bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
                 <div class="flex flex-col sm:flex-row gap-2">
                     <div class="relative flex-1">
@@ -410,10 +396,8 @@
                 </div>
             </div>
 
-            <!-- 提示列 (固定不滑動) -->
             <p class="flex-none text-xs text-slate-500">點擊任一項目卡片可檢視、編輯修改內容或列印存證。</p>
 
-            <!-- 紀錄清單列表 (唯一可上下滑動的區塊) -->
             <div class="flex-1 overflow-y-auto bg-white rounded-lg shadow-sm border border-slate-200">
                 <div id="records-list" class="divide-y divide-slate-100 text-sm">
                     <div class="p-6 text-center text-slate-400">目前尚無歸檔事件記錄</div>
@@ -422,7 +406,6 @@
         </section>
     </main>
 
-    <!-- 原始檔案全文檢視彈窗 -->
     <div id="doc-modal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
             <div class="p-4 bg-slate-800 text-white flex justify-between items-center">
@@ -443,7 +426,6 @@
         </div>
     </div>
 
-    <!-- 檢視與編輯詳情彈窗 -->
     <div id="detail-modal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
             <div class="p-4 bg-slate-800 text-white flex justify-between items-center">
@@ -461,7 +443,6 @@
         </div>
     </div>
 
-    <!-- 列印專用隱藏區域 -->
     <div id="printable-record" class="p-8 hidden bg-white max-w-2xl mx-auto border border-black">
         <h2 class="text-xl font-bold text-center border-b pb-2 mb-4">寶山二集團櫻花公園私人停車場 - 現場事件紀錄表</h2>
         <div id="print-content" class="space-y-3 text-sm"></div>
@@ -471,7 +452,6 @@
         </div>
     </div>
 
-    <!-- 底部導覽列 (絕對固定) -->
     <nav class="flex-none w-full bg-white border-t border-slate-200 flex justify-around p-2 text-xs text-slate-600 shadow-lg no-print">
         <button onclick="switchTab('handbook')" id="nav-handbook" class="nav-item flex flex-col items-center gap-1 text-rose-600 font-bold">
             <i class="fa-solid fa-book-open text-base"></i>
@@ -720,8 +700,8 @@
         document.getElementById('dynamic-favicon').href = favCanvas.toDataURL('image/png');
 
         var manifestJson = {
-            "name": "寶山二集團櫻花公園私人停車場行動手冊",
-            "short_name": "停車場手冊",
+            "name": "寶山櫻花公園私人停車場-行動手冊",
+            "short_name": "寶山櫻花公園私人停車場-行動手冊",
             "start_url": "./index.html",
             "display": "standalone",
             "background_color": "#1e293b",
@@ -734,7 +714,6 @@
         manifestLink.href = URL.createObjectURL(manifestBlob);
         document.head.appendChild(manifestLink);
 
-        // 停止不必要的雙擊放大干擾
         var lastTouchEnd = 0;
         document.addEventListener('touchend', function(event) {
             var now = (new Date()).getTime();
@@ -768,7 +747,6 @@
             initSyncRecords();
         });
 
-        // --- 核心分頁切換邏輯 (套用 flex 以正確充滿鎖定的視窗) ---
         function switchTab(tabName) {
             ['handbook', 'incident', 'history'].forEach(function(tab) {
                 var el = document.getElementById('tab-' + tab);
